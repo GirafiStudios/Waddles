@@ -1,0 +1,22 @@
+[
+{
+  "modid": "waddles",
+  "name": "Waddles",
+  "description": "",
+  "version": "${version}",
+  "mcversion": "${mcversion}",
+  "url": "",
+  "updateUrl": "",
+  "authorList": [
+    "Girafi",
+	"Joshie"
+  ],
+  "credits": "Thanks to Wiiv for making the models!",
+  "logoFile": "",
+  "screenshots": [
+  ],
+  "parent":"",
+  "dependencies": [
+  ]
+}
+]

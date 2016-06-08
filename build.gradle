@@ -1,0 +1,48 @@
+buildscript {
+    repositories {
+        jcenter()
+        maven {
+            name = "forge"
+            url = "http://files.minecraftforge.net/maven"
+        }
+    }
+    dependencies {
+        classpath 'net.minecraftforge.gradle:ForgeGradle:2.2-SNAPSHOT'
+    }
+}
+apply plugin: 'net.minecraftforge.gradle.forge'
+
+ext.buildnumber=""
+if (System.getenv().BUILD_NUMBER) {
+    ext.buildnumber="-Beta" + System.getenv().BUILD_NUMBER
+}
+
+version = "${minecraft_version}-${mod_version}${buildnumber}"
+group = "com.girafi.waddles"
+archivesBaseName = "Waddles"
+
+minecraft {
+    version = "${minecraft_version}-${forge_version}"
+    mappings = "${mappings_version}"
+    runDir = "run"
+
+    replace "@VERSION@", project.mod_version
+    replaceIn "Reference.java"
+	replaceIn "package-info.java"
+}
+
+processResources {
+    inputs.property "version", project.mod_version
+    inputs.property "mcversion", project.minecraft.version
+
+    from(sourceSets.main.resources.srcDirs) {
+        include '**/*.info'
+        include '**/*.properties'
+        expand 'version': project.mod_version, 'mcversion': project.minecraft.version
+    }
+
+    from(sourceSets.main.resources.srcDirs) {
+        exclude '**/*.info'
+        exclude '**/*.properties'
+    }
+}
