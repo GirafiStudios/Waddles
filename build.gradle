@@ -18,7 +18,7 @@ if (System.getenv().BUILD_NUMBER) {
 }
 
 version = "${minecraft_version}-${mod_version}${buildnumber}"
-group = "com.girafi.waddles"
+group = "waddles"
 archivesBaseName = "Waddles"
 
 minecraft {

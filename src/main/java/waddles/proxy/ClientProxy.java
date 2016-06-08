@@ -1,11 +1,11 @@
-package com.girafi.waddles.proxy;
+package waddles.proxy;
 
-import com.girafi.waddles.client.renderer.RenderPenguin;
-import com.girafi.waddles.entity.EntityPenguin;
 import net.minecraft.client.renderer.entity.Render;
 import net.minecraft.client.renderer.entity.RenderManager;
 import net.minecraftforge.fml.client.registry.IRenderFactory;
 import net.minecraftforge.fml.client.registry.RenderingRegistry;
+import waddles.client.renderer.RenderPenguin;
+import waddles.entity.EntityPenguin;
 
 public class ClientProxy extends CommonProxy {
 

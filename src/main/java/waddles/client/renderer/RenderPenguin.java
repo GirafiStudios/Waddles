@@ -1,13 +1,13 @@
-package com.girafi.waddles.client.renderer;
+package waddles.client.renderer;
 
-import com.girafi.waddles.Reference;
-import com.girafi.waddles.client.model.ModelPenguin;
-import com.girafi.waddles.entity.EntityPenguin;
 import net.minecraft.client.renderer.entity.RenderLiving;
 import net.minecraft.client.renderer.entity.RenderManager;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
+import waddles.Reference;
+import waddles.client.model.ModelPenguin;
+import waddles.entity.EntityPenguin;
 
 @SideOnly(Side.CLIENT)
 public class RenderPenguin extends RenderLiving<EntityPenguin> {

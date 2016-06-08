@@ -1,4 +1,4 @@
-package com.girafi.waddles.proxy;
+package waddles.proxy;
 
 public class CommonProxy {
     public void registerRenders() {

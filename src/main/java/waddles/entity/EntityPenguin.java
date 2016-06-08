@@ -1,4 +1,4 @@
-package com.girafi.waddles.entity;
+package waddles.entity;
 
 import net.minecraft.entity.EntityAgeable;
 import net.minecraft.entity.passive.EntityAnimal;
