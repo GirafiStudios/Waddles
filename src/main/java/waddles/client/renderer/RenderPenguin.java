@@ -14,7 +14,7 @@ public class RenderPenguin extends RenderLiving<EntityPenguin> {
     private static final ResourceLocation PENGUIN_TEXTURE = new ResourceLocation(Reference.MOD_ID + ":textures/entity/penguin.png");
 
     public RenderPenguin(RenderManager renderManager) {
-        super(renderManager, new ModelPenguin(), 0.6F);
+        super(renderManager, new ModelPenguin(), 0.7F);
     }
 
     @Override

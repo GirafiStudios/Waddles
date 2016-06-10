@@ -1,5 +1,7 @@
 package waddles;
 
+import net.minecraft.entity.EnumCreatureType;
+import net.minecraft.init.Biomes;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.SidedProxy;
 import net.minecraftforge.fml.common.event.FMLInitializationEvent;
@@ -24,7 +26,8 @@ public class Waddles {
 
     @Mod.EventHandler
     public void init(FMLInitializationEvent event) {
-        EntityRegistry.registerModEntity(EntityPenguin.class, "penguin", 0, Waddles.instance, 64, 1, true, 0xFFFFFF, 0x000000);
+        EntityRegistry.registerModEntity(EntityPenguin.class, "penguin", 0, Waddles.instance, 64, 1, true, 0x000000, 0xFFFFFF);
+        EntityRegistry.addSpawn(EntityPenguin.class, 1, 1, 4, EnumCreatureType.CREATURE, Biomes.FROZEN_OCEAN, Biomes.ICE_PLAINS, Biomes.COLD_BEACH);
     }
 
     @Mod.EventHandler
