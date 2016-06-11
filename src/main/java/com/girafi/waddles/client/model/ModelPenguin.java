@@ -63,9 +63,9 @@ public class ModelPenguin extends ModelBase {
     }
 
     @Override
-    public void render(Entity entity, float f, float f1, float f2, float f3, float f4, float f5) {
-        this.body.render(f5);
-        this.head.render(f5);
+    public void render(Entity entity, float limbSwing, float limbSwingAmount, float ageInTicks, float netHeadYaw, float headPitch, float scale) {
+        this.body.render(scale);
+        this.head.render(scale);
     }
 
     private void setRotateAngle(ModelRenderer modelRenderer, float x, float y, float z) {
@@ -80,11 +80,12 @@ public class ModelPenguin extends ModelBase {
 
         this.head.rotateAngleX = headPitch * 0.017453292F;
         this.head.rotateAngleY = netHeadYaw * 0.017453292F;
-        this.body.rotateAngleZ = (MathHelper.cos(limbSwing * 0.6662F) * 1.4F * limbSwingAmount) / 10;
+        this.head.rotateAngleZ = (MathHelper.cos(limbSwing * 0.6662F) * 1.4F * limbSwingAmount) / 6;
+        this.body.rotateAngleZ = (MathHelper.cos(limbSwing * 0.6662F) * 1.4F * limbSwingAmount) / 6;
         this.legRight.rotateAngleX = MathHelper.cos(limbSwing * 0.6662F) * 1.4F * limbSwingAmount;
         this.legLeft.rotateAngleX = MathHelper.cos(limbSwing * 0.6662F + (float) Math.PI) * 1.4F * limbSwingAmount;
-        this.flipperRight.rotateAngleZ = 0.08726646259971647F + (MathHelper.cos((float) penguin.rotationFlipper / 9.0F) * limbSwingAmount);
-        this.flipperLeft.rotateAngleZ = -0.08726646259971647F + (MathHelper.cos((float) penguin.rotationFlipper / 9.0F + (float) Math.PI) * limbSwingAmount);
+        this.flipperRight.rotateAngleZ = 0.08726646259971647F + (MathHelper.cos((float) penguin.rotationFlipper) * limbSwingAmount);
+        this.flipperLeft.rotateAngleZ = -0.08726646259971647F + (MathHelper.cos((float) penguin.rotationFlipper + (float) Math.PI) * limbSwingAmount);
         this.tail.rotateAngleY = MathHelper.cos(limbSwing * 0.6662F) * 1.4F * 1.4F * limbSwingAmount;
 
         /*if (entity.isInWater()) { //TODO Move to onLivingUpdate in EntityPenguin, otherwise it will be applied to ALL penguins in the world

@@ -12,7 +12,7 @@ import net.minecraft.world.World;
 import javax.annotation.Nullable;
 
 public class EntityPenguin extends EntityAnimal {
-    public short rotationFlipper = 0;
+    public short rotationFlipper;
     public boolean moveFlipper = false;
 
     public EntityPenguin(World world) {
@@ -38,7 +38,7 @@ public class EntityPenguin extends EntityAnimal {
     protected void applyEntityAttributes() {
         super.applyEntityAttributes();
         this.getEntityAttribute(SharedMonsterAttributes.MAX_HEALTH).setBaseValue(12.0D);
-        this.getEntityAttribute(SharedMonsterAttributes.MOVEMENT_SPEED).setBaseValue(0.2D);
+        this.getEntityAttribute(SharedMonsterAttributes.MOVEMENT_SPEED).setBaseValue(0.15D);
     }
 
     @Override
