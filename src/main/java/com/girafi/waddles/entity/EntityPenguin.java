@@ -1,4 +1,4 @@
-package waddles.entity;
+package com.girafi.waddles.entity;
 
 import net.minecraft.entity.EntityAgeable;
 import net.minecraft.entity.SharedMonsterAttributes;
@@ -12,12 +12,12 @@ import net.minecraft.world.World;
 import javax.annotation.Nullable;
 
 public class EntityPenguin extends EntityAnimal {
-    public short rotationWing = 570;
-    public boolean moveWing = false;
+    public short rotationFlipper = 0;
+    public boolean moveFlipper = false;
 
     public EntityPenguin(World world) {
         super(world);
-        this.setSize(0.5F, 0.7F); //TODO width
+        this.setSize(0.4F, 0.7F);
     }
 
     @Override
@@ -45,19 +45,9 @@ public class EntityPenguin extends EntityAnimal {
     public void onLivingUpdate() {
         super.onLivingUpdate();
         if (worldObj.isRemote) {
-            if (this.posX != this.prevPosX || this.posZ != this.prevPosZ) {
-                if (moveWing) {
-                    if (rotationWing < 575) rotationWing++;
-                    else moveWing = false;
-                } else {
-                    if (rotationWing > 570) rotationWing--;
-                    else moveWing = true;
-                }
-            } else {
-                if (rotationWing > 578D) {
-                    rotationWing--;
-                } else if (rotationWing < 578D) {
-                    rotationWing++;
+            if (this.posZ != this.prevPosZ) {
+                if (moveFlipper) {
+                    rotationFlipper++;
                 }
             }
         }

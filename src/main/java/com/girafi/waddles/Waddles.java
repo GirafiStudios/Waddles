@@ -1,4 +1,4 @@
-package waddles;
+package com.girafi.waddles;
 
 import net.minecraft.entity.EnumCreatureType;
 import net.minecraft.init.Biomes;
@@ -8,8 +8,8 @@ import net.minecraftforge.fml.common.event.FMLInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPostInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
 import net.minecraftforge.fml.common.registry.EntityRegistry;
-import waddles.entity.EntityPenguin;
-import waddles.proxy.CommonProxy;
+import com.girafi.waddles.entity.EntityPenguin;
+import com.girafi.waddles.proxy.CommonProxy;
 
 @Mod(modid = Reference.MOD_ID, name = Reference.MOD_NAME, version = Reference.MOD_VERSION, dependencies = Reference.DEPENDENCIES)
 public class Waddles {

@@ -1,20 +1,20 @@
-package waddles.client.model;
+package com.girafi.waddles.client.model;
 
+import com.girafi.waddles.entity.EntityPenguin;
 import net.minecraft.client.model.ModelBase;
 import net.minecraft.client.model.ModelRenderer;
 import net.minecraft.entity.Entity;
 import net.minecraft.util.math.MathHelper;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
-import waddles.entity.EntityPenguin;
 
 @SideOnly(Side.CLIENT)
 public class ModelPenguin extends ModelBase {
     public ModelRenderer head;
     public ModelRenderer body;
     public ModelRenderer beak;
-    public ModelRenderer wingRight;
-    public ModelRenderer wingLeft;
+    public ModelRenderer flipperRight;
+    public ModelRenderer flipperLeft;
     public ModelRenderer legLeft;
     public ModelRenderer legRight;
     public ModelRenderer tail;
@@ -40,32 +40,32 @@ public class ModelPenguin extends ModelBase {
         this.tail.setRotationPoint(0.0F, 11.0F, 3.0F);
         this.tail.addBox(-1.5F, -1.0F, 0.0F, 3, 3, 1, 0.0F);
         this.setRotateAngle(tail, 1.2566370614359172F, 0.0F, 0.0F);
-        this.wingRight = new ModelRenderer(this, 20, 10);
-        this.wingRight.setRotationPoint(-2.5F, 1.0F, 0.0F);
-        this.wingRight.addBox(-1.0F, 0.0F, -1.0F, 1, 7, 3, 0.0F);
-        this.setRotateAngle(wingRight, 0.0F, 0.0F, 0.08726646259971647F);
+        this.flipperRight = new ModelRenderer(this, 20, 10);
+        this.flipperRight.setRotationPoint(-2.5F, 1.0F, 0.0F);
+        this.flipperRight.addBox(-1.0F, 0.0F, -1.0F, 1, 7, 3, 0.0F);
+        this.setRotateAngle(flipperRight, 0.0F, 0.0F, 0.08726646259971647F);
         this.legLeft = new ModelRenderer(this, 0, 25);
         this.legLeft.mirror = true;
         this.legLeft.setRotationPoint(1.0F, 11.0F, 0.0F);
         this.legLeft.addBox(0.0F, 0.0F, -3.0F, 2, 1, 3, 0.0F);
         this.setRotateAngle(legLeft, 0.0F, -0.2617993877991494F, 0.0F);
-        this.wingLeft = new ModelRenderer(this, 20, 10);
-        this.wingLeft.mirror = true;
-        this.wingLeft.setRotationPoint(2.5F, 1.0F, 0.0F);
-        this.wingLeft.addBox(0.0F, 0.0F, -1.0F, 1, 7, 3, 0.0F);
-        this.setRotateAngle(wingLeft, 0.0F, 0.0F, -0.08726646259971647F);
+        this.flipperLeft = new ModelRenderer(this, 20, 10);
+        this.flipperLeft.mirror = true;
+        this.flipperLeft.setRotationPoint(2.5F, 1.0F, 0.0F);
+        this.flipperLeft.addBox(0.0F, 0.0F, -1.0F, 1, 7, 3, 0.0F);
+        this.setRotateAngle(flipperLeft, 0.0F, 0.0F, -0.08726646259971647F);
         this.head.addChild(this.beak);
         this.body.addChild(this.legRight);
         this.body.addChild(this.tail);
-        this.body.addChild(this.wingRight);
+        this.body.addChild(this.flipperRight);
         this.body.addChild(this.legLeft);
-        this.body.addChild(this.wingLeft);
+        this.body.addChild(this.flipperLeft);
     }
 
     @Override
-    public void render(Entity entity, float limbSwing, float limbSwingAmount, float ageInTicks, float netHeadYaw, float headPitch, float scale) {
-        this.body.render(scale);
-        this.head.render(scale);
+    public void render(Entity entity, float f, float f1, float f2, float f3, float f4, float f5) {
+        this.body.render(f5);
+        this.head.render(f5);
     }
 
     private void setRotateAngle(ModelRenderer modelRenderer, float x, float y, float z) {
@@ -80,16 +80,17 @@ public class ModelPenguin extends ModelBase {
 
         this.head.rotateAngleX = headPitch * 0.017453292F;
         this.head.rotateAngleY = netHeadYaw * 0.017453292F;
+        this.body.rotateAngleZ = (MathHelper.cos(limbSwing * 0.6662F) * 1.4F * limbSwingAmount) / 10;
         this.legRight.rotateAngleX = MathHelper.cos(limbSwing * 0.6662F) * 1.4F * limbSwingAmount;
         this.legLeft.rotateAngleX = MathHelper.cos(limbSwing * 0.6662F + (float) Math.PI) * 1.4F * limbSwingAmount;
-        this.wingRight.rotateAngleZ = (float) -penguin.rotationWing / 2;
-        this.wingLeft.rotateAngleZ = (float) penguin.rotationWing / 2;
-        this.tail.rotateAngleY = MathHelper.cos(limbSwing * 0.6662F) * 1.4F * limbSwingAmount;
+        this.flipperRight.rotateAngleZ = 0.08726646259971647F + (MathHelper.cos((float) penguin.rotationFlipper / 9.0F) * limbSwingAmount);
+        this.flipperLeft.rotateAngleZ = -0.08726646259971647F + (MathHelper.cos((float) penguin.rotationFlipper / 9.0F + (float) Math.PI) * limbSwingAmount);
+        this.tail.rotateAngleY = MathHelper.cos(limbSwing * 0.6662F) * 1.4F * 1.4F * limbSwingAmount;
 
         /*if (entity.isInWater()) { //TODO Move to onLivingUpdate in EntityPenguin, otherwise it will be applied to ALL penguins in the world
             this.body.rotateAngleX = ((float) Math.PI / 2F);
-            this.wingRight.rotateAngleX = MathHelper.cos(limbSwing * 0.6662F) * 1.4F * limbSwingAmount * 0.5F;
-            this.wingLeft.rotateAngleX = MathHelper.cos(limbSwing * 0.6662F + (float) Math.PI) * 1.4F * limbSwingAmount * 0.5F;
+            this.flipperRight.rotateAngleX = MathHelper.cos(limbSwing * 0.6662F) * 1.4F * limbSwingAmount * 0.5F;
+            this.flipperLeft.rotateAngleX = MathHelper.cos(limbSwing * 0.6662F + (float) Math.PI) * 1.4F * limbSwingAmount * 0.5F;
         }*/
     }
 }
