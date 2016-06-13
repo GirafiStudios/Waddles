@@ -3,6 +3,7 @@ package com.girafi.waddles.client.model;
 import com.girafi.waddles.entity.EntityPenguin;
 import net.minecraft.client.model.ModelBase;
 import net.minecraft.client.model.ModelRenderer;
+import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.entity.Entity;
 import net.minecraft.util.math.MathHelper;
 import net.minecraftforge.fml.relauncher.Side;
@@ -64,8 +65,21 @@ public class ModelPenguin extends ModelBase {
 
     @Override
     public void render(Entity entity, float limbSwing, float limbSwingAmount, float ageInTicks, float netHeadYaw, float headPitch, float scale) {
-        this.body.render(scale);
-        this.head.render(scale);
+        if (this.isChild) {
+            float f = 2.0F;
+            GlStateManager.pushMatrix();
+            GlStateManager.translate(0.0F, 6.0F * scale, 0.0F);
+            this.head.render(scale);
+            GlStateManager.popMatrix();
+            GlStateManager.pushMatrix();
+            GlStateManager.scale(1.4F / f, 1.0F / f, 1.2F / f);
+            GlStateManager.translate(0.0F, 24.0F * scale, 0.0F);
+            this.body.render(scale);
+            GlStateManager.popMatrix();
+        } else {
+            this.head.render(scale);
+            this.body.render(scale);
+        }
     }
 
     private void setRotateAngle(ModelRenderer modelRenderer, float x, float y, float z) {

@@ -1,32 +1,40 @@
 package com.girafi.waddles.entity;
 
+import com.girafi.waddles.Waddles;
+import com.girafi.waddles.utils.ConfigurationHandler;
+import com.google.common.collect.Sets;
 import net.minecraft.entity.EntityAgeable;
 import net.minecraft.entity.SharedMonsterAttributes;
 import net.minecraft.entity.ai.*;
 import net.minecraft.entity.passive.EntityAnimal;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Items;
+import net.minecraft.item.Item;
+import net.minecraft.item.ItemFishFood.FishType;
 import net.minecraft.item.ItemStack;
+import net.minecraft.util.ResourceLocation;
 import net.minecraft.world.World;
 
 import javax.annotation.Nullable;
+import java.util.Set;
 
 public class EntityPenguin extends EntityAnimal {
+    private static final Set<Item> TEMPTATION_ITEMS = Sets.newHashSet(new ItemStack(Items.FISH, 1, FishType.COD.getMetadata()).getItem(), new ItemStack(Items.FISH, 1, FishType.SALMON.getMetadata()).getItem());
     public short rotationFlipper;
     public boolean moveFlipper = false;
 
     public EntityPenguin(World world) {
         super(world);
-        this.setSize(0.4F, 0.7F);
+        this.setSize(0.4F, 0.95F);
     }
 
     @Override
     protected void initEntityAI() {
         this.tasks.addTask(0, new EntityAISwimming(this));
         this.tasks.addTask(1, new EntityAIExtinguishFire());
-        this.tasks.addTask(1, new EntityAIPanic(this, 1.25D));
-        this.tasks.addTask(3, new EntityAIMate(this, 1.0D));
-        this.tasks.addTask(4, new EntityAITempt(this, 1.1D, Items.FISH, false));
+        this.tasks.addTask(2, new EntityAIPanic(this, 1.5D));
+        this.tasks.addTask(3, new EntityAIMate(this, 0.8D));
+        this.tasks.addTask(4, new EntityAITempt(this, 1.0D, false, TEMPTATION_ITEMS));
         this.tasks.addTask(5, new EntityAIFollowParent(this, 1.1D));
         this.tasks.addTask(6, new EntityAIWander(this, 1.0D));
         this.tasks.addTask(7, new EntityAIWatchClosest(this, EntityPlayer.class, 6.0F));
@@ -37,8 +45,8 @@ public class EntityPenguin extends EntityAnimal {
     @Override
     protected void applyEntityAttributes() {
         super.applyEntityAttributes();
-        this.getEntityAttribute(SharedMonsterAttributes.MAX_HEALTH).setBaseValue(12.0D);
-        this.getEntityAttribute(SharedMonsterAttributes.MOVEMENT_SPEED).setBaseValue(0.15D);
+        this.getEntityAttribute(SharedMonsterAttributes.MAX_HEALTH).setBaseValue(8.0D);
+        this.getEntityAttribute(SharedMonsterAttributes.MOVEMENT_SPEED).setBaseValue(0.18D);
     }
 
     @Override
@@ -60,12 +68,26 @@ public class EntityPenguin extends EntityAnimal {
 
     @Override
     public boolean isBreedingItem(@Nullable ItemStack stack) {
-        return stack == null ? false : stack.getItem() == Items.FISH;
+        return stack != null && TEMPTATION_ITEMS.contains(stack.getItem());
+    }
+
+    @Nullable
+    @Override
+    public ResourceLocation getLootTable() {
+        if (ConfigurationHandler.dropFish) {
+            return Waddles.LOOT_ENTITIES_PENGUIN_FISH;
+        }
+        return null;
     }
 
     @Override
-    public EntityAgeable createChild(EntityAgeable ageable) {
+    public EntityPenguin createChild(EntityAgeable ageable) {
         return new EntityPenguin(this.worldObj);
+    }
+
+    @Override
+    public float getEyeHeight() {
+        return this.isChild() ? 0.5F : 0.9F;
     }
 
     private class EntityAIExtinguishFire extends EntityAIPanic {
