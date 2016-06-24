@@ -62,6 +62,14 @@ public class EntityPenguin extends EntityAnimal {
     }
 
     @Override
+    protected int getExperiencePoints(EntityPlayer player) {
+        if (ConfigurationHandler.dropExp) {
+            return super.getExperiencePoints(player);
+        }
+        return 0;
+    }
+
+    @Override
     public boolean canBreatheUnderwater() {
         return true;
     }

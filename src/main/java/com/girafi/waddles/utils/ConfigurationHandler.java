@@ -9,6 +9,7 @@ import java.io.File;
 public class ConfigurationHandler {
     public static Configuration config;
     public static boolean dropFish;
+    public static boolean dropExp;
 
     public static void init(File configFile) {
         if (config == null) {
@@ -19,6 +20,7 @@ public class ConfigurationHandler {
 
     private static void loadConfiguration() {
         dropFish = config.get(Configuration.CATEGORY_GENERAL, "Enable that penguins drop fish (0 - 2 Raw fish)", false).getBoolean(false);
+        dropExp = config.get(Configuration.CATEGORY_GENERAL, "Penguins should drop experience?", true).getBoolean(true);
 
         if (config.hasChanged()) {
             config.save();
