@@ -38,7 +38,7 @@ public class Waddles {
     @Mod.EventHandler
     public void init(FMLInitializationEvent event) {
         EntityRegistry.registerModEntity(EntityPenguin.class, "penguin", 0, Waddles.instance, 64, 1, true, 0x000000, 0xFFFFFF);
-        EntityRegistry.addSpawn(EntityPenguin.class, 1, 2, 5, EnumCreatureType.CREATURE, Biomes.FROZEN_OCEAN, Biomes.ICE_PLAINS, Biomes.COLD_BEACH);
+        EntityRegistry.addSpawn(EntityPenguin.class, 1, 2, 5, EnumCreatureType.CREATURE, Biomes.ICE_PLAINS, Biomes.MUTATED_ICE_FLATS, Biomes.FROZEN_OCEAN, Biomes.COLD_BEACH);
     }
 
     @Mod.EventHandler
