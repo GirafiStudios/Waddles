@@ -31,6 +31,10 @@ minecraft {
 	replaceIn "package-info.java"
 }
 
+dependencies {
+   compile "com.github.glitchfiend.biomesoplenty:BiomesOPlenty:1.9.4-${bop_version}:deobf"
+}
+
 processResources {
     inputs.property "version", project.mod_version
     inputs.property "mcversion", project.minecraft.version
