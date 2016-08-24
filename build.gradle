@@ -32,7 +32,7 @@ minecraft {
 }
 
 dependencies {
-   compile "com.github.glitchfiend.biomesoplenty:BiomesOPlenty:1.9.4-${bop_version}:deobf"
+   compile "com.github.glitchfiend.biomesoplenty:BiomesOPlenty:${minecraft_version}-${bop_version}:deobf"
 }
 
 processResources {
