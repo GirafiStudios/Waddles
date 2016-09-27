@@ -17,13 +17,14 @@ import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.SoundEvent;
 import net.minecraft.world.World;
 
+import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import java.util.Set;
 
 public class EntityAdeliePenguin extends EntityAnimal {
     private static final Set<Item> TEMPTATION_ITEMS = Sets.newHashSet(new ItemStack(Items.FISH, 1, FishType.COD.getMetadata()).getItem(), new ItemStack(Items.FISH, 1, FishType.SALMON.getMetadata()).getItem());
     public short rotationFlipper;
-    public boolean moveFlipper = false;
+    private boolean moveFlipper = false;
 
     public EntityAdeliePenguin(World world) {
         super(world);
@@ -106,7 +107,8 @@ public class EntityAdeliePenguin extends EntityAnimal {
     }
 
     @Override
-    public EntityAdeliePenguin createChild(EntityAgeable ageable) {
+    @Nonnull
+    public EntityAdeliePenguin createChild(@Nonnull EntityAgeable ageable) {
         return new EntityAdeliePenguin(this.worldObj);
     }
 
@@ -116,7 +118,7 @@ public class EntityAdeliePenguin extends EntityAnimal {
     }
 
     private class EntityAIExtinguishFire extends EntityAIPanic {
-        public EntityAIExtinguishFire() {
+        EntityAIExtinguishFire() {
             super(EntityAdeliePenguin.this, 2.0);
         }
 

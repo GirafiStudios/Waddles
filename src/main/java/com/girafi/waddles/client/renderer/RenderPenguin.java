@@ -9,6 +9,8 @@ import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
+import javax.annotation.Nonnull;
+
 @SideOnly(Side.CLIENT)
 public class RenderPenguin extends RenderLiving<EntityAdeliePenguin> {
     private static final ResourceLocation CHILD_ADELIE_TEXTURE = new ResourceLocation(Reference.MOD_ID + ":textures/entity/penguinAdelieChild.png");
@@ -19,7 +21,8 @@ public class RenderPenguin extends RenderLiving<EntityAdeliePenguin> {
     }
 
     @Override
-    protected ResourceLocation getEntityTexture(EntityAdeliePenguin entityPenguin) {
+    @Nonnull
+    protected ResourceLocation getEntityTexture(@Nonnull EntityAdeliePenguin entityPenguin) {
         return entityPenguin.isChild() ? CHILD_ADELIE_TEXTURE : ADELIE_TEXTURE;
     }
 }

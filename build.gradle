@@ -12,9 +12,12 @@ buildscript {
 }
 apply plugin: 'net.minecraftforge.gradle.forge'
 
+sourceCompatibility = 1.8
+targetCompatibility = 1.8
+
 ext.buildnumber=""
 if (System.getenv().BUILD_NUMBER) {
-    ext.buildnumber="-Beta" + System.getenv().BUILD_NUMBER
+    ext.buildnumber="-" + System.getenv().BUILD_NUMBER
 }
 
 version = "${minecraft_version}-${mod_version}${buildnumber}"

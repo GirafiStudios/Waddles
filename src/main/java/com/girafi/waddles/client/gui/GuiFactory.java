@@ -22,6 +22,7 @@ public class GuiFactory implements IModGuiFactory {
     }
 
     @Override
+    @SuppressWarnings("unchecked")
     public RuntimeOptionGuiHandler getHandlerFor(RuntimeOptionCategoryElement element) {
         return null;
     }

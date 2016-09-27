@@ -16,13 +16,12 @@ import net.minecraftforge.fml.common.Loader;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.SidedProxy;
 import net.minecraftforge.fml.common.event.FMLInitializationEvent;
-import net.minecraftforge.fml.common.event.FMLPostInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
 import net.minecraftforge.fml.common.registry.EntityRegistry;
 
 import java.io.File;
 
-@Mod(modid = Reference.MOD_ID, name = Reference.MOD_NAME, version = Reference.MOD_VERSION, acceptedMinecraftVersions="[1.9.4,1.11)", dependencies = Reference.DEPENDENCIES, guiFactory = Reference.GUI_FACTORY_CLASS)
+@Mod(modid = Reference.MOD_ID, name = Reference.MOD_NAME, version = Reference.MOD_VERSION, dependencies = Reference.DEPENDENCIES, guiFactory = Reference.GUI_FACTORY_CLASS)
 public class Waddles {
     @Mod.Instance(Reference.MOD_ID)
     public static Waddles instance;
@@ -51,10 +50,6 @@ public class Waddles {
                 addPenguinSpawn(BOPBiomes.gravel_beach.get());
             }
         }
-    }
-
-    @Mod.EventHandler
-    public void postInit(FMLPostInitializationEvent event) {
     }
 
     private void addPenguinSpawn(Biome... biomes) {

@@ -11,14 +11,14 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 
 @SideOnly(Side.CLIENT)
 public class ModelPenguin extends ModelBase {
-    public ModelRenderer head;
-    public ModelRenderer body;
-    public ModelRenderer beak;
-    public ModelRenderer flipperRight;
-    public ModelRenderer flipperLeft;
-    public ModelRenderer legLeft;
-    public ModelRenderer legRight;
-    public ModelRenderer tail;
+    private ModelRenderer head;
+    private ModelRenderer body;
+    private ModelRenderer beak;
+    private ModelRenderer flipperRight;
+    private ModelRenderer flipperLeft;
+    private ModelRenderer legLeft;
+    private ModelRenderer legRight;
+    private ModelRenderer tail;
 
     public ModelPenguin() {
         this.textureWidth = 32;
