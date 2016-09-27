@@ -2,7 +2,7 @@ package com.girafi.waddles;
 
 import biomesoplenty.api.biome.BOPBiomes;
 import biomesoplenty.core.BiomesOPlenty;
-import com.girafi.waddles.entity.EntityPenguin;
+import com.girafi.waddles.entity.EntityAdeliePenguin;
 import com.girafi.waddles.proxy.CommonProxy;
 import com.girafi.waddles.utils.ConfigurationHandler;
 import com.girafi.waddles.utils.Reference;
@@ -41,7 +41,7 @@ public class Waddles {
 
     @Mod.EventHandler
     public void init(FMLInitializationEvent event) {
-        EntityRegistry.registerModEntity(EntityPenguin.class, "penguin", 0, Waddles.instance, 64, 1, true, 0x000000, 0xFFFFFF);
+        EntityRegistry.registerModEntity(EntityAdeliePenguin.class, "penguin", 0, Waddles.instance, 64, 1, true, 0x000000, 0xFFFFFF);
         addPenguinSpawn(Biomes.ICE_PLAINS, Biomes.MUTATED_ICE_FLATS, Biomes.FROZEN_OCEAN, Biomes.COLD_BEACH);
         if (Loader.isModLoaded(BiomesOPlenty.MOD_ID)) {
             if (BOPBiomes.glacier.isPresent()) {
@@ -58,6 +58,6 @@ public class Waddles {
     }
 
     private void addPenguinSpawn(Biome... biomes) {
-        EntityRegistry.addSpawn(EntityPenguin.class, 2, 2, 5, EnumCreatureType.CREATURE, biomes);
+        EntityRegistry.addSpawn(EntityAdeliePenguin.class, 2, 2, 5, EnumCreatureType.CREATURE, biomes);
     }
 }

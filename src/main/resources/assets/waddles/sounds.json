@@ -1,0 +1,30 @@
+{
+    "adelie.ambient": {
+        "category": "neutral",
+        "sounds": [
+            "waddles:adelie_ambient"
+        ],
+        "subtitle": "waddles:subtitles.adelie.ambient"
+    },
+    "adelie.baby.ambient": {
+        "category": "neutral",
+        "sounds": [
+            "waddles:adelie_baby_ambient"
+        ],
+        "subtitle": "waddles:subtitles.adelie.baby.ambient"
+    },
+    "adelie.death": {
+        "category": "neutral",
+        "sounds": [
+            "waddles:adelie_death"
+        ],
+        "subtitle": "waddles:subtitles.adelie.death"
+    },
+    "adelie.hurt": {
+        "category": "neutral",
+        "sounds": [
+            "waddles:adelie_hurt"
+        ],
+        "subtitle": "waddles:subtitles.adelie.hurt"
+    }
+}

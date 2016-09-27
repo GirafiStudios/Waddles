@@ -1,6 +1,6 @@
 package com.girafi.waddles.client.model;
 
-import com.girafi.waddles.entity.EntityPenguin;
+import com.girafi.waddles.entity.EntityAdeliePenguin;
 import net.minecraft.client.model.ModelBase;
 import net.minecraft.client.model.ModelRenderer;
 import net.minecraft.client.renderer.GlStateManager;
@@ -90,7 +90,7 @@ public class ModelPenguin extends ModelBase {
 
     @Override
     public void setRotationAngles(float limbSwing, float limbSwingAmount, float ageInTicks, float netHeadYaw, float headPitch, float scaleFactor, Entity entity) {
-        EntityPenguin penguin = (EntityPenguin) entity;
+        EntityAdeliePenguin penguin = (EntityAdeliePenguin) entity;
 
         this.head.rotateAngleX = headPitch * 0.017453292F;
         this.head.rotateAngleY = netHeadYaw * 0.017453292F;
