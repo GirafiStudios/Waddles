@@ -7,6 +7,7 @@ import com.google.common.collect.Sets;
 import net.minecraft.entity.EntityAgeable;
 import net.minecraft.entity.SharedMonsterAttributes;
 import net.minecraft.entity.ai.*;
+import net.minecraft.entity.monster.EntityPolarBear;
 import net.minecraft.entity.passive.EntityAnimal;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Items;
@@ -37,19 +38,20 @@ public class EntityAdeliePenguin extends EntityAnimal {
         this.tasks.addTask(1, new EntityAIExtinguishFire());
         this.tasks.addTask(2, new EntityAIPanic(this, 1.5D));
         this.tasks.addTask(3, new EntityAIMate(this, 0.8D));
-        this.tasks.addTask(4, new EntityAITempt(this, 1.0D, false, TEMPTATION_ITEMS));
-        this.tasks.addTask(5, new EntityAIFollowParent(this, 1.1D));
-        this.tasks.addTask(6, new EntityAIWander(this, 1.0D));
-        this.tasks.addTask(7, new EntityAIWatchClosest(this, EntityPlayer.class, 6.0F));
-        this.tasks.addTask(8, new EntityAIWatchClosest(this, EntityAdeliePenguin.class, 6.0F));
-        this.tasks.addTask(9, new EntityAILookIdle(this));
+        this.tasks.addTask(4, new EntityAIAvoidEntity<>(this, EntityPolarBear.class, 6.0F, 1.0D, 1.2D));
+        this.tasks.addTask(5, new EntityAITempt(this, 1.0D, false, TEMPTATION_ITEMS));
+        this.tasks.addTask(6, new EntityAIFollowParent(this, 1.1D));
+        this.tasks.addTask(7, new EntityAIWander(this, 1.0D));
+        this.tasks.addTask(8, new EntityAIWatchClosest(this, EntityPlayer.class, 6.0F));
+        this.tasks.addTask(9, new EntityAIWatchClosest(this, EntityAdeliePenguin.class, 6.0F));
+        this.tasks.addTask(10, new EntityAILookIdle(this));
     }
 
     @Override
     protected void applyEntityAttributes() {
         super.applyEntityAttributes();
         this.getEntityAttribute(SharedMonsterAttributes.MAX_HEALTH).setBaseValue(8.0D);
-        this.getEntityAttribute(SharedMonsterAttributes.MOVEMENT_SPEED).setBaseValue(0.12D);
+        this.getEntityAttribute(SharedMonsterAttributes.MOVEMENT_SPEED).setBaseValue(0.16D);
     }
 
     @Override
