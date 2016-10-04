@@ -121,7 +121,7 @@ public class EntityAdeliePenguin extends EntityAnimal {
 
     private class EntityAIExtinguishFire extends EntityAIPanic {
         EntityAIExtinguishFire() {
-            super(EntityAdeliePenguin.this, 2.0);
+            super(EntityAdeliePenguin.this, 2.0D);
         }
 
         @Override
