@@ -2,7 +2,7 @@
 {
   "modid": "waddles",
   "name": "Waddles",
-  "description": "",
+  "description": "Waddles adds somewhat realistic Adélie penguins that waddle",
   "version": "${version}",
   "mcversion": "${mcversion}",
   "url": "https://minecraft.curseforge.com/projects/waddles",
@@ -11,7 +11,7 @@
     "Girafi"
   ],
   "credits": "Thanks to Wiiv for making the models!",
-  "logoFile": "",
+  "logoFile": "assets/waddles/logo.png",
   "screenshots": [
   ],
   "parent":"",
