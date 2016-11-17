@@ -1,10 +1,7 @@
 buildscript {
     repositories {
         jcenter()
-        maven {
-            name = "forge"
-            url = "http://files.minecraftforge.net/maven"
-        }
+        maven { url = "http://files.minecraftforge.net/maven" }
     }
     dependencies {
         classpath 'net.minecraftforge.gradle:ForgeGradle:2.2-SNAPSHOT'
@@ -35,7 +32,7 @@ minecraft {
 }
 
 dependencies {
-   compile "com.github.glitchfiend.biomesoplenty:BiomesOPlenty:${minecraft_version}-${bop_version}:deobf"
+   deobfCompile "com.github.glitchfiend.biomesoplenty:BiomesOPlenty:${minecraft_version}-${bop_version}:api"
 }
 
 processResources {

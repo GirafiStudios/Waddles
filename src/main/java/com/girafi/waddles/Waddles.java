@@ -1,7 +1,6 @@
 package com.girafi.waddles;
 
 import biomesoplenty.api.biome.BOPBiomes;
-import biomesoplenty.core.BiomesOPlenty;
 import com.girafi.waddles.entity.EntityAdeliePenguin;
 import com.girafi.waddles.proxy.CommonProxy;
 import com.girafi.waddles.utils.ConfigurationHandler;
@@ -12,7 +11,6 @@ import net.minecraft.util.ResourceLocation;
 import net.minecraft.world.biome.Biome;
 import net.minecraft.world.storage.loot.LootTableList;
 import net.minecraftforge.common.MinecraftForge;
-import net.minecraftforge.fml.common.Loader;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.SidedProxy;
 import net.minecraftforge.fml.common.event.FMLInitializationEvent;
@@ -42,7 +40,7 @@ public class Waddles {
     public void init(FMLInitializationEvent event) {
         EntityRegistry.registerModEntity(EntityAdeliePenguin.class, "penguin", 0, Waddles.instance, 64, 1, true, 0x000000, 0xFFFFFF);
         this.addPenguinSpawn(Biomes.ICE_PLAINS, Biomes.MUTATED_ICE_FLATS, Biomes.ICE_MOUNTAINS, Biomes.FROZEN_OCEAN, Biomes.COLD_BEACH);
-        if (Loader.isModLoaded(BiomesOPlenty.MOD_ID)) {
+        if (Reference.IS_BOP_LOADED) {
             if (BOPBiomes.glacier.isPresent()) {
                 addPenguinSpawn(BOPBiomes.glacier.get());
             }
