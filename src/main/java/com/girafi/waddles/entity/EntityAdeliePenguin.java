@@ -72,7 +72,7 @@ public class EntityAdeliePenguin extends EntityAnimal {
     @Override
     public void onLivingUpdate() {
         super.onLivingUpdate();
-        if (worldObj.isRemote) {
+        if (world.isRemote) {
             if (this.posZ != this.prevPosZ) {
                 if (moveFlipper) {
                     rotationFlipper++;
@@ -111,7 +111,7 @@ public class EntityAdeliePenguin extends EntityAnimal {
     @Override
     @Nonnull
     public EntityAdeliePenguin createChild(@Nonnull EntityAgeable ageable) {
-        return new EntityAdeliePenguin(this.worldObj);
+        return new EntityAdeliePenguin(this.world);
     }
 
     @Override

@@ -38,7 +38,8 @@ public class Waddles {
 
     @Mod.EventHandler
     public void init(FMLInitializationEvent event) {
-        EntityRegistry.registerModEntity(EntityAdeliePenguin.class, "penguin", 0, Waddles.instance, 64, 1, true, 0x000000, 0xFFFFFF);
+        ResourceLocation resourceLocation = new ResourceLocation(Reference.MOD_ID, "adelie_penguin");
+        EntityRegistry.registerModEntity(resourceLocation, EntityAdeliePenguin.class, resourceLocation.toString(), 0, Waddles.instance, 64, 1, true, 0x000000, 0xFFFFFF);
         this.addPenguinSpawn(Biomes.ICE_PLAINS, Biomes.MUTATED_ICE_FLATS, Biomes.ICE_MOUNTAINS, Biomes.FROZEN_OCEAN, Biomes.COLD_BEACH);
         if (Reference.IS_BOP_LOADED) {
             if (BOPBiomes.glacier.isPresent()) {
