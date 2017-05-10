@@ -50,3 +50,7 @@ processResources {
         exclude '**/*.properties'
     }
 }
+
+jar {
+    exclude 'com/girafi/waddles/client/**/*'
+}
