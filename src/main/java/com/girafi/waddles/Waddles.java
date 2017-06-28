@@ -48,11 +48,11 @@ public class Waddles {
         List<Biome> spawnable_biomes = Lists.newArrayList();
         for (Biome biome : Biome.REGISTRY) {
             Set<BiomeDictionary.Type> types = Sets.newHashSet(BiomeDictionary.getTypesForBiome(biome));
-            if (types.contains(SNOWY) && !types.contains(FOREST) && !types.contains(NETHER)) {
+            if (types.contains(SNOWY) && !types.contains(FOREST) && !types.contains(NETHER) && !biome.getSpawnableList(EnumCreatureType.CREATURE).isEmpty()) {
                 System.out.println("Spawn Penguin");
                 spawnable_biomes.add(biome);
             }
         }
-        EntityRegistry.addSpawn(EntityAdeliePenguin.class, 2, 2, 5, EnumCreatureType.CREATURE, spawnable_biomes.toArray(new Biome[spawnable_biomes.size()]));
+        EntityRegistry.addSpawn(EntityAdeliePenguin.class, 2, 1, 4, EnumCreatureType.CREATURE, spawnable_biomes.toArray(new Biome[spawnable_biomes.size()]));
     }
 }
