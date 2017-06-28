@@ -1,17 +1,32 @@
 package com.girafi.waddles.utils;
 
+import com.google.common.collect.Lists;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.SoundEvent;
-import net.minecraftforge.fml.common.registry.GameRegistry;
+import net.minecraftforge.event.RegistryEvent;
+import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
+
+import java.util.List;
 
 public class WaddlesSounds {
-    public static final SoundEvent ADELIE_AMBIENT = register("adelie.ambient");
-    public static final SoundEvent ADELIE_BABY_AMBIENT = register("adelie.baby.ambient");
-    public static final SoundEvent ADELIE_DEATH = register("adelie.death");
-    public static final SoundEvent ADELIE_HURT = register("adelie.hurt");
+    private static List<SoundEvent> sounds = Lists.newArrayList();
+    public static final SoundEvent ADELIE_AMBIENT = createSound("adelie.ambient");
+    public static final SoundEvent ADELIE_BABY_AMBIENT = createSound("adelie.baby.ambient");
+    public static final SoundEvent ADELIE_DEATH = createSound("adelie.death");
+    public static final SoundEvent ADELIE_HURT = createSound("adelie.hurt");
 
-    private static SoundEvent register(String name) {
+    private static SoundEvent createSound(String name) {
         ResourceLocation resourceLocation = new ResourceLocation(Reference.MOD_ID, name);
-        return GameRegistry.register(new SoundEvent(resourceLocation), resourceLocation);
+        SoundEvent sound = new SoundEvent(resourceLocation);
+        sound.setRegistryName(resourceLocation);
+        sounds.add(sound);
+        return sound;
+    }
+
+    @SubscribeEvent
+    public void registerSound(RegistryEvent.Register<SoundEvent> event) {
+        for (SoundEvent sound : sounds) {
+            event.getRegistry().register(sound);
+        }
     }
 }
