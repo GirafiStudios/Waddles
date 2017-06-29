@@ -4,10 +4,12 @@ import com.google.common.collect.Lists;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.SoundEvent;
 import net.minecraftforge.event.RegistryEvent;
+import net.minecraftforge.fml.common.Mod.EventBusSubscriber;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 
 import java.util.List;
 
+@EventBusSubscriber
 public class WaddlesSounds {
     private static List<SoundEvent> sounds = Lists.newArrayList();
     public static final SoundEvent ADELIE_AMBIENT = createSound("adelie.ambient");
@@ -24,7 +26,7 @@ public class WaddlesSounds {
     }
 
     @SubscribeEvent
-    public void registerSound(RegistryEvent.Register<SoundEvent> event) {
+    public static void registerSound(RegistryEvent.Register<SoundEvent> event) {
         for (SoundEvent sound : sounds) {
             event.getRegistry().register(sound);
         }
