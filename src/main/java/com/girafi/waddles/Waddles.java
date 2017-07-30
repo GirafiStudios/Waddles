@@ -1,6 +1,7 @@
 package com.girafi.waddles;
 
 import com.girafi.waddles.entity.EntityAdeliePenguin;
+import com.girafi.waddles.entity.PenguinRegistry;
 import com.girafi.waddles.proxy.CommonProxy;
 import com.girafi.waddles.utils.ConfigurationHandler;
 import com.girafi.waddles.utils.Reference;
@@ -14,7 +15,6 @@ import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.SidedProxy;
 import net.minecraftforge.fml.common.event.FMLInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
-import net.minecraftforge.fml.common.registry.EntityRegistry;
 
 import java.io.File;
 import java.util.List;
@@ -40,9 +40,6 @@ public class Waddles {
 
     @Mod.EventHandler
     public void init(FMLInitializationEvent event) {
-        ResourceLocation resourceLocation = new ResourceLocation(Reference.MOD_ID, "adelie_penguin");
-        EntityRegistry.registerModEntity(resourceLocation, EntityAdeliePenguin.class, resourceLocation.toString(), 0, Waddles.instance, 64, 1, true, 0x000000, 0xFFFFFF);
-
         List<Biome> spawnable_biomes = Lists.newArrayList();
         for (Biome biome : Biome.REGISTRY) {
             Set<BiomeDictionary.Type> types = BiomeDictionary.getTypes(biome);
@@ -50,6 +47,6 @@ public class Waddles {
                 spawnable_biomes.add(biome);
             }
         }
-        EntityRegistry.addSpawn(EntityAdeliePenguin.class, 2, 1, 4, EnumCreatureType.CREATURE, spawnable_biomes.toArray(new Biome[spawnable_biomes.size()]));
+        PenguinRegistry.addPenguinSpawn(EntityAdeliePenguin.class, PenguinRegistry.ADELIE_PENGUIN, 2, 1, 4, spawnable_biomes.toArray(new Biome[spawnable_biomes.size()]));
     }
 }

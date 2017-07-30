@@ -24,6 +24,8 @@ public class RenderPenguin extends RenderLiving<EntityAdeliePenguin> {
         String name = penguin.getName().toLowerCase().trim();
         if (name.equals("joshie") || name.equals("joshiejack")) {
             return this.getPenguinTexture("joshie");
+        } else if (name.equals("darkosto")) {
+            return this.getPenguinTexture("darkosto");
         }
         return penguin.isChild() ? this.getPenguinTexture("adelie_child") : this.getPenguinTexture("adelie");
     }
