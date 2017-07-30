@@ -8,6 +8,7 @@ import java.io.File;
 
 public class ConfigurationHandler {
     public static Configuration config;
+    public static final String CATEGORY_PENGUIN_SPAWNS = "spawn chances";
     public static boolean dropFish;
     public static boolean dropExp;
 
@@ -19,6 +20,7 @@ public class ConfigurationHandler {
     }
 
     private static void loadConfiguration() {
+        config.addCustomCategoryComment(CATEGORY_PENGUIN_SPAWNS, "Configure penguins spawn weight & min/max group size. Set weight to 0 to disable.");
         dropFish = config.get(Configuration.CATEGORY_GENERAL, "Enable that penguins drop fish (0 - 2 Raw fish)", false).getBoolean(false);
         dropExp = config.get(Configuration.CATEGORY_GENERAL, "Penguins should drop experience?", true).getBoolean(true);
 
