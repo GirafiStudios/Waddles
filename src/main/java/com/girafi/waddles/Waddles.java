@@ -6,12 +6,14 @@ import com.girafi.waddles.utils.ConfigurationHandler;
 import com.girafi.waddles.utils.Reference;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Sets;
+import net.minecraft.entity.EntityAgeable;
 import net.minecraft.entity.EnumCreatureType;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.world.biome.Biome;
 import net.minecraft.world.storage.loot.LootTableList;
 import net.minecraftforge.common.BiomeDictionary;
 import net.minecraftforge.common.MinecraftForge;
+import net.minecraftforge.common.config.Configuration;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.SidedProxy;
 import net.minecraftforge.fml.common.event.FMLInitializationEvent;
@@ -53,6 +55,19 @@ public class Waddles {
                 spawnable_biomes.add(biome);
             }
         }
-        EntityRegistry.addSpawn(EntityAdeliePenguin.class, 2, 1, 4, EnumCreatureType.CREATURE, spawnable_biomes.toArray(new Biome[spawnable_biomes.size()]));
+        addPenguinSpawn(EntityAdeliePenguin.class, 2, 1, 4, spawnable_biomes.toArray(new Biome[spawnable_biomes.size()]));
+    }
+
+    private void addPenguinSpawn(Class<? extends EntityAgeable> penguinClass, int defaultWeight, int defaultMin, int defaultMax, Biome... biomes) {
+        String subCategoryNames = ConfigurationHandler.CATEGORY_PENGUIN_SPAWNS + Configuration.CATEGORY_SPLITTER + "adelie_penguin";
+        int weight = ConfigurationHandler.config.get(subCategoryNames, "Weight", defaultWeight).getInt();
+        int min = ConfigurationHandler.config.get(subCategoryNames, "Min", defaultMin).getInt();
+        int max = ConfigurationHandler.config.get(subCategoryNames, "Max", defaultMax).getInt();
+
+        ConfigurationHandler.config.save();
+
+        if (weight != 0) {
+            EntityRegistry.addSpawn(penguinClass, weight, min, max, EnumCreatureType.CREATURE, biomes);
+        }
     }
 }
