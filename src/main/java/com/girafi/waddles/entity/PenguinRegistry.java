@@ -39,7 +39,7 @@ public class PenguinRegistry {
         for (EntityEntry entry : entities) {
             event.getRegistry().register(entry);
             id++;
-            EntityRegistry.registerModEntity(entry.getRegistryName(), entry.getEntityClass(), entry.getName(), id, Waddles.instance, 64, 1, true);
+            EntityRegistry.registerModEntity(entry.getRegistryName(), entry.getEntityClass(), entry.getName(), id, Waddles.instance, 64, 1, true, entry.getEgg().primaryColor, entry.getEgg().secondaryColor);
         }
     }
 

@@ -96,8 +96,8 @@ public class EntityAdeliePenguin extends EntityAnimal {
     }
 
     @Override
-    public boolean isBreedingItem(@Nullable ItemStack stack) {
-        return stack != null && TEMPTATION_ITEMS.contains(stack.getItem());
+    public boolean isBreedingItem(@Nonnull ItemStack stack) {
+        return !stack.isEmpty() && TEMPTATION_ITEMS.contains(stack.getItem());
     }
 
     @Nullable
