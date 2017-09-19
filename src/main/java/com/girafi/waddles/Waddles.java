@@ -22,7 +22,7 @@ import java.util.Set;
 
 import static net.minecraftforge.common.BiomeDictionary.Type.*;
 
-@Mod(modid = Reference.MOD_ID, name = Reference.MOD_NAME, version = Reference.MOD_VERSION, dependencies = Reference.DEPENDENCIES, acceptedMinecraftVersions = "[1.12,1.13)", guiFactory = Reference.GUI_FACTORY_CLASS)
+@Mod(modid = Reference.MOD_ID, name = Reference.MOD_NAME, version = Reference.MOD_VERSION, dependencies = Reference.DEPENDENCIES, guiFactory = Reference.GUI_FACTORY_CLASS)
 public class Waddles {
     @Mod.Instance(Reference.MOD_ID)
     public static Waddles instance;
