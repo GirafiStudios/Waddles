@@ -30,6 +30,7 @@ public class Waddles {
     @SidedProxy(clientSide = Reference.CLIENT_PROXY_CLASS, serverSide = Reference.COMMON_PROXY_ClASS)
     public static CommonProxy proxy;
 
+    public static final ResourceLocation EMPTY = LootTableList.register(new ResourceLocation(Reference.MOD_ID, "empty"));
     public static final ResourceLocation LOOT_ENTITIES_PENGUIN_FISH = LootTableList.register(new ResourceLocation(Reference.MOD_ID, "entities/penguin"));
 
     @Mod.EventHandler

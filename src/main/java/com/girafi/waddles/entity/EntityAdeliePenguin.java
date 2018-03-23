@@ -106,7 +106,7 @@ public class EntityAdeliePenguin extends EntityAnimal {
         if (ConfigurationHandler.dropFish) {
             return Waddles.LOOT_ENTITIES_PENGUIN_FISH;
         }
-        return null;
+        return Waddles.EMPTY;
     }
 
     @Override
