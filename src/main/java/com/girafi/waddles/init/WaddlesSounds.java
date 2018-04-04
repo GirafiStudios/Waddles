@@ -1,5 +1,6 @@
-package com.girafi.waddles.utils;
+package com.girafi.waddles.init;
 
+import com.girafi.waddles.utils.Reference;
 import com.google.common.collect.Lists;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.SoundEvent;

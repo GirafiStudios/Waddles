@@ -1,5 +1,6 @@
-package com.girafi.waddles.entity;
+package com.girafi.waddles.init;
 
+import com.girafi.waddles.entity.EntityAdeliePenguin;
 import com.girafi.waddles.utils.ConfigurationHandler;
 import com.girafi.waddles.utils.Reference;
 import com.google.common.base.CaseFormat;
