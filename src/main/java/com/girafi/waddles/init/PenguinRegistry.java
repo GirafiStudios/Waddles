@@ -36,9 +36,16 @@ public class PenguinRegistry {
 
     private static EntityEntry createEntity(Class<? extends Entity> entityClass, int eggPrimary, int eggSecondary, int weight, int min, int max, BiomeDictionary.Type[] typesInclude, BiomeDictionary.Type[] typesExclude) {
         List<Biome> spawnable_biomes = Lists.newArrayList();
+
+        String subCategoryNames = ConfigurationHandler.CATEGORY_PENGUIN_SPAWNS + Configuration.CATEGORY_SPLITTER + "adelie_penguin" + Configuration.CATEGORY_SPLITTER + "Spawnable Biomes";
+        String[] include = ConfigurationHandler.config.getStringList("Include", subCategoryNames, toStringArray(typesInclude), "BiomeDictionary types to include");
+        String[] exclude = ConfigurationHandler.config.getStringList("Exclude", subCategoryNames, toStringArray(typesExclude), "BiomeDictionary types to exclude");
+
+        ConfigurationHandler.config.save();
+
         for (Biome biome : Biome.REGISTRY) {
             Set<BiomeDictionary.Type> types = BiomeDictionary.getTypes(biome);
-            if (types.containsAll(Arrays.asList(typesInclude)) && !types.containsAll(Arrays.asList(typesExclude)) && !types.contains(NETHER) && !biome.getSpawnableList(EnumCreatureType.CREATURE).isEmpty()) {
+            if (types.containsAll(Arrays.asList(include)) && !types.containsAll(Arrays.asList(exclude)) && !types.contains(NETHER) && !biome.getSpawnableList(EnumCreatureType.CREATURE).isEmpty()) {
                 spawnable_biomes.add(biome);
             }
         }
@@ -65,6 +72,15 @@ public class PenguinRegistry {
         ConfigurationHandler.config.save();
 
         return entry;
+    }
+
+    private static String[] toStringArray(BiomeDictionary.Type[] types) {
+        String[] def = new String[types.length];
+        for (int i = 0; i < types.length; i++) {
+            BiomeDictionary.Type type = types[i];
+            def[i] = type.getName();
+        }
+        return def;
     }
 
     @SubscribeEvent
