@@ -20,7 +20,6 @@ import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.common.registry.EntityEntry;
 import net.minecraftforge.fml.common.registry.EntityEntryBuilder;
 
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Set;
@@ -45,21 +44,11 @@ public class PenguinRegistry {
         String[] exclude = ConfigurationHandler.config.getStringList("Exclude", subCategoryNames, BiomeDictionaryHelper.toStringArray(typesExclude), "BiomeDictionary types to exclude");
         ConfigurationHandler.config.save();
 
-        List<BiomeDictionary.Type> biomeTypes = new ArrayList<>(BiomeDictionary.Type.getAll());
+        validateBiomeTypes(include);
+        validateBiomeTypes(exclude);
 
-        for (String in : include) {
-            if (!biomeTypes.contains(BiomeDictionaryHelper.getType(in))) {
-                throw new IllegalArgumentException("Waddles could not find BiomeDictionary Type '" + in + "' to include, please consult the config file");
-            }
-        }
-        for (String ex : exclude) {
-            if (!biomeTypes.contains(BiomeDictionaryHelper.getType(ex))) {
-                throw new IllegalArgumentException("Waddles could not find BiomeDictionary Type '" + ex + "' to exclude, please consult the config file");
-            }
-        }
-
-        List<BiomeDictionary.Type> includeList = new ArrayList<>(Arrays.asList(BiomeDictionaryHelper.toBiomeTypeArray(include)));
-        List<BiomeDictionary.Type> excludeList = new ArrayList<>(Arrays.asList(BiomeDictionaryHelper.toBiomeTypeArray(exclude)));
+        List<BiomeDictionary.Type> includeList = Arrays.asList(BiomeDictionaryHelper.toBiomeTypeArray(include));
+        List<BiomeDictionary.Type> excludeList = Arrays.asList(BiomeDictionaryHelper.toBiomeTypeArray(exclude));
         if (!includeList.isEmpty()) {
             for (BiomeDictionary.Type type : includeList) {
                 for (Biome biome : BiomeDictionary.getBiomes(type)) {
@@ -77,7 +66,7 @@ public class PenguinRegistry {
                 }
             }
         } else {
-            throw new IllegalArgumentException("Do not leave the list of biomes to include empty. If you wish to disable spawning of an entity, set the weight to 0 instead.");
+            throw new IllegalArgumentException("Do not leave the BiomeDictionary type inclusion list empty. If you wish to disable spawning of an entity, set the weight to 0 instead.");
         }
         return createEntity(entityClass, eggPrimary, eggSecondary, weight, min, max, spawnable_biomes);
     }
@@ -106,6 +95,14 @@ public class PenguinRegistry {
 
     private static ResourceLocation classToRegistryName(Class<? extends Entity> entityClass) {
         return new ResourceLocation(Reference.MOD_ID, CaseFormat.UPPER_CAMEL.to(CaseFormat.LOWER_UNDERSCORE, entityClass.getSimpleName()).replace("entity_", ""));
+    }
+
+    private static void validateBiomeTypes(String[] biomes) {
+        for (String biome : biomes) {
+            if (!BiomeDictionary.Type.getAll().contains(BiomeDictionaryHelper.getType(biome))) {
+                throw new IllegalArgumentException("Waddles could not find BiomeDictionary type '" + biome + "' to include, please consult the config file");
+            }
+        }
     }
 
     @SubscribeEvent
