@@ -1,8 +1,8 @@
 package com.girafi.waddles.entity;
 
 import com.girafi.waddles.Waddles;
-import com.girafi.waddles.utils.ConfigurationHandler;
 import com.girafi.waddles.init.WaddlesSounds;
+import com.girafi.waddles.utils.ConfigurationHandler;
 import com.google.common.collect.Sets;
 import net.minecraft.entity.EntityAgeable;
 import net.minecraft.entity.SharedMonsterAttributes;
