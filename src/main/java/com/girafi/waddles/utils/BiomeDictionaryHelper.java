@@ -10,7 +10,7 @@ public class BiomeDictionaryHelper {
 
     /**
      * Retrieves a #BiomeDictionary.Type
-     * Based on #BiomeDictionary.Type.getType(), but doesn't create a new #BiomeDictionary.Type if the input is not already a #BiomeDictionary.Type
+     * Based on {@link BiomeDictionary.Type#getType(String, BiomeDictionary.Type...)}, but doesn't create a new {@link BiomeDictionary.Type} if the input is not already a {@link BiomeDictionary.Type}
      *
      * @param name The name of this #BiomeDictionary.Type
      * @return An instance of this #BiomeDictionary.Type
@@ -25,7 +25,7 @@ public class BiomeDictionaryHelper {
      * Converts a #BiomeDictionary.Type array to a String array
      * Useful for config options
      *
-     * @param types array of #BiomeDictionary.Type
+     * @param types array of {@link BiomeDictionary.Type}
      * @return String array based on the input
      */
     public static String[] toStringArray(BiomeDictionary.Type[] types) {
@@ -38,10 +38,10 @@ public class BiomeDictionaryHelper {
     }
 
     /**
-     * Converts a String array to a #BiomeDictionary.Type array
+     * Converts a String array to a {@link BiomeDictionary.Type} array
      *
      * @param strings string array containing valid #BiomeDictionary.Types
-     * @return #BiomeDictionary.Types based on the string input
+     * @return {@link BiomeDictionary.Type} based on the string input
      */
     public static BiomeDictionary.Type[] toBiomeTypeArray(String[] strings) {
         BiomeDictionary.Type[] types = new BiomeDictionary.Type[strings.length];
