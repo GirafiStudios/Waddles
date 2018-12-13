@@ -1,0 +1,9 @@
+{
+  "entity.waddles.adelie_penguin": "Adeliepinguin",
+  "waddles:subtitles.adelie.ambient": "Adeliepinguin kreischt",
+  "waddles:subtitles.adelie.baby.ambient": "Adeliepinguinjungvogel kreischt",
+  "waddles:subtitles.adelie.death": "Adeliepinguin stirbt",
+  "waddles:subtitles.adelie.hurt": "Adeliepinguin nimmt Schaden",
+  "waddles:config.category.general.tooltip": "Allgemeine Konfigurationsoptionen für Waddles",
+  "waddles:config.category.spawnchances.tooltip": "Konfigurierbare Spawnwahrscheinlichkeiten für Pinguine"
+}

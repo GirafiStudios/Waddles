@@ -3,34 +3,35 @@ package com.girafi.waddles.client.renderer;
 import com.girafi.waddles.client.model.ModelPenguin;
 import com.girafi.waddles.entity.EntityAdeliePenguin;
 import com.girafi.waddles.utils.Reference;
-import net.minecraft.client.renderer.entity.RenderLiving;
-import net.minecraft.client.renderer.entity.RenderManager;
-import net.minecraft.util.ResourceLocation;
-import net.minecraftforge.fml.relauncher.Side;
-import net.minecraftforge.fml.relauncher.SideOnly;
+import net.fabricmc.api.EnvType;
+import net.fabricmc.api.Environment;
+import net.minecraft.client.render.entity.EntityRenderDispatcher;
+import net.minecraft.client.render.entity.LivingEntityRenderer;
+import net.minecraft.util.Identifier;
 
-import javax.annotation.Nonnull;
+import java.util.Objects;
 
-@SideOnly(Side.CLIENT)
-public class RenderPenguin extends RenderLiving<EntityAdeliePenguin> {
+@Environment(EnvType.CLIENT)
+public class RenderPenguin extends LivingEntityRenderer<EntityAdeliePenguin, ModelPenguin> {
 
-    public RenderPenguin(RenderManager renderManager) {
-        super(renderManager, new ModelPenguin(), 0.5F);
+    public RenderPenguin(EntityRenderDispatcher dispatcher) {
+        super(dispatcher, new ModelPenguin(), 0.5F);
     }
 
     @Override
-    @Nonnull
-    protected ResourceLocation getEntityTexture(@Nonnull EntityAdeliePenguin penguin) {
-        String name = penguin.getName().toLowerCase().trim();
-        if (name.equals("joshie") || name.equals("joshiejack")) {
-            return this.getPenguinTexture("joshie");
-        } else if (name.equals("darkosto")) {
-            return this.getPenguinTexture("darkosto");
+    protected Identifier getTexture(EntityAdeliePenguin penguin) {
+        if (penguin.hasCustomName()) {
+            String name = Objects.requireNonNull(penguin.getCustomName()).getString().toLowerCase().trim();
+            if (name.equals("joshie") || name.equals("joshiejack")) {
+                return this.getPenguinTexture("joshie");
+            } else if (name.equals("darkosto")) {
+                return this.getPenguinTexture("darkosto");
+            }
         }
         return penguin.isChild() ? this.getPenguinTexture("adelie_child") : this.getPenguinTexture("adelie");
     }
 
-    private ResourceLocation getPenguinTexture(String fileName) {
-        return new ResourceLocation(Reference.MOD_ID, "textures/entity/penguin/" + fileName + ".png");
+    private Identifier getPenguinTexture(String fileName) {
+        return new Identifier(Reference.MOD_ID, "textures/entity/penguin/" + fileName + ".png");
     }
 }

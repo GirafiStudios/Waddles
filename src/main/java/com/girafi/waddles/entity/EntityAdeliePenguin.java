@@ -1,58 +1,57 @@
 package com.girafi.waddles.entity;
 
-import com.girafi.waddles.Waddles;
+import com.girafi.waddles.init.PenguinRegistry;
 import com.girafi.waddles.init.WaddlesSounds;
-import com.girafi.waddles.utils.ConfigurationHandler;
-import com.google.common.collect.Sets;
-import net.minecraft.entity.EntityAgeable;
-import net.minecraft.entity.SharedMonsterAttributes;
-import net.minecraft.entity.ai.*;
-import net.minecraft.entity.monster.EntityPolarBear;
-import net.minecraft.entity.passive.EntityAnimal;
-import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.init.Items;
-import net.minecraft.item.Item;
-import net.minecraft.item.ItemFishFood.FishType;
+import net.minecraft.class_1361;
+import net.minecraft.class_1374;
+import net.minecraft.class_1376;
+import net.minecraft.class_1394;
+import net.minecraft.entity.ai.goal.*;
+import net.minecraft.entity.attribute.EntityAttributes;
+import net.minecraft.entity.damage.DamageSource;
+import net.minecraft.entity.passive.AnimalEntity;
+import net.minecraft.entity.passive.PassiveEntity;
+import net.minecraft.entity.passive.PolarBearEntity;
+import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
-import net.minecraft.util.DamageSource;
-import net.minecraft.util.ResourceLocation;
-import net.minecraft.util.SoundEvent;
+import net.minecraft.item.Items;
+import net.minecraft.recipe.Ingredient;
+import net.minecraft.sound.SoundEvent;
+import net.minecraft.text.TextComponent;
+import net.minecraft.util.Identifier;
 import net.minecraft.world.World;
+import net.minecraft.world.loot.LootTables;
 
-import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
-import java.util.Set;
-
-public class EntityAdeliePenguin extends EntityAnimal {
-    private static final Set<Item> TEMPTATION_ITEMS = Sets.newHashSet(new ItemStack(Items.FISH, 1, FishType.COD.getMetadata()).getItem(), new ItemStack(Items.FISH, 1, FishType.SALMON.getMetadata()).getItem());
+public class EntityAdeliePenguin extends AnimalEntity {
+    private static final Ingredient TEMPTATION_ITEMS = Ingredient.ofItems(Items.COD, Items.SALMON);
     public short rotationFlipper;
     private boolean moveFlipper = false;
 
     public EntityAdeliePenguin(World world) {
-        super(world);
+        super(PenguinRegistry.ADELIE_PENGUIN, world);
         this.setSize(0.4F, 0.95F);
     }
 
     @Override
-    protected void initEntityAI() {
-        this.tasks.addTask(0, new EntityAISwimming(this));
-        this.tasks.addTask(1, new EntityAIExtinguishFire());
-        this.tasks.addTask(2, new EntityAIPanic(this, 1.5D));
-        this.tasks.addTask(3, new EntityAIMate(this, 0.8D));
-        this.tasks.addTask(4, new EntityAIAvoidEntity<>(this, EntityPolarBear.class, 6.0F, 1.0D, 1.2D));
-        this.tasks.addTask(5, new EntityAITempt(this, 1.0D, false, TEMPTATION_ITEMS));
-        this.tasks.addTask(6, new EntityAIFollowParent(this, 1.1D));
-        this.tasks.addTask(7, new EntityAIWander(this, 1.0D));
-        this.tasks.addTask(8, new EntityAIWatchClosest(this, EntityPlayer.class, 6.0F));
-        this.tasks.addTask(9, new EntityAIWatchClosest(this, EntityAdeliePenguin.class, 6.0F));
-        this.tasks.addTask(10, new EntityAILookIdle(this));
+    protected void method_5959() {
+        this.goalSelector.add(0, new SwimGoal(this));
+        this.goalSelector.add(1, new EntityAIExtinguishFire());
+        this.goalSelector.add(2, new class_1374(this, 1.5D)); //Panic
+        this.goalSelector.add(3, new AnimalMateGoal(this, 0.8D));
+        this.goalSelector.add(4, new FleeEntityGoal<>(this, PolarBearEntity.class, 6.0F, 1.0D, 1.2D));
+        this.goalSelector.add(5, new TemptGoal(this, 1.0D, false, TEMPTATION_ITEMS));
+        this.goalSelector.add(6, new FollowParentGoal(this, 1.1D));
+        this.goalSelector.add(7, new class_1394(this, 1.0D)); //Wander
+        this.goalSelector.add(8, new class_1361(this, PlayerEntity.class, 6.0F)); //Look at
+        this.goalSelector.add(9, new class_1361(this, EntityAdeliePenguin.class, 6.0F)); //Look at
+        this.goalSelector.add(10, new class_1376(this)); //Look idle
     }
 
     @Override
-    protected void applyEntityAttributes() {
-        super.applyEntityAttributes();
-        this.getEntityAttribute(SharedMonsterAttributes.MAX_HEALTH).setBaseValue(8.0D);
-        this.getEntityAttribute(SharedMonsterAttributes.MOVEMENT_SPEED).setBaseValue(0.16D);
+    protected void initAttributes() {
+        super.initAttributes();
+        this.getAttributeInstance(EntityAttributes.MAX_HEALTH).setBaseValue(8.0D);
+        this.getAttributeInstance(EntityAttributes.MOVEMENT_SPEED).setBaseValue(0.16D);
     }
 
     @Override
@@ -71,10 +70,10 @@ public class EntityAdeliePenguin extends EntityAnimal {
     }
 
     @Override
-    public void onLivingUpdate() {
-        super.onLivingUpdate();
+    public void updateMovement() {
+        super.updateMovement();
         if (world.isRemote) {
-            if (this.posZ != this.prevPosZ) {
+            if (this.z != this.prevZ) {
                 if (moveFlipper) {
                     rotationFlipper++;
                 }
@@ -83,35 +82,33 @@ public class EntityAdeliePenguin extends EntityAnimal {
     }
 
     @Override
-    protected int getExperiencePoints(EntityPlayer player) {
-        if (ConfigurationHandler.dropExp) {
+    protected int method_6110(PlayerEntity player) { //getExperience
+        /*if (ConfigurationHandler.dropExp) {
             return super.getExperiencePoints(player);
-        }
+        }*/
         return 0;
     }
 
     @Override
-    public boolean canBreatheUnderwater() {
+    public boolean method_6094() { //canBreathUnderwater
         return true;
     }
 
     @Override
-    public boolean isBreedingItem(@Nonnull ItemStack stack) {
-        return !stack.isEmpty() && TEMPTATION_ITEMS.contains(stack.getItem());
+    public boolean method_6481(ItemStack stack) { //isBreedingItem
+        return TEMPTATION_ITEMS.matches(stack);
     }
 
-    @Nullable
     @Override
-    public ResourceLocation getLootTable() {
-        if (ConfigurationHandler.dropFish) {
+    public Identifier getLootTableId() {
+        /*if (ConfigurationHandler.dropFish) {
             return Waddles.LOOT_ENTITIES_PENGUIN_FISH;
-        }
-        return Waddles.EMPTY;
+        }*/
+        return LootTables.EMPTY;
     }
 
     @Override
-    @Nonnull
-    public EntityAdeliePenguin createChild(@Nonnull EntityAgeable ageable) {
+    public EntityAdeliePenguin createChild(PassiveEntity entity) {
         return new EntityAdeliePenguin(this.world);
     }
 
@@ -120,14 +117,14 @@ public class EntityAdeliePenguin extends EntityAnimal {
         return this.isChild() ? 0.5F : 0.9F;
     }
 
-    private class EntityAIExtinguishFire extends EntityAIPanic {
+    private class EntityAIExtinguishFire extends class_1374 {
         EntityAIExtinguishFire() {
             super(EntityAdeliePenguin.this, 2.0D);
         }
 
         @Override
-        public boolean shouldExecute() {
-            return (EntityAdeliePenguin.this.isChild() || EntityAdeliePenguin.this.isBurning()) && super.shouldExecute();
+        public boolean canStart() {
+            return (EntityAdeliePenguin.this.isChild() || EntityAdeliePenguin.this.isOnFire()) && super.canStart();
         }
     }
 }

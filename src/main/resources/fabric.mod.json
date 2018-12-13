@@ -1,0 +1,11 @@
+{
+  "id": "waddles",
+  "name": "Waddles",
+  "description": "Waddles adds somewhat realistic Adélie penguins that waddle",
+  "version": "${mod_version}",
+  "side": "universal",
+  "initializer": "com.girafi.waddles.Waddles",
+  "requires": {
+    "fabric": "*"
+  }
+}

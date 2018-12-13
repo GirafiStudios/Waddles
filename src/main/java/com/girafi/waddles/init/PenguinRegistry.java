@@ -1,124 +1,25 @@
 package com.girafi.waddles.init;
 
 import com.girafi.waddles.entity.EntityAdeliePenguin;
-import com.girafi.waddles.utils.BiomeDictionaryHelper;
-import com.girafi.waddles.utils.ConfigurationHandler;
 import com.girafi.waddles.utils.Reference;
 import com.google.common.base.CaseFormat;
-import com.google.common.base.Preconditions;
-import com.google.common.collect.Lists;
 import net.minecraft.entity.Entity;
-import net.minecraft.entity.EntityList;
-import net.minecraft.entity.EnumCreatureType;
-import net.minecraft.util.ResourceLocation;
-import net.minecraft.world.biome.Biome;
-import net.minecraftforge.common.BiomeDictionary;
-import net.minecraftforge.common.config.Configuration;
-import net.minecraftforge.event.RegistryEvent;
-import net.minecraftforge.fml.common.Mod.EventBusSubscriber;
-import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
-import net.minecraftforge.fml.common.registry.EntityEntry;
-import net.minecraftforge.fml.common.registry.EntityEntryBuilder;
+import net.minecraft.entity.EntityType;
+import net.minecraft.util.Identifier;
+import net.minecraft.util.registry.Registry;
+import net.minecraft.world.World;
 
-import java.util.Arrays;
-import java.util.List;
-import java.util.Set;
+import java.util.function.Function;
 
-import static net.minecraftforge.common.BiomeDictionary.Type.*;
-
-@EventBusSubscriber
 public class PenguinRegistry {
-    private static List<EntityEntry> entities = Lists.newArrayList();
-    private static Iterable<Biome> biomes = Lists.newArrayList();
-    private static int minCount;
-    private static int maxCount;
-    private static int weight;
+    public static final EntityType ADELIE_PENGUIN = createEntity(EntityAdeliePenguin.class, EntityAdeliePenguin::new);
 
-    public static final EntityEntry ADELIE_PENGUIN = createEntity(EntityAdeliePenguin.class, 0x000000, 0xFFFFFF, 2, 1, 4, new BiomeDictionary.Type[]{SNOWY}, new BiomeDictionary.Type[]{FOREST, MOUNTAIN, NETHER});
-
-    private static EntityEntry createEntity(Class<? extends Entity> entityClass, int eggPrimary, int eggSecondary, int weight, int min, int max, BiomeDictionary.Type[] typesInclude, BiomeDictionary.Type[] typesExclude) {
-        List<Biome> spawnable_biomes = Lists.newArrayList();
-
-        String subCategoryNames = ConfigurationHandler.CATEGORY_PENGUIN_SPAWNS + Configuration.CATEGORY_SPLITTER + classToRegistryName(entityClass).getPath() + Configuration.CATEGORY_SPLITTER + "Spawnable Biomes";
-        String[] include = ConfigurationHandler.config.getStringList("Include", subCategoryNames, BiomeDictionaryHelper.toStringArray(typesInclude), "BiomeDictionary types to include");
-        String[] exclude = ConfigurationHandler.config.getStringList("Exclude", subCategoryNames, BiomeDictionaryHelper.toStringArray(typesExclude), "BiomeDictionary types to exclude");
-        ConfigurationHandler.config.save();
-
-        validateBiomeTypes(include);
-        validateBiomeTypes(exclude);
-
-        List<BiomeDictionary.Type> includeList = Arrays.asList(BiomeDictionaryHelper.toBiomeTypeArray(include));
-        List<BiomeDictionary.Type> excludeList = Arrays.asList(BiomeDictionaryHelper.toBiomeTypeArray(exclude));
-        if (!includeList.isEmpty()) {
-            for (BiomeDictionary.Type type : includeList) {
-                for (Biome biome : BiomeDictionary.getBiomes(type)) {
-                    if (!biome.getSpawnableList(EnumCreatureType.CREATURE).isEmpty()) {
-                        spawnable_biomes.add(biome);
-                    }
-                }
-            }
-            if (!excludeList.isEmpty()) {
-                for (BiomeDictionary.Type type : excludeList) {
-                    Set<Biome> excludeBiomes = BiomeDictionary.getBiomes(type);
-                    for (Biome biome : excludeBiomes) {
-                        spawnable_biomes.remove(biome);
-                    }
-                }
-            }
-        } else {
-            throw new IllegalArgumentException("Do not leave the BiomeDictionary type inclusion list empty. If you wish to disable spawning of an entity, set the weight to 0 instead.");
-        }
-        return createEntity(entityClass, eggPrimary, eggSecondary, weight, min, max, spawnable_biomes);
+    private static EntityType createEntity(Class<? extends Entity> entityClass, Function<? super World, ? extends Entity> entityInstance) {
+        Identifier id = classToRegistryName(entityClass);
+        return Registry.register(Registry.ENTITY_TYPE, id, new EntityType<>(entityClass, entityInstance, true, true, null));
     }
 
-    private static EntityEntry createEntity(Class<? extends Entity> entityClass, int eggPrimary, int eggSecondary, int weight, int min, int max, Biome... biomes) {
-        return createEntity(entityClass, eggPrimary, eggSecondary, weight, min, max, Arrays.asList(biomes));
-    }
-
-    private static EntityEntry createEntity(Class<? extends Entity> entityClass, int eggPrimary, int eggSecondary, int weight, int min, int max, Iterable<Biome> biomes) {
-        ResourceLocation location = classToRegistryName(entityClass);
-        EntityEntry entry = new EntityEntry(entityClass, location.toString());
-        entry.setRegistryName(location);
-        entry.setEgg(new EntityList.EntityEggInfo(location, eggPrimary, eggSecondary));
-        PenguinRegistry.biomes = biomes;
-        entities.add(entry);
-
-        String subCategoryNames = ConfigurationHandler.CATEGORY_PENGUIN_SPAWNS + Configuration.CATEGORY_SPLITTER + location.getPath();
-        PenguinRegistry.weight = ConfigurationHandler.config.get(subCategoryNames, "Weight", weight).getInt();
-        PenguinRegistry.minCount = ConfigurationHandler.config.get(subCategoryNames, "Min", min).getInt();
-        PenguinRegistry.maxCount = ConfigurationHandler.config.get(subCategoryNames, "Max", max).getInt();
-
-        ConfigurationHandler.config.save();
-
-        return entry;
-    }
-
-    private static ResourceLocation classToRegistryName(Class<? extends Entity> entityClass) {
-        return new ResourceLocation(Reference.MOD_ID, CaseFormat.UPPER_CAMEL.to(CaseFormat.LOWER_UNDERSCORE, entityClass.getSimpleName()).replace("entity_", ""));
-    }
-
-    private static void validateBiomeTypes(String[] biomes) {
-        for (String biome : biomes) {
-            if (!BiomeDictionary.Type.getAll().contains(BiomeDictionaryHelper.getType(biome))) {
-                throw new IllegalArgumentException("Waddles could not find BiomeDictionary type '" + biome + "' to include, please consult the config file");
-            }
-        }
-    }
-
-    @SubscribeEvent
-    public static void registerPenguins(RegistryEvent.Register<EntityEntry> event) {
-        int networkId = 0;
-        for (EntityEntry entry : entities) {
-            Preconditions.checkNotNull(entry.getRegistryName(), "registryName");
-            networkId++;
-            event.getRegistry().register(EntityEntryBuilder.create()
-                    .entity(entry.getEntityClass())
-                    .id(entry.getRegistryName(), networkId)
-                    .name(entry.getName())
-                    .tracker(64, 1, true)
-                    .egg(entry.getEgg().primaryColor, entry.getEgg().secondaryColor)
-                    .spawn(EnumCreatureType.CREATURE, weight, minCount, maxCount, biomes)
-                    .build());
-        }
+    private static Identifier classToRegistryName(Class<? extends Entity> entityClass) {
+        return new Identifier(Reference.MOD_ID, CaseFormat.UPPER_CAMEL.to(CaseFormat.LOWER_UNDERSCORE, entityClass.getSimpleName()).replace("entity_", ""));
     }
 }
