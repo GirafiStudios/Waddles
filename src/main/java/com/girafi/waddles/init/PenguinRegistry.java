@@ -39,7 +39,7 @@ public class PenguinRegistry {
     private static EntityEntry createEntity(Class<? extends Entity> entityClass, int eggPrimary, int eggSecondary, int weight, int min, int max, BiomeDictionary.Type[] typesInclude, BiomeDictionary.Type[] typesExclude) {
         List<Biome> spawnable_biomes = Lists.newArrayList();
 
-        String subCategoryNames = ConfigurationHandler.CATEGORY_PENGUIN_SPAWNS + Configuration.CATEGORY_SPLITTER + classToRegistryName(entityClass).getResourcePath() + Configuration.CATEGORY_SPLITTER + "Spawnable Biomes";
+        String subCategoryNames = ConfigurationHandler.CATEGORY_PENGUIN_SPAWNS + Configuration.CATEGORY_SPLITTER + classToRegistryName(entityClass).getPath() + Configuration.CATEGORY_SPLITTER + "Spawnable Biomes";
         String[] include = ConfigurationHandler.config.getStringList("Include", subCategoryNames, BiomeDictionaryHelper.toStringArray(typesInclude), "BiomeDictionary types to include");
         String[] exclude = ConfigurationHandler.config.getStringList("Exclude", subCategoryNames, BiomeDictionaryHelper.toStringArray(typesExclude), "BiomeDictionary types to exclude");
         ConfigurationHandler.config.save();
@@ -83,7 +83,7 @@ public class PenguinRegistry {
         PenguinRegistry.biomes = biomes;
         entities.add(entry);
 
-        String subCategoryNames = ConfigurationHandler.CATEGORY_PENGUIN_SPAWNS + Configuration.CATEGORY_SPLITTER + location.getResourcePath();
+        String subCategoryNames = ConfigurationHandler.CATEGORY_PENGUIN_SPAWNS + Configuration.CATEGORY_SPLITTER + location.getPath();
         PenguinRegistry.weight = ConfigurationHandler.config.get(subCategoryNames, "Weight", weight).getInt();
         PenguinRegistry.minCount = ConfigurationHandler.config.get(subCategoryNames, "Min", min).getInt();
         PenguinRegistry.maxCount = ConfigurationHandler.config.get(subCategoryNames, "Max", max).getInt();
