@@ -7,5 +7,8 @@
   "initializer": "com.girafi.waddles.Waddles",
   "requires": {
     "fabric": "*"
+  },
+  "mixins": {
+    "common": "waddles.common.json"
   }
 }

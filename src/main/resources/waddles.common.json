@@ -1,0 +1,11 @@
+{
+  "required": true,
+  "package": "com.girafi.waddles.mixin",
+  "compatibilityLevel": "JAVA_8",
+  "mixins": [
+    "SpawnPenguin"
+  ],
+  "injectors": {
+    "defaultRequire": 1
+  }
+}

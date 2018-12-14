@@ -81,7 +81,7 @@ public class EntityAdeliePenguin extends AnimalEntity {
     }
 
     @Override
-    protected int method_6110(PlayerEntity player) { //getExperience
+    protected int getCurrentExperience(PlayerEntity player) { //getExperience
         /*if (ConfigurationHandler.dropExp) {
             return super.getExperiencePoints(player);
         }*/

@@ -18,7 +18,6 @@ public class Waddles implements ModInitializer, ClientModInitializer {
 
     @Override
     public void onInitializeClient() {
-        System.out.println("Client Adelie Waddles");
         EntityRendererRegistry.INSTANCE.register(EntityAdeliePenguin.class, new RenderFactoryPenguin());
     }
 }
