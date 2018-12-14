@@ -1,7 +1,6 @@
 package com.girafi.waddles;
 
 import com.girafi.waddles.client.renderer.RenderFactoryPenguin;
-import com.girafi.waddles.client.renderer.RenderPenguin;
 import com.girafi.waddles.entity.EntityAdeliePenguin;
 import com.girafi.waddles.init.PenguinRegistry;
 import net.fabricmc.api.ClientModInitializer;
