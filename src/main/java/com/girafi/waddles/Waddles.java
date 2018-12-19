@@ -1,6 +1,6 @@
 package com.girafi.waddles;
 
-import com.girafi.waddles.client.renderer.RenderFactoryPenguin;
+import com.girafi.waddles.client.renderer.RenderPenguin;
 import com.girafi.waddles.entity.EntityAdeliePenguin;
 import com.girafi.waddles.init.PenguinRegistry;
 import net.fabricmc.api.ClientModInitializer;
@@ -18,6 +18,6 @@ public class Waddles implements ModInitializer, ClientModInitializer {
 
     @Override
     public void onInitializeClient() {
-        EntityRendererRegistry.INSTANCE.register(EntityAdeliePenguin.class, new RenderFactoryPenguin());
+        EntityRendererRegistry.INSTANCE.register(EntityAdeliePenguin.class, (dispatcher, context) -> new RenderPenguin(dispatcher));
     }
 }

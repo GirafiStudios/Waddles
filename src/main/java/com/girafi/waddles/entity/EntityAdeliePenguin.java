@@ -71,7 +71,7 @@ public class EntityAdeliePenguin extends AnimalEntity {
     @Override
     public void updateMovement() {
         super.updateMovement();
-        if (world.isRemote) {
+        if (world.isClient) {
             if (this.z != this.prevZ) {
                 if (moveFlipper) {
                     rotationFlipper++;
