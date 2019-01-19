@@ -1,0 +1,14 @@
+modLoader="javafml"
+loaderVersion="[24,)"
+issueTrackerURL="https://github.com/GirafiStudios/Waddles/issues"
+displayURL="https://minecraft.curseforge.com/projects/waddles"
+logoFile="logo.png"
+credits="Thanks to Wiiv for making the models!"
+authors="Girafi" 
+[[mods]] #mandatory
+modId="waddles"
+version="${version}"
+displayName="Waddles"
+description='''
+Waddles adds somewhat realistic Adélie penguins that waddle.
+'''

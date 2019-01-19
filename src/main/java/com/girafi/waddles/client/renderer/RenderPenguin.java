@@ -6,12 +6,12 @@ import com.girafi.waddles.utils.Reference;
 import net.minecraft.client.renderer.entity.RenderLiving;
 import net.minecraft.client.renderer.entity.RenderManager;
 import net.minecraft.util.ResourceLocation;
-import net.minecraftforge.fml.relauncher.Side;
-import net.minecraftforge.fml.relauncher.SideOnly;
+import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.api.distmarker.OnlyIn;
 
 import javax.annotation.Nonnull;
 
-@SideOnly(Side.CLIENT)
+@OnlyIn(Dist.CLIENT)
 public class RenderPenguin extends RenderLiving<EntityAdeliePenguin> {
 
     public RenderPenguin(RenderManager renderManager) {
@@ -21,7 +21,7 @@ public class RenderPenguin extends RenderLiving<EntityAdeliePenguin> {
     @Override
     @Nonnull
     protected ResourceLocation getEntityTexture(@Nonnull EntityAdeliePenguin penguin) {
-        String name = penguin.getName().toLowerCase().trim();
+        String name = penguin.getName().getString().toLowerCase().trim();
         if (name.equals("joshie") || name.equals("joshiejack")) {
             return this.getPenguinTexture("joshie");
         } else if (name.equals("darkosto")) {

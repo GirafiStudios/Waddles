@@ -1,40 +1,40 @@
 package com.girafi.waddles.utils;
 
-import net.minecraftforge.common.config.Configuration;
-import net.minecraftforge.fml.client.event.ConfigChangedEvent;
+import net.minecraftforge.common.ForgeConfigSpec;
 import net.minecraftforge.fml.common.Mod.EventBusSubscriber;
-import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 
-import java.io.File;
+import java.nio.file.Path;
 
 @EventBusSubscriber
 public class ConfigurationHandler {
-    public static Configuration config;
+    private static final ForgeConfigSpec.Builder BUILDER = new ForgeConfigSpec.Builder();
+    public static final General GENERAL = new General(BUILDER);
     public static final String CATEGORY_PENGUIN_SPAWNS = "spawn chances";
-    public static boolean dropFish;
-    public static boolean dropExp;
 
-    public static void init(File configFile) {
-        if (config == null) {
-            config = new Configuration(configFile);
-            loadConfiguration();
+    public static class General {
+        public final ForgeConfigSpec.BooleanValue dropFish;
+        public final ForgeConfigSpec.BooleanValue dropExp;
+
+        General(ForgeConfigSpec.Builder builder) {
+            builder.push("general");
+            dropFish = builder
+                    .comment("Enable that penguins drop fish (0 - 2 Raw Cod)")
+                    .translation("waddles.configgui.dropFish")
+                    .define("dropFish", false);
+            dropExp = builder
+                    .comment("Penguins should drop experience?")
+                    .translation("waddles.configgui.dropExp")
+                    .define("dropExp", true);
+            builder.pop();
         }
     }
 
-    private static void loadConfiguration() {
-        config.addCustomCategoryComment(CATEGORY_PENGUIN_SPAWNS, "Configure penguins spawn weight & min/max group size. Set weight to 0 to disable.");
-        dropFish = config.get(Configuration.CATEGORY_GENERAL, "Enable that penguins drop fish (0 - 2 Raw fish)", false).getBoolean(false);
-        dropExp = config.get(Configuration.CATEGORY_GENERAL, "Penguins should drop experience?", true).getBoolean(true);
+    //        config.addCustomCategoryComment(CATEGORY_PENGUIN_SPAWNS, "Configure penguins spawn weight & min/max group size. Set weight to 0 to disable.");
 
-        if (config.hasChanged()) {
-            config.save();
-        }
-    }
+    private static final ForgeConfigSpec spec = BUILDER.build();
 
-    @SubscribeEvent
-    public static void onConfigurationChangedEvent(ConfigChangedEvent.OnConfigChangedEvent event) {
-        if (event.getModID().equalsIgnoreCase(Reference.MOD_ID)) {
-            loadConfiguration();
-        }
+    public static void loadFrom(final Path configRoot) {
+        Path configFile = configRoot.resolve(Reference.MOD_ID + ".toml");
+        spec.setConfigFile(configFile);
     }
 }
