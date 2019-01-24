@@ -2,6 +2,7 @@ package com.girafi.waddles.entity;
 
 import com.girafi.waddles.Waddles;
 import com.girafi.waddles.init.PenguinRegistry;
+import com.girafi.waddles.init.WaddlesSounds;
 import com.girafi.waddles.utils.ConfigurationHandler;
 import net.minecraft.entity.EntityAgeable;
 import net.minecraft.entity.SharedMonsterAttributes;
@@ -12,7 +13,9 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Items;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.crafting.Ingredient;
+import net.minecraft.util.DamageSource;
 import net.minecraft.util.ResourceLocation;
+import net.minecraft.util.SoundEvent;
 import net.minecraft.world.World;
 import net.minecraft.world.storage.loot.LootTableList;
 
@@ -51,20 +54,20 @@ public class EntityAdeliePenguin extends EntityAnimal {
         this.getAttribute(SharedMonsterAttributes.MOVEMENT_SPEED).setBaseValue(0.16D);
     }
 
-    /*@Override
+    @Override
     protected SoundEvent getAmbientSound() {
         return this.isChild() ? WaddlesSounds.ADELIE_BABY_AMBIENT : WaddlesSounds.ADELIE_AMBIENT;
     }
 
-    @Override
+    /*@Override
     protected SoundEvent getHurtSound(DamageSource source) {
         return WaddlesSounds.ADELIE_HURT;
-    }
+    }*/
 
     @Override
     protected SoundEvent getDeathSound() {
         return WaddlesSounds.ADELIE_DEATH;
-    }*/
+    }
 
     @Override
     public void livingTick() {

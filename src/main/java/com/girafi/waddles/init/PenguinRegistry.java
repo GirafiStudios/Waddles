@@ -28,7 +28,7 @@ import java.util.function.Function;
 
 import static net.minecraftforge.common.BiomeDictionary.Type.*;
 
-@EventBusSubscriber
+@EventBusSubscriber(modid = Reference.MOD_ID, bus = EventBusSubscriber.Bus.MOD)
 @ObjectHolder(Reference.MOD_ID)
 public class PenguinRegistry {
     private static List<EntityType> entities = Lists.newArrayList();

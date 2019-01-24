@@ -12,7 +12,7 @@ import net.minecraftforge.registries.ObjectHolder;
 
 import java.util.List;
 
-@EventBusSubscriber
+@EventBusSubscriber(modid = Reference.MOD_ID, bus = EventBusSubscriber.Bus.MOD)
 @ObjectHolder(Reference.MOD_ID)
 public class WaddlesSounds {
     private static List<SoundEvent> sounds = Lists.newArrayList();
