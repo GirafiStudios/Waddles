@@ -59,10 +59,10 @@ public class EntityAdeliePenguin extends EntityAnimal {
         return this.isChild() ? WaddlesSounds.ADELIE_BABY_AMBIENT : WaddlesSounds.ADELIE_AMBIENT;
     }
 
-    /*@Override
+    @Override
     protected SoundEvent getHurtSound(DamageSource source) {
         return WaddlesSounds.ADELIE_HURT;
-    }*/
+    }
 
     @Override
     protected SoundEvent getDeathSound() {

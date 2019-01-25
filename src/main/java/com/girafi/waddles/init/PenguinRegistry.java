@@ -2,6 +2,7 @@ package com.girafi.waddles.init;
 
 import com.girafi.waddles.entity.EntityAdeliePenguin;
 import com.girafi.waddles.utils.BiomeDictionaryHelper;
+import com.girafi.waddles.utils.ConfigurationHandler;
 import com.girafi.waddles.utils.Reference;
 import com.google.common.base.CaseFormat;
 import com.google.common.base.Preconditions;
@@ -16,6 +17,7 @@ import net.minecraft.util.ResourceLocation;
 import net.minecraft.world.World;
 import net.minecraft.world.biome.Biome;
 import net.minecraftforge.common.BiomeDictionary;
+import net.minecraftforge.common.ForgeConfigSpec;
 import net.minecraftforge.event.RegistryEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod.EventBusSubscriber;
@@ -29,7 +31,6 @@ import java.util.function.Function;
 import static net.minecraftforge.common.BiomeDictionary.Type.*;
 
 @EventBusSubscriber(modid = Reference.MOD_ID, bus = EventBusSubscriber.Bus.MOD)
-@ObjectHolder(Reference.MOD_ID)
 public class PenguinRegistry {
     private static List<EntityType> entities = Lists.newArrayList();
     private static List<Item> spawnEggs = Lists.newArrayList();
@@ -43,10 +44,12 @@ public class PenguinRegistry {
     private static EntityType createEntity(Class<? extends Entity> entityClass, Function<? super World, ? extends Entity> entityInstance, int eggPrimary, int eggSecondary, int weight, int min, int max, BiomeDictionary.Type[] typesInclude, BiomeDictionary.Type[] typesExclude) {
         List<Biome> spawnable_biomes = Lists.newArrayList();
 
-        /*String subCategoryNames = ConfigurationHandler.CATEGORY_PENGUIN_SPAWNS + Configuration.CATEGORY_SPLITTER + classToRegistryName(entityClass).getPath() + Configuration.CATEGORY_SPLITTER + "Spawnable Biomes";
-        String[] include = ConfigurationHandler.config.getStringList("Include", subCategoryNames, BiomeDictionaryHelper.toStringArray(typesInclude), "BiomeDictionary types to include");
-        String[] exclude = ConfigurationHandler.config.getStringList("Exclude", subCategoryNames, BiomeDictionaryHelper.toStringArray(typesExclude), "BiomeDictionary types to exclude");
-        ConfigurationHandler.config.save();*/
+        //String subCategoryNames = ConfigurationHandler.CATEGORY_PENGUIN_SPAWNS + Configuration.CATEGORY_SPLITTER + classToRegistryName(entityClass).getPath() + Configuration.CATEGORY_SPLITTER + "Spawnable Biomes";
+        /*ConfigurationHandler.BUILDER.push("spawn chances");
+        ConfigurationHandler.SPAWN.include = ConfigurationHandler.BUILDER.comment("include").define("Include", BiomeDictionaryHelper.toStringArray(typesInclude), o -> o instanceof String);
+        ConfigurationHandler.SPAWN.exclude = ConfigurationHandler.BUILDER.comment("exclude").define("Exclude", BiomeDictionaryHelper.toStringArray(typesExclude), o -> o instanceof String);
+
+        ConfigurationHandler.BUILDER.pop();*/
         String[] include = BiomeDictionaryHelper.toStringArray(typesInclude);
         String[] exclude = BiomeDictionaryHelper.toStringArray(typesExclude);
 

@@ -1,6 +1,6 @@
 {
   "_comment": "Entity",
-  "entity.waddles:adelie_penguin": "Adélie Penguin",
+  "entity.waddles.adelie_penguin": "Adélie Penguin",
   "item.waddles.adelie_penguin_spawn_egg": "Adélie Penguin Spawn Egg",
 
   "_comment": "Subtitles",

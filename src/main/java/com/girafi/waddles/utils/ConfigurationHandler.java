@@ -1,15 +1,13 @@
 package com.girafi.waddles.utils;
 
 import net.minecraftforge.common.ForgeConfigSpec;
-import net.minecraftforge.fml.common.Mod.EventBusSubscriber;
 
 import java.nio.file.Path;
 
-@EventBusSubscriber
 public class ConfigurationHandler {
-    private static final ForgeConfigSpec.Builder BUILDER = new ForgeConfigSpec.Builder();
+    public static final ForgeConfigSpec.Builder BUILDER = new ForgeConfigSpec.Builder();
     public static final General GENERAL = new General(BUILDER);
-    public static final String CATEGORY_PENGUIN_SPAWNS = "spawn chances";
+    public static final Spawn SPAWN = new Spawn(BUILDER);
 
     public static class General {
         public final ForgeConfigSpec.BooleanValue dropFish;
@@ -29,7 +27,17 @@ public class ConfigurationHandler {
         }
     }
 
-    //        config.addCustomCategoryComment(CATEGORY_PENGUIN_SPAWNS, "Configure penguins spawn weight & min/max group size. Set weight to 0 to disable.");
+    public static class Spawn {
+        public ForgeConfigSpec.ConfigValue<String[]> include;
+        public ForgeConfigSpec.ConfigValue<String[]> exclude;
+
+        Spawn(ForgeConfigSpec.Builder builder) {
+
+        }
+    }
+
+
+    //config.addCustomCategoryComment(CATEGORY_PENGUIN_SPAWNS, "Configure penguins spawn weight & min/max group size. Set weight to 0 to disable.");
 
     private static final ForgeConfigSpec spec = BUILDER.build();
 
