@@ -18,6 +18,6 @@ public class SpawnPenguin extends Biome {
 
     @Inject(at = @At("RETURN"), method = "<init>()V")
     private void init(CallbackInfo info) {
-        this.addSpawn(EntityCategory.CREATURE, new SpawnEntry(PenguinRegistry.ADELIE_PENGUIN, 5, 1, 4));
+        this.addSpawn(EntityCategory.CREATURE, new SpawnEntry(PenguinRegistry.ADELIE_PENGUIN, 8, 1, 4));
     }
 }

@@ -3,8 +3,9 @@ package com.girafi.waddles.init;
 import com.girafi.waddles.entity.EntityAdeliePenguin;
 import com.girafi.waddles.utils.Reference;
 import com.google.common.base.CaseFormat;
-import net.fabricmc.fabric.entity.FabricEntityTypeBuilder;
+import net.fabricmc.fabric.api.entity.FabricEntityTypeBuilder;
 import net.minecraft.entity.Entity;
+import net.minecraft.entity.EntityCategory;
 import net.minecraft.entity.EntityType;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemGroup;
@@ -21,7 +22,8 @@ public class PenguinRegistry {
     private static EntityType createEntity(Class<? extends Entity> entityClass, Function<? super World, ? extends Entity> entityInstance, int eggPrimary, int eggSecondary) {
         String name = classToRegistryName(entityClass);
         Identifier id = new Identifier(Reference.MOD_ID, name);
-        EntityType entityType = Registry.register(Registry.ENTITY_TYPE, id, FabricEntityTypeBuilder.create(entityClass, entityInstance).trackable(64, 1).build());
+        EntityType entityType = Registry.register(Registry.ENTITY_TYPE, id, FabricEntityTypeBuilder.create(EntityCategory.CREATURE, entityInstance).size(0.4F, 0.95F).trackable(64, 1).build());
+
         Item spawnEgg = new SpawnEggItem(entityType, eggPrimary, eggSecondary, (new Item.Settings()).itemGroup(ItemGroup.MISC));
         Registry.register(Registry.ITEM, new Identifier(Reference.MOD_ID, name + "_spawn_egg"), spawnEgg);
         return entityType;

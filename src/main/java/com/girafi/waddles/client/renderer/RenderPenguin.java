@@ -5,14 +5,14 @@ import com.girafi.waddles.entity.EntityAdeliePenguin;
 import com.girafi.waddles.utils.Reference;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
-import net.minecraft.client.render.entity.EntityMobRenderer;
+import net.minecraft.client.render.entity.BipedEntityRenderer;
 import net.minecraft.client.render.entity.EntityRenderDispatcher;
 import net.minecraft.util.Identifier;
 
 import java.util.Objects;
 
 @Environment(EnvType.CLIENT)
-public class RenderPenguin extends EntityMobRenderer<EntityAdeliePenguin, ModelPenguin> {
+public class RenderPenguin extends BipedEntityRenderer<EntityAdeliePenguin, ModelPenguin> {
 
     public RenderPenguin(EntityRenderDispatcher dispatcher) {
         super(dispatcher, new ModelPenguin(), 0.5F);

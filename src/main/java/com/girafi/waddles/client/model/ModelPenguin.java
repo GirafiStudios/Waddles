@@ -5,11 +5,11 @@ import com.mojang.blaze3d.platform.GlStateManager;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.minecraft.client.model.Cuboid;
-import net.minecraft.client.model.Model;
+import net.minecraft.client.render.entity.model.BipedEntityModel;
 import net.minecraft.util.math.MathHelper;
 
 @Environment(EnvType.CLIENT)
-public class ModelPenguin extends Model<EntityAdeliePenguin> {
+public class ModelPenguin extends BipedEntityModel<EntityAdeliePenguin> {
     private Cuboid head;
     private Cuboid body;
     private Cuboid beak;
@@ -62,7 +62,7 @@ public class ModelPenguin extends Model<EntityAdeliePenguin> {
 
     @Override
     public void render(EntityAdeliePenguin penguin, float limbSwing, float limbSwingAmount, float ageInTicks, float netHeadYaw, float headPitch, float scale) {
-        this.method_17080(penguin, limbSwing, limbSwingAmount, ageInTicks, netHeadYaw, headPitch, scale);
+        this.setAngles(penguin, limbSwing, limbSwingAmount, ageInTicks, netHeadYaw, headPitch, scale);
         if (this.isChild) {
             float f = 2.0F;
             GlStateManager.pushMatrix();
@@ -87,7 +87,7 @@ public class ModelPenguin extends Model<EntityAdeliePenguin> {
     }
 
     @Override
-    public void method_17080(EntityAdeliePenguin penguin, float limbSwing, float limbSwingAmount, float ageInTicks, float netHeadYaw, float headPitch, float scaleFactor) {
+    public void setAngles(EntityAdeliePenguin penguin, float limbSwing, float limbSwingAmount, float ageInTicks, float netHeadYaw, float headPitch, float scaleFactor) {
         this.head.pitch = headPitch * 0.017453292F;
         this.head.yaw = netHeadYaw * 0.017453292F;
         this.head.roll = (MathHelper.cos(limbSwing * 1.3324F) * 1.4F * limbSwingAmount) / 6;

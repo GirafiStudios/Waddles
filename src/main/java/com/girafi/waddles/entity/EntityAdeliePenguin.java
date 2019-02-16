@@ -2,9 +2,6 @@ package com.girafi.waddles.entity;
 
 import com.girafi.waddles.init.PenguinRegistry;
 import com.girafi.waddles.init.WaddlesSounds;
-import net.minecraft.class_1361;
-import net.minecraft.class_1374;
-import net.minecraft.class_1376;
 import net.minecraft.class_1394;
 import net.minecraft.entity.ai.goal.*;
 import net.minecraft.entity.attribute.EntityAttributes;
@@ -28,22 +25,21 @@ public class EntityAdeliePenguin extends AnimalEntity {
 
     public EntityAdeliePenguin(World world) {
         super(PenguinRegistry.ADELIE_PENGUIN, world);
-        this.setSize(0.4F, 0.95F);
     }
 
     @Override
-    protected void method_5959() {
+    protected void initGoals() {
         this.goalSelector.add(0, new SwimGoal(this));
         this.goalSelector.add(1, new EntityAIExtinguishFire());
-        this.goalSelector.add(2, new class_1374(this, 1.5D)); //Panic
+        this.goalSelector.add(2, new EscapeDangerGoal(this, 1.5D));
         this.goalSelector.add(3, new AnimalMateGoal(this, 0.8D));
         this.goalSelector.add(4, new FleeEntityGoal<>(this, PolarBearEntity.class, 6.0F, 1.0D, 1.2D));
         this.goalSelector.add(5, new TemptGoal(this, 1.0D, false, TEMPTATION_ITEMS));
         this.goalSelector.add(6, new FollowParentGoal(this, 1.1D));
         this.goalSelector.add(7, new class_1394(this, 1.0D)); //Wander
-        this.goalSelector.add(8, new class_1361(this, PlayerEntity.class, 6.0F)); //Look at
-        this.goalSelector.add(9, new class_1361(this, EntityAdeliePenguin.class, 6.0F)); //Look at
-        this.goalSelector.add(10, new class_1376(this)); //Look idle
+        this.goalSelector.add(8, new LookAtEntityGoal(this, PlayerEntity.class, 6.0F));
+        this.goalSelector.add(9, new LookAtEntityGoal(this, EntityAdeliePenguin.class, 6.0F));
+        this.goalSelector.add(10, new LookAroundGoal(this));
     }
 
     @Override
@@ -89,12 +85,12 @@ public class EntityAdeliePenguin extends AnimalEntity {
     }
 
     @Override
-    public boolean method_6094() { //canBreathUnderwater
+    public boolean canBreatheInWater() { //canBreathUnderwater
         return true;
     }
 
     @Override
-    public boolean method_6481(ItemStack stack) { //isBreedingItem
+    public boolean isBreedingItem(ItemStack stack) { //isBreedingItem
         return TEMPTATION_ITEMS.matches(stack);
     }
 
@@ -107,7 +103,7 @@ public class EntityAdeliePenguin extends AnimalEntity {
     }
 
     @Override
-    public EntityAdeliePenguin createChild(PassiveEntity entity) {
+    public PassiveEntity createChild(PassiveEntity var1) {
         return new EntityAdeliePenguin(this.world);
     }
 
@@ -116,7 +112,7 @@ public class EntityAdeliePenguin extends AnimalEntity {
         return this.isChild() ? 0.5F : 0.9F;
     }
 
-    private class EntityAIExtinguishFire extends class_1374 {
+    private class EntityAIExtinguishFire extends EscapeDangerGoal {
         EntityAIExtinguishFire() {
             super(EntityAdeliePenguin.this, 2.0D);
         }
