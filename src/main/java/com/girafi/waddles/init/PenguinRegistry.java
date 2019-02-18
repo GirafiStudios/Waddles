@@ -86,7 +86,7 @@ public class PenguinRegistry {
         entity.setRegistryName(location);
         PenguinRegistry.biomes = biomes;
         entities.add(entity);
-        Item spawnEgg = new ItemSpawnEgg(entity, eggPrimary, eggSecondary, (new Item.Builder()).group(ItemGroup.MISC));
+        Item spawnEgg = new ItemSpawnEgg(entity, eggPrimary, eggSecondary, (new Item.Properties()).group(ItemGroup.MISC));
         spawnEgg.setRegistryName(new ResourceLocation(Reference.MOD_ID, classToString(entityClass) + "_spawn_egg"));
         spawnEggs.add(spawnEgg);
 

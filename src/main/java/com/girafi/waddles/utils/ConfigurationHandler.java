@@ -36,13 +36,7 @@ public class ConfigurationHandler {
         }
     }
 
-
     //config.addCustomCategoryComment(CATEGORY_PENGUIN_SPAWNS, "Configure penguins spawn weight & min/max group size. Set weight to 0 to disable.");
 
-    private static final ForgeConfigSpec spec = BUILDER.build();
-
-    public static void loadFrom(final Path configRoot) {
-        Path configFile = configRoot.resolve(Reference.MOD_ID + ".toml");
-        spec.setConfigFile(configFile);
-    }
+    public static final ForgeConfigSpec spec = BUILDER.build();
 }
