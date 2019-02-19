@@ -65,20 +65,42 @@ public class ModelPenguin extends ModelBase {
 
     @Override
     public void render(Entity entity, float limbSwing, float limbSwingAmount, float ageInTicks, float netHeadYaw, float headPitch, float scale) {
+        super.render(entity, limbSwing, limbSwingAmount, ageInTicks, netHeadYaw, headPitch, scale);
+        boolean inWater = entity.isInWater();
+
         if (this.isChild) {
             float f = 2.0F;
             GlStateManager.pushMatrix();
             GlStateManager.translatef(0.0F, 6.0F * scale, 0.0F);
+            if (inWater) {
+                GlStateManager.translatef(0.0F, 0.35F, -0.25F);
+            }
             this.head.render(scale);
             GlStateManager.popMatrix();
             GlStateManager.pushMatrix();
             GlStateManager.scalef(1.4F / f, 1.0F / f, 1.2F / f);
             GlStateManager.translatef(0.0F, 24.0F * scale, 0.0F);
+            if (inWater) {
+                GlStateManager.translatef(0.0F, 1.4F, -1.0F);
+                GlStateManager.rotatef(90.0F, 1.0F, .0F, 0.0F);
+            }
             this.body.render(scale);
             GlStateManager.popMatrix();
         } else {
+            GlStateManager.pushMatrix();
+            if (inWater) {
+                GlStateManager.translatef(0.0F, 0.6F, -0.38F);
+            }
             this.head.render(scale);
+            GlStateManager.popMatrix();
+
+            GlStateManager.pushMatrix();
+            if (inWater) {
+                GlStateManager.translatef(0.0F, 1.4F, -1.0F);
+                GlStateManager.rotatef(90.0F, 1.0F, 0.0F, 0.0F);
+            }
             this.body.render(scale);
+            GlStateManager.popMatrix();
         }
     }
 
@@ -92,8 +114,7 @@ public class ModelPenguin extends ModelBase {
     public void setRotationAngles(float limbSwing, float limbSwingAmount, float ageInTicks, float netHeadYaw, float headPitch, float scaleFactor, Entity entity) {
         EntityAdeliePenguin penguin = (EntityAdeliePenguin) entity;
 
-        this.head.rotateAngleX = headPitch * 0.017453292F;
-        this.head.rotateAngleY = netHeadYaw * 0.017453292F;
+        this.head.rotateAngleY = netHeadYaw * ((float) Math.PI / 180F);
         this.head.rotateAngleZ = (MathHelper.cos(limbSwing * 1.3324F) * 1.4F * limbSwingAmount) / 6;
         this.body.rotateAngleZ = (MathHelper.cos(limbSwing * 1.3324F) * 1.4F * limbSwingAmount) / 6;
         this.feetRight.rotateAngleX = MathHelper.cos(limbSwing * 1.3324F) * 1.2F * limbSwingAmount;
@@ -101,11 +122,5 @@ public class ModelPenguin extends ModelBase {
         this.flipperRight.rotateAngleZ = 0.08726646259971647F + (MathHelper.cos((float) penguin.rotationFlipper) * limbSwingAmount);
         this.flipperLeft.rotateAngleZ = -0.08726646259971647F + (MathHelper.cos((float) penguin.rotationFlipper + (float) Math.PI) * limbSwingAmount);
         this.tail.rotateAngleY = MathHelper.cos(limbSwing * 0.6662F) * 1.4F * 1.4F * limbSwingAmount;
-
-        //Roation angles when swimming
-        //this.body.rotateAngleX = penguin.bodyRotation;
-
-        /*this.flipperRight.rotateAngleX = MathHelper.cos(limbSwing * 0.6662F) * 1.4F * limbSwingAmount * 0.5F; //TODO
-        this.flipperLeft.rotateAngleX = MathHelper.cos(limbSwing * 0.6662F + (float) Math.PI) * 1.4F * limbSwingAmount * 0.5F;*/
     }
 }

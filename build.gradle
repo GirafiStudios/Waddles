@@ -9,7 +9,6 @@ buildscript {
     }
 }
 apply plugin: 'net.minecraftforge.gradle'
-apply plugin: 'eclipse'
 
 sourceCompatibility = targetCompatibility = compileJava.sourceCompatibility = compileJava.targetCompatibility = '1.8'
 
@@ -26,12 +25,21 @@ minecraft {
     mappings channel: 'snapshot', version: '20190215-1.13.1'
 
     runs {
-        client = {
-            workingDirectory project.file('run').canonicalPath
-            source sourceSets.main
+        client {
+            workingDirectory project.file('run')
+            mods {
+                waddles {
+                    source sourceSets.main
+                }
+            }
         }
-        server = {
-            workingDirectory project.file('run').canonicalPath
+        server {
+            workingDirectory project.file('run')
+            mods {
+                waddles {
+                    source sourceSets.main
+                }
+            }
         }
     }
 }
