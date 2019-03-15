@@ -114,7 +114,8 @@ public class ModelPenguin extends ModelBase {
     public void setRotationAngles(float limbSwing, float limbSwingAmount, float ageInTicks, float netHeadYaw, float headPitch, float scaleFactor, Entity entity) {
         EntityAdeliePenguin penguin = (EntityAdeliePenguin) entity;
 
-        this.head.rotateAngleY = netHeadYaw * ((float) Math.PI / 180F);
+        this.head.rotateAngleX = headPitch * 0.017453292F;
+        this.head.rotateAngleY = netHeadYaw * 0.017453292F;
         this.head.rotateAngleZ = (MathHelper.cos(limbSwing * 1.3324F) * 1.4F * limbSwingAmount) / 6;
         this.body.rotateAngleZ = (MathHelper.cos(limbSwing * 1.3324F) * 1.4F * limbSwingAmount) / 6;
         this.feetRight.rotateAngleX = MathHelper.cos(limbSwing * 1.3324F) * 1.2F * limbSwingAmount;
