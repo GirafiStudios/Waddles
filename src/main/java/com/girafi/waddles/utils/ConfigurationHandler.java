@@ -36,8 +36,8 @@ public class ConfigurationHandler {
         public final ForgeConfigSpec.IntValue min;
         public final ForgeConfigSpec.IntValue max;
         public final ForgeConfigSpec.IntValue weight;
-        public ForgeConfigSpec.ConfigValue<List<? extends String>> include;
-        public ForgeConfigSpec.ConfigValue<List<? extends String>> exclude;
+        public final ForgeConfigSpec.ConfigValue<List<? extends String>> include;
+        public final ForgeConfigSpec.ConfigValue<List<? extends String>> exclude;
 
         Spawn(ForgeConfigSpec.Builder builder) {
             builder.push("spawn chances");

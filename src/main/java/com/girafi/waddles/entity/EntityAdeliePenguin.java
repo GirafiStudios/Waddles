@@ -4,6 +4,7 @@ import com.girafi.waddles.Waddles;
 import com.girafi.waddles.init.PenguinRegistry;
 import com.girafi.waddles.init.WaddlesSounds;
 import com.girafi.waddles.utils.ConfigurationHandler;
+import net.minecraft.block.material.Material;
 import net.minecraft.entity.EntityAgeable;
 import net.minecraft.entity.SharedMonsterAttributes;
 import net.minecraft.entity.ai.*;
@@ -16,6 +17,9 @@ import net.minecraft.item.crafting.Ingredient;
 import net.minecraft.util.DamageSource;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.SoundEvent;
+import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.MathHelper;
+import net.minecraft.world.IWorld;
 import net.minecraft.world.World;
 import net.minecraft.world.storage.loot.LootTableList;
 
@@ -118,6 +122,16 @@ public class EntityAdeliePenguin extends EntityAnimal {
     @Override
     public float getEyeHeight() {
         return this.isChild() ? 0.5F : 0.9F;
+    }
+
+    @Override
+    public boolean canSpawn(IWorld world, boolean fromSpawner) {
+        int x = MathHelper.floor(this.posX);
+        int y = MathHelper.floor(this.getBoundingBox().minY);
+        int z = MathHelper.floor(this.posZ);
+        BlockPos pos = new BlockPos(x, y, z);
+        Material material = world.getBlockState(pos.down()).getMaterial();
+        return (world.getLightSubtracted(pos, 0) > 8 && (material == Material.ICE || material == Material.PACKED_ICE)) || super.canSpawn(world, fromSpawner);
     }
 
     private class EntityAIExtinguishFire extends EntityAIPanic {

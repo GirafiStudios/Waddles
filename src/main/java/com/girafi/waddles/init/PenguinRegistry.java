@@ -18,6 +18,7 @@ import net.minecraft.world.World;
 import net.minecraft.world.biome.Biome;
 import net.minecraftforge.common.BiomeDictionary;
 import net.minecraftforge.event.RegistryEvent;
+import net.minecraftforge.eventbus.api.EventPriority;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod.EventBusSubscriber;
 
@@ -30,11 +31,43 @@ import java.util.function.Function;
 public class PenguinRegistry {
     private static List<EntityType> entities = Lists.newArrayList();
     private static List<Item> spawnEggs = Lists.newArrayList();
-    private static Iterable<Biome> biomes = Lists.newArrayList();
 
-    public static final EntityType ADELIE_PENGUIN = createEntity(EntityAdeliePenguin.class, EntityAdeliePenguin::new, 0x000000, 0xFFFFFF);
+    public static final EntityType<EntityAdeliePenguin> ADELIE_PENGUIN = createEntity(EntityAdeliePenguin.class, EntityAdeliePenguin::new, 0x000000, 0xFFFFFF);
 
-    private static EntityType createEntity(Class<? extends Entity> entityClass, Function<? super World, ? extends Entity> entityInstance, int eggPrimary, int eggSecondary) {
+    private static EntityType<EntityAdeliePenguin> createEntity(Class<? extends Entity> entityClass, Function<? super World, ? extends Entity> entityInstance, int eggPrimary, int eggSecondary) {
+        ResourceLocation location = new ResourceLocation(Reference.MOD_ID, classToString(entityClass));
+        EntityType entity = EntityType.Builder.create(entityClass, entityInstance).tracker(64, 1, true).build(location.toString());
+        entity.setRegistryName(location);
+        //PenguinRegistry.biomes = biomes;
+        entities.add(entity);
+        Item spawnEgg = new ItemSpawnEgg(entity, eggPrimary, eggSecondary, (new Item.Properties()).group(ItemGroup.MISC));
+        spawnEgg.setRegistryName(new ResourceLocation(Reference.MOD_ID, classToString(entityClass) + "_spawn_egg"));
+        spawnEggs.add(spawnEgg);
+
+        return entity;
+    }
+
+    private static String classToString(Class<? extends Entity> entityClass) {
+        return CaseFormat.UPPER_CAMEL.to(CaseFormat.LOWER_UNDERSCORE, entityClass.getSimpleName()).replace("entity_", "");
+    }
+
+    @SubscribeEvent(priority = EventPriority.LOWEST)
+    public static void registerPenguins(RegistryEvent.Register<EntityType<?>> event) {
+        for (EntityType entity : entities) {
+            Preconditions.checkNotNull(entity.getRegistryName(), "registryName");
+            event.getRegistry().register(entity);
+        }
+    }
+
+    @SubscribeEvent
+    public static void registerSpawnEggs(RegistryEvent.Register<Item> event) {
+        for (Item spawnEgg : spawnEggs) {
+            Preconditions.checkNotNull(spawnEgg.getRegistryName(), "registryName");
+            event.getRegistry().register(spawnEgg);
+        }
+    }
+
+    public static void addSpawn() {
         List<Biome> spawnable_biomes = Lists.newArrayList();
 
         List<BiomeDictionary.Type> includeList = Arrays.asList(BiomeDictionaryHelper.toBiomeTypeArray(ConfigurationHandler.SPAWN.include.get()));
@@ -58,39 +91,9 @@ public class PenguinRegistry {
         } else {
             throw new IllegalArgumentException("Do not leave the BiomeDictionary type inclusion list empty. If you wish to disable spawning of an entity, set the weight to 0 instead.");
         }
-        return createEntity(entityClass, entityInstance, eggPrimary, eggSecondary, spawnable_biomes);
-    }
-
-    private static EntityType createEntity(Class<? extends Entity> entityClass, Function<? super World, ? extends Entity> entityInstance, int eggPrimary, int eggSecondary, Iterable<Biome> biomes) {
-        ResourceLocation location = new ResourceLocation(Reference.MOD_ID, classToString(entityClass));
-        EntityType entity = EntityType.Builder.create(entityClass, entityInstance).tracker(64, 1, true).build(location.toString());
-        entity.setRegistryName(location);
-        PenguinRegistry.biomes = biomes;
-        entities.add(entity);
-        Item spawnEgg = new ItemSpawnEgg(entity, eggPrimary, eggSecondary, (new Item.Properties()).group(ItemGroup.MISC));
-        spawnEgg.setRegistryName(new ResourceLocation(Reference.MOD_ID, classToString(entityClass) + "_spawn_egg"));
-        spawnEggs.add(spawnEgg);
-
-        return entity;
-    }
-
-    private static String classToString(Class<? extends Entity> entityClass) {
-        return CaseFormat.UPPER_CAMEL.to(CaseFormat.LOWER_UNDERSCORE, entityClass.getSimpleName()).replace("entity_", "");
-    }
-
-    @SubscribeEvent
-    public static void registerPenguins(RegistryEvent.Register<EntityType<?>> event) {
-        for (EntityType entity : entities) {
-            Preconditions.checkNotNull(entity.getRegistryName(), "registryName");
-            event.getRegistry().register(entity);
-        }
-    }
-
-    @SubscribeEvent
-    public static void registerSpawnEggs(RegistryEvent.Register<Item> event) {
-        for (Item spawnEgg : spawnEggs) {
-            Preconditions.checkNotNull(spawnEgg.getRegistryName(), "registryName");
-            event.getRegistry().register(spawnEgg);
+        for (Biome biome : spawnable_biomes) {
+            System.out.println(biome.getDisplayName().getString());
+            biome.addSpawn(EnumCreatureType.CREATURE, new Biome.SpawnListEntry(ADELIE_PENGUIN, ConfigurationHandler.SPAWN.weight.get(), ConfigurationHandler.SPAWN.min.get(), ConfigurationHandler.SPAWN.max.get()));
         }
     }
 }
