@@ -2,6 +2,7 @@ package com.girafi.waddles.utils;
 
 import net.minecraftforge.common.BiomeDictionary;
 
+import java.util.List;
 import java.util.Map;
 import java.util.function.Function;
 import java.util.stream.Collectors;
@@ -22,31 +23,15 @@ public class BiomeDictionaryHelper {
     }
 
     /**
-     * Converts a #BiomeDictionary.Type array to a String array
-     * Useful for config options
-     *
-     * @param types array of {@link BiomeDictionary.Type}
-     * @return String array based on the input
-     */
-    public static String[] toStringArray(BiomeDictionary.Type[] types) {
-        String[] strings = new String[types.length];
-        for (int i = 0; i < types.length; i++) {
-            BiomeDictionary.Type type = types[i];
-            strings[i] = type.getName();
-        }
-        return strings;
-    }
-
-    /**
-     * Converts a String array to a {@link BiomeDictionary.Type} array
+     * Converts a List <? extends String> to a {@link BiomeDictionary.Type} array
      *
      * @param strings string array containing valid #BiomeDictionary.Types
      * @return {@link BiomeDictionary.Type} based on the string input
      */
-    public static BiomeDictionary.Type[] toBiomeTypeArray(String[] strings) {
-        BiomeDictionary.Type[] types = new BiomeDictionary.Type[strings.length];
-        for (int i = 0; i < strings.length; i++) {
-            String string = strings[i];
+    public static BiomeDictionary.Type[] toBiomeTypeArray(List<? extends String> strings) {
+        BiomeDictionary.Type[] types = new BiomeDictionary.Type[strings.size()];
+        for (int i = 0; i < strings.size(); i++) {
+            String string = strings.get(i);
             types[i] = getType(string);
         }
         return types;

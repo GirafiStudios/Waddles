@@ -36,14 +36,9 @@ public class PenguinRegistry {
 
     private static EntityType createEntity(Class<? extends Entity> entityClass, Function<? super World, ? extends Entity> entityInstance, int eggPrimary, int eggSecondary) {
         List<Biome> spawnable_biomes = Lists.newArrayList();
-        String[] include = ConfigurationHandler.SPAWN.include.get();
-        String[] exclude = ConfigurationHandler.SPAWN.exclude.get();
 
-        validateBiomeTypes(include);
-        validateBiomeTypes(exclude);
-
-        List<BiomeDictionary.Type> includeList = Arrays.asList(BiomeDictionaryHelper.toBiomeTypeArray(include));
-        List<BiomeDictionary.Type> excludeList = Arrays.asList(BiomeDictionaryHelper.toBiomeTypeArray(exclude));
+        List<BiomeDictionary.Type> includeList = Arrays.asList(BiomeDictionaryHelper.toBiomeTypeArray(ConfigurationHandler.SPAWN.include.get()));
+        List<BiomeDictionary.Type> excludeList = Arrays.asList(BiomeDictionaryHelper.toBiomeTypeArray(ConfigurationHandler.SPAWN.exclude.get()));
         if (!includeList.isEmpty()) {
             for (BiomeDictionary.Type type : includeList) {
                 for (Biome biome : BiomeDictionary.getBiomes(type)) {
@@ -81,14 +76,6 @@ public class PenguinRegistry {
 
     private static String classToString(Class<? extends Entity> entityClass) {
         return CaseFormat.UPPER_CAMEL.to(CaseFormat.LOWER_UNDERSCORE, entityClass.getSimpleName()).replace("entity_", "");
-    }
-
-    private static void validateBiomeTypes(String[] biomes) {
-        for (String biome : biomes) {
-            if (!BiomeDictionary.Type.getAll().contains(BiomeDictionaryHelper.getType(biome))) {
-                throw new IllegalArgumentException("Waddles could not find BiomeDictionary type '" + biome + "' to include, please consult the config file");
-            }
-        }
     }
 
     @SubscribeEvent

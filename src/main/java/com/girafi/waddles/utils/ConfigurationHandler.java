@@ -1,10 +1,11 @@
 package com.girafi.waddles.utils;
 
-import com.google.common.collect.Lists;
 import net.minecraftforge.common.BiomeDictionary;
 import net.minecraftforge.common.ForgeConfigSpec;
 
 import java.util.Arrays;
+import java.util.Collections;
+import java.util.List;
 
 import static net.minecraftforge.common.BiomeDictionary.Type.*;
 
@@ -35,17 +36,20 @@ public class ConfigurationHandler {
         public final ForgeConfigSpec.IntValue min;
         public final ForgeConfigSpec.IntValue max;
         public final ForgeConfigSpec.IntValue weight;
-        public final ForgeConfigSpec.ConfigValue<String[]> include;
-        public final ForgeConfigSpec.ConfigValue<String[]> exclude;
+        public ForgeConfigSpec.ConfigValue<List<? extends String>> include;
+        public ForgeConfigSpec.ConfigValue<List<? extends String>> exclude;
 
         Spawn(ForgeConfigSpec.Builder builder) {
-            builder.push("Spawn Chances");
+            builder.push("spawn chances");
             builder.comment("Configure penguins spawn weight & min/max group size. Set weight to 0 to disable.");
             min = builder.defineInRange("min", 1, 0, 64);
             max = builder.defineInRange("max", 4, 0, 64);
             weight = builder.defineInRange("weight", 2, 0, 100);
-            include = builder.defineList("include", Lists.newArrayList(new BiomeDictionary.Type[]{SNOWY}), o -> o instanceof String);
-            exclude = builder.defineList("exclude", Arrays.asList(new BiomeDictionary.Type[]{FOREST, MOUNTAIN, NETHER}), o -> o instanceof String);
+            builder.pop();
+            builder.push("spawnable biomes");
+            builder.comment("BiomeDictionary types to include & exclude.");
+            include = builder.defineList("include", Collections.singletonList(SNOWY.toString()), o -> BiomeDictionary.Type.getAll().contains(BiomeDictionaryHelper.getType(String.valueOf(o))));
+            exclude = builder.defineList("exclude", Arrays.asList(FOREST.toString(), MOUNTAIN.toString(), NETHER.toString()), o -> BiomeDictionary.Type.getAll().contains(BiomeDictionaryHelper.getType(String.valueOf(o))));
             builder.pop();
         }
     }
