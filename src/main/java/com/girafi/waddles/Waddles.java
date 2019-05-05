@@ -1,30 +1,29 @@
 package com.girafi.waddles;
 
-import com.girafi.waddles.proxy.CommonProxy;
+import com.girafi.waddles.client.renderer.RenderPenguin;
+import com.girafi.waddles.entity.EntityAdeliePenguin;
 import com.girafi.waddles.utils.ConfigurationHandler;
 import com.girafi.waddles.utils.Reference;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.world.storage.loot.LootTableList;
+import net.minecraftforge.fml.ModLoadingContext;
+import net.minecraftforge.fml.client.registry.RenderingRegistry;
 import net.minecraftforge.fml.common.Mod;
-import net.minecraftforge.fml.common.SidedProxy;
-import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
+import net.minecraftforge.fml.config.ModConfig;
+import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
+import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 
-import java.io.File;
-
-@Mod(modid = Reference.MOD_ID, name = Reference.MOD_NAME, version = Reference.MOD_VERSION, dependencies = Reference.DEPENDENCIES, guiFactory = Reference.GUI_FACTORY_CLASS)
+@Mod(value = Reference.MOD_ID)
 public class Waddles {
-    @Mod.Instance(Reference.MOD_ID)
-    public static Waddles instance;
-
-    @SidedProxy(clientSide = Reference.CLIENT_PROXY_CLASS, serverSide = Reference.COMMON_PROXY_ClASS)
-    public static CommonProxy proxy;
-
-    public static final ResourceLocation EMPTY = LootTableList.register(new ResourceLocation(Reference.MOD_ID, "empty"));
     public static final ResourceLocation LOOT_ENTITIES_PENGUIN_FISH = LootTableList.register(new ResourceLocation(Reference.MOD_ID, "entities/penguin"));
 
-    @Mod.EventHandler
-    public void preInit(FMLPreInitializationEvent event) {
-        ConfigurationHandler.init(new File(event.getModConfigurationDirectory(), "Waddles.cfg"));
-        proxy.registerRenders();
+    public Waddles() {
+        FMLJavaModLoadingContext.get().getModEventBus().addListener(this::setupClient);
+
+        ModLoadingContext.get().registerConfig(ModConfig.Type.COMMON, ConfigurationHandler.spec);
+    }
+
+    public void setupClient(final FMLClientSetupEvent event) {
+        RenderingRegistry.registerEntityRenderingHandler(EntityAdeliePenguin.class, RenderPenguin::new);
     }
 }

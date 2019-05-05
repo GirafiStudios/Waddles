@@ -1,16 +1,16 @@
 buildscript {
     repositories {
+        maven { url = 'https://files.minecraftforge.net/maven' }
         jcenter()
-        maven { url = "http://files.minecraftforge.net/maven" }
+        mavenCentral()
     }
     dependencies {
-        classpath 'net.minecraftforge.gradle:ForgeGradle:2.3-SNAPSHOT'
+        classpath group: 'net.minecraftforge.gradle', name: 'ForgeGradle', version: '3.+', changing: true
     }
 }
-apply plugin: 'net.minecraftforge.gradle.forge'
+apply plugin: 'net.minecraftforge.gradle'
 
-sourceCompatibility = 1.8
-targetCompatibility = 1.8
+sourceCompatibility = targetCompatibility = compileJava.sourceCompatibility = compileJava.targetCompatibility = '1.8'
 
 ext.buildnumber=""
 if (System.getenv().BUILD_NUMBER) {
@@ -22,27 +22,39 @@ group = "com.girafi.waddles"
 archivesBaseName = "Waddles"
 
 minecraft {
-    version = "${minecraft_version}-${forge_version}"
-    mappings = "${mappings_version}"
-    runDir = "run"
+    mappings channel: 'snapshot', version: '20190501-1.13.2'
 
-    replace "@VERSION@", project.mod_version
-    replaceIn "Reference.java"
-	replaceIn "package-info.java"
+    runs {
+        client {
+            workingDirectory project.file('run')
+
+            mods {
+                waddles {
+                    source sourceSets.main
+                }
+            }
+        }
+
+        server {
+            workingDirectory project.file('run')
+
+            mods {
+                waddles {
+                    source sourceSets.main
+                }
+            }
+        }
+    }
 }
 
-processResources {
-    inputs.property "version", project.mod_version
-    inputs.property "mcversion", project.minecraft.version
+dependencies {
+    minecraft "net.minecraftforge:forge:${minecraft_version}-${forge_version}"
+}
 
-    from(sourceSets.main.resources.srcDirs) {
-        include '**/*.info'
-        include '**/*.properties'
-        expand 'version': project.mod_version, 'mcversion': project.minecraft.version
-    }
-
-    from(sourceSets.main.resources.srcDirs) {
-        exclude '**/*.info'
-        exclude '**/*.properties'
+jar {
+    manifest {
+        attributes([
+            "Implementation-Version": "${version}"
+        ])
     }
 }

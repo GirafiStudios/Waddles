@@ -1,0 +1,15 @@
+{
+  "_comment": "Entity",
+  "entity.waddles.adelie_penguin": "Pinguim Adélie",
+  "item.waddles.adelie_penguin_spawn_egg": "Pinguim Adélie Spawn Egg",
+
+  "_comment": "Subtitles",
+  "waddles:subtitles.adelie.ambient": "Grasnido de Pinguins Adélie",
+  "waddles:subtitles.adelie.baby.ambient": "Grasnido de Filhotes de Pinguins Adélie",
+  "waddles:subtitles.adelie.death": "Puguim Adélie Morrendo",
+  "waddles:subtitles.adelie.hurt": "Pinguim Adélie se Machucando",
+
+  "_comment": "Tooltip",
+  "waddles:config.category.general.tooltip": "Opções gerais de configurações do mod Waddles",
+  "waddles:config.category.spawnchances.tooltip": "Chance de Spawn de Pinguins Configurável"
+}

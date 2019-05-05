@@ -1,15 +1,15 @@
 package com.girafi.waddles.client.model;
 
 import com.girafi.waddles.entity.EntityAdeliePenguin;
-import net.minecraft.client.model.ModelBase;
-import net.minecraft.client.model.ModelRenderer;
 import net.minecraft.client.renderer.GlStateManager;
+import net.minecraft.client.renderer.entity.model.ModelBase;
+import net.minecraft.client.renderer.entity.model.ModelRenderer;
 import net.minecraft.entity.Entity;
 import net.minecraft.util.math.MathHelper;
-import net.minecraftforge.fml.relauncher.Side;
-import net.minecraftforge.fml.relauncher.SideOnly;
+import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.api.distmarker.OnlyIn;
 
-@SideOnly(Side.CLIENT)
+@OnlyIn(Dist.CLIENT)
 public class ModelPenguin extends ModelBase {
     private ModelRenderer head;
     private ModelRenderer body;
@@ -68,12 +68,12 @@ public class ModelPenguin extends ModelBase {
         if (this.isChild) {
             float f = 2.0F;
             GlStateManager.pushMatrix();
-            GlStateManager.translate(0.0F, 6.0F * scale, 0.0F);
+            GlStateManager.translatef(0.0F, 6.0F * scale, 0.0F);
             this.head.render(scale);
             GlStateManager.popMatrix();
             GlStateManager.pushMatrix();
-            GlStateManager.scale(1.4F / f, 1.0F / f, 1.2F / f);
-            GlStateManager.translate(0.0F, 24.0F * scale, 0.0F);
+            GlStateManager.scalef(1.4F / f, 1.0F / f, 1.2F / f);
+            GlStateManager.translatef(0.0F, 24.0F * scale, 0.0F);
             this.body.render(scale);
             GlStateManager.popMatrix();
         } else {
@@ -101,11 +101,5 @@ public class ModelPenguin extends ModelBase {
         this.flipperRight.rotateAngleZ = 0.08726646259971647F + (MathHelper.cos((float) penguin.rotationFlipper) * limbSwingAmount);
         this.flipperLeft.rotateAngleZ = -0.08726646259971647F + (MathHelper.cos((float) penguin.rotationFlipper + (float) Math.PI) * limbSwingAmount);
         this.tail.rotateAngleY = MathHelper.cos(limbSwing * 0.6662F) * 1.4F * 1.4F * limbSwingAmount;
-
-        //Roation angles when swimming
-        //this.body.rotateAngleX = penguin.bodyRotation;
-
-        /*this.flipperRight.rotateAngleX = MathHelper.cos(limbSwing * 0.6662F) * 1.4F * limbSwingAmount * 0.5F; //TODO
-        this.flipperLeft.rotateAngleX = MathHelper.cos(limbSwing * 0.6662F + (float) Math.PI) * 1.4F * limbSwingAmount * 0.5F;*/
     }
 }

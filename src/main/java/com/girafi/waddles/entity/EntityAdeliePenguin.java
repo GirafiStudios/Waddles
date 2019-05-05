@@ -1,9 +1,9 @@
 package com.girafi.waddles.entity;
 
 import com.girafi.waddles.Waddles;
+import com.girafi.waddles.init.PenguinRegistry;
 import com.girafi.waddles.init.WaddlesSounds;
 import com.girafi.waddles.utils.ConfigurationHandler;
-import com.google.common.collect.Sets;
 import net.minecraft.entity.EntityAgeable;
 import net.minecraft.entity.SharedMonsterAttributes;
 import net.minecraft.entity.ai.*;
@@ -11,26 +11,26 @@ import net.minecraft.entity.monster.EntityPolarBear;
 import net.minecraft.entity.passive.EntityAnimal;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Items;
-import net.minecraft.item.Item;
-import net.minecraft.item.ItemFishFood.FishType;
 import net.minecraft.item.ItemStack;
+import net.minecraft.item.crafting.Ingredient;
 import net.minecraft.util.DamageSource;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.SoundEvent;
 import net.minecraft.world.World;
+import net.minecraft.world.storage.loot.LootTableList;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
-import java.util.Set;
 
 public class EntityAdeliePenguin extends EntityAnimal {
-    private static final Set<Item> TEMPTATION_ITEMS = Sets.newHashSet(new ItemStack(Items.FISH, 1, FishType.COD.getMetadata()).getItem(), new ItemStack(Items.FISH, 1, FishType.SALMON.getMetadata()).getItem());
+    private static final Ingredient TEMPTATION_ITEMS = Ingredient.fromItems(Items.COD, Items.SALMON);
     public short rotationFlipper;
     private boolean moveFlipper = false;
 
     public EntityAdeliePenguin(World world) {
-        super(world);
+        super(PenguinRegistry.ADELIE_PENGUIN, world);
         this.setSize(0.4F, 0.95F);
+        this.stepHeight = 1.0F;
     }
 
     @Override
@@ -49,10 +49,10 @@ public class EntityAdeliePenguin extends EntityAnimal {
     }
 
     @Override
-    protected void applyEntityAttributes() {
-        super.applyEntityAttributes();
-        this.getEntityAttribute(SharedMonsterAttributes.MAX_HEALTH).setBaseValue(8.0D);
-        this.getEntityAttribute(SharedMonsterAttributes.MOVEMENT_SPEED).setBaseValue(0.16D);
+    protected void registerAttributes() {
+        super.registerAttributes();
+        this.getAttribute(SharedMonsterAttributes.MAX_HEALTH).setBaseValue(8.0D);
+        this.getAttribute(SharedMonsterAttributes.MOVEMENT_SPEED).setBaseValue(0.16D);
     }
 
     @Override
@@ -71,8 +71,8 @@ public class EntityAdeliePenguin extends EntityAnimal {
     }
 
     @Override
-    public void onLivingUpdate() {
-        super.onLivingUpdate();
+    public void livingTick() {
+        super.livingTick();
         if (world.isRemote) {
             if (this.posZ != this.prevPosZ) {
                 if (moveFlipper) {
@@ -84,7 +84,7 @@ public class EntityAdeliePenguin extends EntityAnimal {
 
     @Override
     protected int getExperiencePoints(EntityPlayer player) {
-        if (ConfigurationHandler.dropExp) {
+        if (ConfigurationHandler.GENERAL.dropExp.get()) {
             return super.getExperiencePoints(player);
         }
         return 0;
@@ -97,16 +97,16 @@ public class EntityAdeliePenguin extends EntityAnimal {
 
     @Override
     public boolean isBreedingItem(@Nonnull ItemStack stack) {
-        return !stack.isEmpty() && TEMPTATION_ITEMS.contains(stack.getItem());
+        return !stack.isEmpty() && TEMPTATION_ITEMS.test(stack);
     }
 
     @Nullable
     @Override
     public ResourceLocation getLootTable() {
-        if (ConfigurationHandler.dropFish) {
+        if (ConfigurationHandler.GENERAL.dropFish.get()) {
             return Waddles.LOOT_ENTITIES_PENGUIN_FISH;
         }
-        return Waddles.EMPTY;
+        return LootTableList.EMPTY;
     }
 
     @Override

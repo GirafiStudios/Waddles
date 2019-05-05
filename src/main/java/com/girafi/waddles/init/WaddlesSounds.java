@@ -5,12 +5,14 @@ import com.google.common.collect.Lists;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.SoundEvent;
 import net.minecraftforge.event.RegistryEvent;
+import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod.EventBusSubscriber;
-import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
+import net.minecraftforge.registries.ObjectHolder;
 
 import java.util.List;
 
-@EventBusSubscriber
+@EventBusSubscriber(modid = Reference.MOD_ID, bus = EventBusSubscriber.Bus.MOD)
+@ObjectHolder(Reference.MOD_ID)
 public class WaddlesSounds {
     private static List<SoundEvent> sounds = Lists.newArrayList();
     public static final SoundEvent ADELIE_AMBIENT = createSound("adelie.ambient");

@@ -1,40 +1,54 @@
 package com.girafi.waddles.utils;
 
-import net.minecraftforge.common.config.Configuration;
-import net.minecraftforge.fml.client.event.ConfigChangedEvent;
-import net.minecraftforge.fml.common.Mod.EventBusSubscriber;
-import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
+import com.google.common.collect.Lists;
+import net.minecraftforge.common.BiomeDictionary;
+import net.minecraftforge.common.ForgeConfigSpec;
 
-import java.io.File;
+import java.util.Arrays;
 
-@EventBusSubscriber
+import static net.minecraftforge.common.BiomeDictionary.Type.*;
+
 public class ConfigurationHandler {
-    public static Configuration config;
-    public static final String CATEGORY_PENGUIN_SPAWNS = "spawn chances";
-    public static boolean dropFish;
-    public static boolean dropExp;
+    public static final ForgeConfigSpec.Builder BUILDER = new ForgeConfigSpec.Builder();
+    public static final General GENERAL = new General(BUILDER);
+    public static final Spawn SPAWN = new Spawn(BUILDER);
 
-    public static void init(File configFile) {
-        if (config == null) {
-            config = new Configuration(configFile);
-            loadConfiguration();
+    public static class General {
+        public final ForgeConfigSpec.BooleanValue dropFish;
+        public final ForgeConfigSpec.BooleanValue dropExp;
+
+        General(ForgeConfigSpec.Builder builder) {
+            builder.push("general");
+            dropFish = builder
+                    .comment("Enable that penguins drop fish (0 - 2 Raw Cod)")
+                    .translation("waddles.configgui.dropFish")
+                    .define("dropFish", false);
+            dropExp = builder
+                    .comment("Penguins should drop experience?")
+                    .translation("waddles.configgui.dropExp")
+                    .define("dropExp", true);
+            builder.pop();
         }
     }
 
-    private static void loadConfiguration() {
-        config.addCustomCategoryComment(CATEGORY_PENGUIN_SPAWNS, "Configure penguins spawn weight & min/max group size. Set weight to 0 to disable.");
-        dropFish = config.get(Configuration.CATEGORY_GENERAL, "Enable that penguins drop fish (0 - 2 Raw fish)", false).getBoolean(false);
-        dropExp = config.get(Configuration.CATEGORY_GENERAL, "Penguins should drop experience?", true).getBoolean(true);
+    public static class Spawn {
+        public final ForgeConfigSpec.IntValue min;
+        public final ForgeConfigSpec.IntValue max;
+        public final ForgeConfigSpec.IntValue weight;
+        public final ForgeConfigSpec.ConfigValue<String[]> include;
+        public final ForgeConfigSpec.ConfigValue<String[]> exclude;
 
-        if (config.hasChanged()) {
-            config.save();
+        Spawn(ForgeConfigSpec.Builder builder) {
+            builder.push("Spawn Chances");
+            builder.comment("Configure penguins spawn weight & min/max group size. Set weight to 0 to disable.");
+            min = builder.defineInRange("min", 1, 0, 64);
+            max = builder.defineInRange("max", 4, 0, 64);
+            weight = builder.defineInRange("weight", 2, 0, 100);
+            include = builder.defineList("include", Lists.newArrayList(new BiomeDictionary.Type[]{SNOWY}), o -> o instanceof String);
+            exclude = builder.defineList("exclude", Arrays.asList(new BiomeDictionary.Type[]{FOREST, MOUNTAIN, NETHER}), o -> o instanceof String);
+            builder.pop();
         }
     }
 
-    @SubscribeEvent
-    public static void onConfigurationChangedEvent(ConfigChangedEvent.OnConfigChangedEvent event) {
-        if (event.getModID().equalsIgnoreCase(Reference.MOD_ID)) {
-            loadConfiguration();
-        }
-    }
+    public static final ForgeConfigSpec spec = BUILDER.build();
 }

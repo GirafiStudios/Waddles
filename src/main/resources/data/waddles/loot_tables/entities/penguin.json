@@ -1,12 +1,12 @@
 {
   "pools": [
     {
-      "name": "main",
+      "name": "penguin_fish",
       "rolls": 1,
       "entries": [
         {
           "type": "item",
-          "name": "minecraft:fish",
+          "name": "minecraft:cod",
           "weight": 3,
           "functions": [
             {
@@ -22,10 +22,6 @@
                 "min": 0,
                 "max": 1
               }
-            },
-            {
-              "function": "set_data",
-              "data": 0
             }
           ]
         }
