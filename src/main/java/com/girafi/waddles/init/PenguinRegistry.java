@@ -92,7 +92,6 @@ public class PenguinRegistry {
             throw new IllegalArgumentException("Do not leave the BiomeDictionary type inclusion list empty. If you wish to disable spawning of an entity, set the weight to 0 instead.");
         }
         for (Biome biome : spawnable_biomes) {
-            System.out.println(biome.getDisplayName().getString());
             biome.addSpawn(EnumCreatureType.CREATURE, new Biome.SpawnListEntry(ADELIE_PENGUIN, ConfigurationHandler.SPAWN.weight.get(), ConfigurationHandler.SPAWN.min.get(), ConfigurationHandler.SPAWN.max.get()));
         }
     }

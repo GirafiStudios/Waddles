@@ -23,8 +23,7 @@ archivesBaseName = "Waddles"
 
 minecraft {
     mappings channel: 'snapshot', version: '20190501-1.13.2'
-
-	accessTransformer = file('src/main/resources/META-INF/accesstransformer.cfg')
+    accessTransformer = file('src/main/resources/META-INF/accesstransformer.cfg')
 
     runs {
         client {
