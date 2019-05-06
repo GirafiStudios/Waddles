@@ -5,5 +5,6 @@
   "waddles:subtitles.adelie.death": "阿德利企鹅：一命鸣呼",
   "waddles:subtitles.adelie.hurt": "阿德利企鹅：受到伤害",
   "waddles:config.category.general.tooltip": "基础设置",
-  "waddles:config.category.spawnchances.tooltip": "生成概率设置"
+  "waddles:config.category.spawnchances.tooltip": "生成概率设置",
+  "item.waddles.adelie_penguin_spawn_egg": "阿德利企鹅生成蛋"
 }
