@@ -1,9 +1,9 @@
 package com.girafi.waddles.init;
 
+import com.girafi.waddles.Waddles;
 import com.girafi.waddles.entity.EntityAdeliePenguin;
 import com.girafi.waddles.utils.BiomeDictionaryHelper;
 import com.girafi.waddles.utils.ConfigurationHandler;
-import com.girafi.waddles.utils.Reference;
 import com.google.common.base.CaseFormat;
 import com.google.common.base.Preconditions;
 import com.google.common.collect.Lists;
@@ -27,7 +27,7 @@ import java.util.List;
 import java.util.Set;
 import java.util.function.Function;
 
-@EventBusSubscriber(modid = Reference.MOD_ID, bus = EventBusSubscriber.Bus.MOD)
+@EventBusSubscriber(modid = Waddles.MOD_ID, bus = EventBusSubscriber.Bus.MOD)
 public class PenguinRegistry {
     private static List<EntityType> entities = Lists.newArrayList();
     private static List<Item> spawnEggs = Lists.newArrayList();
@@ -35,13 +35,13 @@ public class PenguinRegistry {
     public static final EntityType<EntityAdeliePenguin> ADELIE_PENGUIN = createEntity(EntityAdeliePenguin.class, EntityAdeliePenguin::new, 0x000000, 0xFFFFFF);
 
     private static EntityType<EntityAdeliePenguin> createEntity(Class<? extends Entity> entityClass, Function<? super World, ? extends Entity> entityInstance, int eggPrimary, int eggSecondary) {
-        ResourceLocation location = new ResourceLocation(Reference.MOD_ID, classToString(entityClass));
+        ResourceLocation location = new ResourceLocation(Waddles.MOD_ID, classToString(entityClass));
         EntityType entity = EntityType.Builder.create(entityClass, entityInstance).tracker(64, 1, true).build(location.toString());
         entity.setRegistryName(location);
         //PenguinRegistry.biomes = biomes;
         entities.add(entity);
         Item spawnEgg = new ItemSpawnEgg(entity, eggPrimary, eggSecondary, (new Item.Properties()).group(ItemGroup.MISC));
-        spawnEgg.setRegistryName(new ResourceLocation(Reference.MOD_ID, classToString(entityClass) + "_spawn_egg"));
+        spawnEgg.setRegistryName(new ResourceLocation(Waddles.MOD_ID, classToString(entityClass) + "_spawn_egg"));
         spawnEggs.add(spawnEgg);
 
         return entity;

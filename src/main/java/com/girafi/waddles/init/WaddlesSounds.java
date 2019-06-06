@@ -1,6 +1,6 @@
 package com.girafi.waddles.init;
 
-import com.girafi.waddles.utils.Reference;
+import com.girafi.waddles.Waddles;
 import com.google.common.collect.Lists;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.SoundEvent;
@@ -11,8 +11,8 @@ import net.minecraftforge.registries.ObjectHolder;
 
 import java.util.List;
 
-@EventBusSubscriber(modid = Reference.MOD_ID, bus = EventBusSubscriber.Bus.MOD)
-@ObjectHolder(Reference.MOD_ID)
+@EventBusSubscriber(modid = Waddles.MOD_ID, bus = EventBusSubscriber.Bus.MOD)
+@ObjectHolder(Waddles.MOD_ID)
 public class WaddlesSounds {
     private static List<SoundEvent> sounds = Lists.newArrayList();
     public static final SoundEvent ADELIE_AMBIENT = createSound("adelie.ambient");
@@ -21,7 +21,7 @@ public class WaddlesSounds {
     public static final SoundEvent ADELIE_HURT = createSound("adelie.hurt");
 
     private static SoundEvent createSound(String name) {
-        ResourceLocation resourceLocation = new ResourceLocation(Reference.MOD_ID, name);
+        ResourceLocation resourceLocation = new ResourceLocation(Waddles.MOD_ID, name);
         SoundEvent sound = new SoundEvent(resourceLocation);
         sound.setRegistryName(resourceLocation);
         sounds.add(sound);

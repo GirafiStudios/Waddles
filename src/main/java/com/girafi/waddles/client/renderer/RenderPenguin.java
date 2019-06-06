@@ -1,8 +1,8 @@
 package com.girafi.waddles.client.renderer;
 
+import com.girafi.waddles.Waddles;
 import com.girafi.waddles.client.model.ModelPenguin;
 import com.girafi.waddles.entity.EntityAdeliePenguin;
-import com.girafi.waddles.utils.Reference;
 import net.minecraft.client.renderer.entity.RenderLiving;
 import net.minecraft.client.renderer.entity.RenderManager;
 import net.minecraft.util.ResourceLocation;
@@ -31,6 +31,6 @@ public class RenderPenguin extends RenderLiving<EntityAdeliePenguin> {
     }
 
     private ResourceLocation getPenguinTexture(String fileName) {
-        return new ResourceLocation(Reference.MOD_ID, "textures/entity/penguin/" + fileName + ".png");
+        return new ResourceLocation(Waddles.MOD_ID, "textures/entity/penguin/" + fileName + ".png");
     }
 }
