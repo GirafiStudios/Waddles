@@ -5,14 +5,13 @@ import com.girafi.waddles.init.PenguinRegistry;
 import com.girafi.waddles.init.WaddlesSounds;
 import com.girafi.waddles.utils.ConfigurationHandler;
 import net.minecraft.block.material.Material;
-import net.minecraft.entity.EntityAgeable;
-import net.minecraft.entity.SharedMonsterAttributes;
-import net.minecraft.entity.ai.*;
-import net.minecraft.entity.monster.EntityPolarBear;
-import net.minecraft.entity.passive.EntityAnimal;
-import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.init.Items;
+import net.minecraft.entity.*;
+import net.minecraft.entity.ai.goal.*;
+import net.minecraft.entity.passive.AnimalEntity;
+import net.minecraft.entity.passive.PolarBearEntity;
+import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
+import net.minecraft.item.Items;
 import net.minecraft.item.crafting.Ingredient;
 import net.minecraft.util.DamageSource;
 import net.minecraft.util.ResourceLocation;
@@ -21,35 +20,35 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.world.IWorld;
 import net.minecraft.world.World;
-import net.minecraft.world.storage.loot.LootTableList;
+import net.minecraft.world.storage.loot.LootTables;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
+import java.util.Objects;
 
-public class EntityAdeliePenguin extends EntityAnimal {
+public class EntityAdeliePenguin extends AnimalEntity {
     private static final Ingredient TEMPTATION_ITEMS = Ingredient.fromItems(Items.COD, Items.SALMON);
     public short rotationFlipper;
     private boolean moveFlipper = false;
 
-    public EntityAdeliePenguin(World world) {
+    public EntityAdeliePenguin(EntityType<? extends EntityAdeliePenguin> adelie, World world) {
         super(PenguinRegistry.ADELIE_PENGUIN, world);
-        this.setSize(0.4F, 0.95F);
         this.stepHeight = 1.0F;
     }
 
     @Override
-    protected void initEntityAI() {
-        this.tasks.addTask(0, new EntityAISwimming(this));
-        this.tasks.addTask(1, new EntityAIExtinguishFire());
-        this.tasks.addTask(2, new EntityAIPanic(this, 1.5D));
-        this.tasks.addTask(3, new EntityAIMate(this, 0.8D));
-        this.tasks.addTask(4, new EntityAIAvoidEntity<>(this, EntityPolarBear.class, 6.0F, 1.0D, 1.2D));
-        this.tasks.addTask(5, new EntityAITempt(this, 1.0D, false, TEMPTATION_ITEMS));
-        this.tasks.addTask(6, new EntityAIFollowParent(this, 1.1D));
-        this.tasks.addTask(7, new EntityAIWander(this, 1.0D));
-        this.tasks.addTask(8, new EntityAIWatchClosest(this, EntityPlayer.class, 6.0F));
-        this.tasks.addTask(9, new EntityAIWatchClosest(this, EntityAdeliePenguin.class, 6.0F));
-        this.tasks.addTask(10, new EntityAILookIdle(this));
+    protected void registerGoals() {
+        this.goalSelector.addGoal(0, new SwimGoal(this));
+        this.goalSelector.addGoal(1, new EntityAIExtinguishFire());
+        this.goalSelector.addGoal(2, new PanicGoal(this, 1.5D));
+        this.goalSelector.addGoal(3, new BreedGoal(this, 0.8D));
+        this.goalSelector.addGoal(4, new AvoidEntityGoal<>(this, PolarBearEntity.class, 6.0F, 1.0D, 1.2D));
+        this.goalSelector.addGoal(5, new TemptGoal(this, 1.0D, false, TEMPTATION_ITEMS));
+        this.goalSelector.addGoal(6, new FollowParentGoal(this, 1.1D));
+        this.goalSelector.addGoal(7, new RandomWalkingGoal(this, 1.0D));
+        this.goalSelector.addGoal(8, new LookAtGoal(this, PlayerEntity.class, 6.0F));
+        this.goalSelector.addGoal(9, new LookAtGoal(this, EntityAdeliePenguin.class, 6.0F));
+        this.goalSelector.addGoal(10, new LookRandomlyGoal(this));
     }
 
     @Override
@@ -87,7 +86,7 @@ public class EntityAdeliePenguin extends EntityAnimal {
     }
 
     @Override
-    protected int getExperiencePoints(EntityPlayer player) {
+    protected int getExperiencePoints(PlayerEntity player) {
         if (ConfigurationHandler.GENERAL.dropExp.get()) {
             return super.getExperiencePoints(player);
         }
@@ -110,31 +109,31 @@ public class EntityAdeliePenguin extends EntityAnimal {
         if (ConfigurationHandler.GENERAL.dropFish.get()) {
             return Waddles.LOOT_ENTITIES_PENGUIN_FISH;
         }
-        return LootTableList.EMPTY;
+        return LootTables.EMPTY;
     }
 
     @Override
     @Nonnull
-    public EntityAdeliePenguin createChild(@Nonnull EntityAgeable ageable) {
-        return new EntityAdeliePenguin(this.world);
+    public EntityAdeliePenguin createChild(@Nonnull AgeableEntity ageable) {
+        return Objects.requireNonNull(PenguinRegistry.ADELIE_PENGUIN.create(this.world));
     }
 
     @Override
-    public float getEyeHeight() {
+    protected float getStandingEyeHeight(Pose pose, EntitySize size) {
         return this.isChild() ? 0.5F : 0.9F;
     }
 
     @Override
-    public boolean canSpawn(IWorld world, boolean fromSpawner) {
+    public boolean canSpawn(IWorld world, @Nonnull SpawnReason spawnReason) {
         int x = MathHelper.floor(this.posX);
         int y = MathHelper.floor(this.getBoundingBox().minY);
         int z = MathHelper.floor(this.posZ);
         BlockPos pos = new BlockPos(x, y, z);
         Material material = world.getBlockState(pos.down()).getMaterial();
-        return (world.getLightSubtracted(pos, 0) > 8 && (material == Material.ICE || material == Material.PACKED_ICE)) || super.canSpawn(world, fromSpawner);
+        return (world.getLightSubtracted(pos, 0) > 8 && (material == Material.ICE || material == Material.PACKED_ICE)) || super.canSpawn(world, spawnReason);
     }
 
-    private class EntityAIExtinguishFire extends EntityAIPanic {
+    private class EntityAIExtinguishFire extends PanicGoal {
         EntityAIExtinguishFire() {
             super(EntityAdeliePenguin.this, 2.0D);
         }

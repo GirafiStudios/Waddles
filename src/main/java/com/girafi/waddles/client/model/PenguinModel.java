@@ -1,56 +1,57 @@
 package com.girafi.waddles.client.model;
 
 import com.girafi.waddles.entity.EntityAdeliePenguin;
-import net.minecraft.client.renderer.GlStateManager;
-import net.minecraft.client.renderer.entity.model.ModelBase;
-import net.minecraft.client.renderer.entity.model.ModelRenderer;
-import net.minecraft.entity.Entity;
+import com.mojang.blaze3d.platform.GlStateManager;
+import net.minecraft.client.renderer.entity.model.EntityModel;
+import net.minecraft.client.renderer.entity.model.RendererModel;
 import net.minecraft.util.math.MathHelper;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 
-@OnlyIn(Dist.CLIENT)
-public class ModelPenguin extends ModelBase {
-    private ModelRenderer head;
-    private ModelRenderer body;
-    private ModelRenderer beak;
-    private ModelRenderer flipperRight;
-    private ModelRenderer flipperLeft;
-    private ModelRenderer feetLeft;
-    private ModelRenderer feetRight;
-    private ModelRenderer tail;
+import javax.annotation.Nonnull;
 
-    public ModelPenguin() {
+@OnlyIn(Dist.CLIENT)
+public class PenguinModel<T extends EntityAdeliePenguin> extends EntityModel<T> {
+    private RendererModel head;
+    private RendererModel body;
+    private RendererModel beak;
+    private RendererModel flipperRight;
+    private RendererModel flipperLeft;
+    private RendererModel feetLeft;
+    private RendererModel feetRight;
+    private RendererModel tail;
+
+    public PenguinModel() {
         this.textureWidth = 32;
         this.textureHeight = 32;
-        this.beak = new ModelRenderer(this, 18, 0);
+        this.beak = new RendererModel(this, 18, 0);
         this.beak.setRotationPoint(0.0F, 0.0F, 0.0F);
         this.beak.addBox(-0.5F, -3.0F, -4.0F, 1, 2, 3, 0.0F);
         this.setRotateAngle(beak, 0.08726646259971647F, -0.0F, 0.0F);
-        this.body = new ModelRenderer(this, 0, 9);
+        this.body = new RendererModel(this, 0, 9);
         this.body.setRotationPoint(0.0F, 12.0F, 1.0F);
         this.body.addBox(-2.5F, 0.0F, -2.0F, 5, 11, 5, 0.0F);
-        this.feetRight = new ModelRenderer(this, 0, 25);
+        this.feetRight = new RendererModel(this, 0, 25);
         this.feetRight.setRotationPoint(-1.0F, 11.0F, 0.0F);
         this.feetRight.addBox(-2.0F, 0.0F, -3.0F, 2, 1, 3, 0.0F);
         this.setRotateAngle(feetRight, 0.0F, 0.2617993877991494F, 0.0F);
-        this.head = new ModelRenderer(this, 0, 0);
+        this.head = new RendererModel(this, 0, 0);
         this.head.setRotationPoint(0.0F, 12.0F, 0.0F);
         this.head.addBox(-2.0F, -4.0F, -2.0F, 4, 4, 5, 0.0F);
-        this.tail = new ModelRenderer(this, 20, 20);
+        this.tail = new RendererModel(this, 20, 20);
         this.tail.setRotationPoint(0.0F, 11.0F, 3.0F);
         this.tail.addBox(-1.5F, -1.0F, 0.0F, 3, 3, 1, 0.0F);
         this.setRotateAngle(tail, 1.2566370614359172F, 0.0F, 0.0F);
-        this.flipperRight = new ModelRenderer(this, 20, 10);
+        this.flipperRight = new RendererModel(this, 20, 10);
         this.flipperRight.setRotationPoint(-2.5F, 1.0F, 0.0F);
         this.flipperRight.addBox(-1.0F, 0.0F, -1.0F, 1, 7, 3, 0.0F);
         this.setRotateAngle(flipperRight, 0.0F, 0.0F, 0.08726646259971647F);
-        this.feetLeft = new ModelRenderer(this, 0, 25);
+        this.feetLeft = new RendererModel(this, 0, 25);
         this.feetLeft.mirror = true;
         this.feetLeft.setRotationPoint(1.0F, 11.0F, 0.0F);
         this.feetLeft.addBox(0.0F, 0.0F, -3.0F, 2, 1, 3, 0.0F);
         this.setRotateAngle(feetLeft, 0.0F, -0.2617993877991494F, 0.0F);
-        this.flipperLeft = new ModelRenderer(this, 20, 10);
+        this.flipperLeft = new RendererModel(this, 20, 10);
         this.flipperLeft.mirror = true;
         this.flipperLeft.setRotationPoint(2.5F, 1.0F, 0.0F);
         this.flipperLeft.addBox(0.0F, 0.0F, -1.0F, 1, 7, 3, 0.0F);
@@ -64,7 +65,7 @@ public class ModelPenguin extends ModelBase {
     }
 
     @Override
-    public void render(Entity entity, float limbSwing, float limbSwingAmount, float ageInTicks, float netHeadYaw, float headPitch, float scale) {
+    public void render(@Nonnull EntityAdeliePenguin penguin, float limbSwing, float limbSwingAmount, float ageInTicks, float netHeadYaw, float headPitch, float scale) {
         if (this.isChild) {
             float f = 2.0F;
             GlStateManager.pushMatrix();
@@ -82,16 +83,14 @@ public class ModelPenguin extends ModelBase {
         }
     }
 
-    private void setRotateAngle(ModelRenderer modelRenderer, float x, float y, float z) {
+    private void setRotateAngle(RendererModel modelRenderer, float x, float y, float z) {
         modelRenderer.rotateAngleX = x;
         modelRenderer.rotateAngleY = y;
         modelRenderer.rotateAngleZ = z;
     }
 
     @Override
-    public void setRotationAngles(float limbSwing, float limbSwingAmount, float ageInTicks, float netHeadYaw, float headPitch, float scaleFactor, Entity entity) {
-        EntityAdeliePenguin penguin = (EntityAdeliePenguin) entity;
-
+    public void setRotationAngles(@Nonnull EntityAdeliePenguin penguin, float limbSwing, float limbSwingAmount, float ageInTicks, float netHeadYaw, float headPitch, float scaleFactor) {
         this.head.rotateAngleX = headPitch * 0.017453292F;
         this.head.rotateAngleY = netHeadYaw * 0.017453292F;
         this.head.rotateAngleZ = (MathHelper.cos(limbSwing * 1.3324F) * 1.4F * limbSwingAmount) / 6;
