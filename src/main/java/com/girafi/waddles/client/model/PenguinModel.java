@@ -65,7 +65,7 @@ public class PenguinModel<T extends EntityAdeliePenguin> extends EntityModel<T> 
     }
 
     @Override
-    public void render(@Nonnull EntityAdeliePenguin penguin, float limbSwing, float limbSwingAmount, float ageInTicks, float netHeadYaw, float headPitch, float scale) {
+    public void func_78088_a(@Nonnull EntityAdeliePenguin penguin, float limbSwing, float limbSwingAmount, float ageInTicks, float netHeadYaw, float headPitch, float scale) {
         if (this.isChild) {
             float f = 2.0F;
             GlStateManager.pushMatrix();
@@ -90,7 +90,7 @@ public class PenguinModel<T extends EntityAdeliePenguin> extends EntityModel<T> 
     }
 
     @Override
-    public void setRotationAngles(@Nonnull EntityAdeliePenguin penguin, float limbSwing, float limbSwingAmount, float ageInTicks, float netHeadYaw, float headPitch, float scaleFactor) {
+    public void func_212844_a_(@Nonnull EntityAdeliePenguin penguin, float limbSwing, float limbSwingAmount, float ageInTicks, float netHeadYaw, float headPitch, float scaleFactor) {
         this.head.rotateAngleX = headPitch * 0.017453292F;
         this.head.rotateAngleY = netHeadYaw * 0.017453292F;
         this.head.rotateAngleZ = (MathHelper.cos(limbSwing * 1.3324F) * 1.4F * limbSwingAmount) / 6;

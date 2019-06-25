@@ -22,7 +22,7 @@ group = "com.girafi.waddles"
 archivesBaseName = "Waddles"
 
 minecraft {
-    mappings channel: 'snapshot', version: '20190609-1.14.2'
+    mappings channel: 'snapshot', version: '20190625-1.14.3'
     accessTransformer = file('src/main/resources/META-INF/accesstransformer.cfg')
 
     runs {
