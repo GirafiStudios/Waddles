@@ -1,10 +1,8 @@
 package com.girafi.waddles.entity;
 
-import com.girafi.waddles.Waddles;
 import com.girafi.waddles.init.PenguinRegistry;
 import com.girafi.waddles.init.WaddlesSounds;
 import com.girafi.waddles.utils.ConfigurationHandler;
-import net.minecraft.block.material.Material;
 import net.minecraft.entity.*;
 import net.minecraft.entity.ai.goal.*;
 import net.minecraft.entity.passive.AnimalEntity;
@@ -16,15 +14,10 @@ import net.minecraft.item.crafting.Ingredient;
 import net.minecraft.util.DamageSource;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.SoundEvent;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.MathHelper;
-import net.minecraft.world.IWorld;
 import net.minecraft.world.World;
 import net.minecraft.world.storage.loot.LootTables;
 
 import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
-import java.util.Objects;
 
 public class EntityAdeliePenguin extends AnimalEntity {
     private static final Ingredient TEMPTATION_ITEMS = Ingredient.fromItems(Items.COD, Items.SALMON);
@@ -32,7 +25,7 @@ public class EntityAdeliePenguin extends AnimalEntity {
     private boolean moveFlipper = false;
 
     public EntityAdeliePenguin(EntityType<? extends EntityAdeliePenguin> adelie, World world) {
-        super(PenguinRegistry.ADELIE_PENGUIN, world);
+        super(adelie, world);
         this.stepHeight = 1.0F;
     }
 
@@ -103,34 +96,20 @@ public class EntityAdeliePenguin extends AnimalEntity {
         return !stack.isEmpty() && TEMPTATION_ITEMS.test(stack);
     }
 
-    @Nullable
     @Override
+    @Nonnull
     public ResourceLocation getLootTable() {
-        if (ConfigurationHandler.GENERAL.dropFish.get()) {
-            return Waddles.LOOT_ENTITIES_PENGUIN_FISH;
-        }
-        return LootTables.EMPTY;
+        return ConfigurationHandler.GENERAL.dropFish.get() ? super.getLootTable() : LootTables.EMPTY;
     }
 
     @Override
-    @Nonnull
     public EntityAdeliePenguin createChild(@Nonnull AgeableEntity ageable) {
-        return Objects.requireNonNull(PenguinRegistry.ADELIE_PENGUIN.create(this.world));
+        return PenguinRegistry.ADELIE_PENGUIN.create(this.world);
     }
 
     @Override
     protected float getStandingEyeHeight(Pose pose, EntitySize size) {
         return this.isChild() ? 0.5F : 0.9F;
-    }
-
-    @Override
-    public boolean canSpawn(IWorld world, @Nonnull SpawnReason spawnReason) {
-        int x = MathHelper.floor(this.posX);
-        int y = MathHelper.floor(this.getBoundingBox().minY);
-        int z = MathHelper.floor(this.posZ);
-        BlockPos pos = new BlockPos(x, y, z);
-        Material material = world.getBlockState(pos.down()).getMaterial();
-        return (world.getLightSubtracted(pos, 0) > 8 && (material == Material.ICE || material == Material.PACKED_ICE)) || super.canSpawn(world, spawnReason);
     }
 
     private class EntityAIExtinguishFire extends PanicGoal {

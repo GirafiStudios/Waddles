@@ -4,8 +4,7 @@ import com.girafi.waddles.client.renderer.PenguinRenderer;
 import com.girafi.waddles.entity.EntityAdeliePenguin;
 import com.girafi.waddles.init.PenguinRegistry;
 import com.girafi.waddles.utils.ConfigurationHandler;
-import net.minecraft.util.ResourceLocation;
-import net.minecraft.world.storage.loot.LootTables;
+import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.fml.ModLoadingContext;
 import net.minecraftforge.fml.client.registry.RenderingRegistry;
 import net.minecraftforge.fml.common.Mod;
@@ -17,11 +16,11 @@ import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 @Mod(value = Waddles.MOD_ID)
 public class Waddles {
     public static final String MOD_ID = "waddles";
-    public static final ResourceLocation LOOT_ENTITIES_PENGUIN_FISH = LootTables.register(new ResourceLocation(MOD_ID, "entities/penguin"));
 
     public Waddles() {
-        FMLJavaModLoadingContext.get().getModEventBus().addListener(this::setupCommon);
-        FMLJavaModLoadingContext.get().getModEventBus().addListener(this::setupClient);
+        final IEventBus eventBus = FMLJavaModLoadingContext.get().getModEventBus();
+        eventBus.addListener(this::setupCommon);
+        eventBus.addListener(this::setupClient);
 
         ModLoadingContext.get().registerConfig(ModConfig.Type.COMMON, ConfigurationHandler.spec);
     }

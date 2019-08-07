@@ -1,7 +1,6 @@
 {
   "pools": [
     {
-      "name": "penguin_fish",
       "rolls": 1,
       "entries": [
         {
