@@ -1,0 +1,15 @@
+{
+  "_comment": "實體",
+  "entity.waddles.adelie_penguin": "阿德利企鵝",
+  "item.waddles.adelie_penguin_spawn_egg": "阿德利企鵝生怪蛋",
+
+  "_comment": "字幕",
+  "waddles:subtitles.adelie.ambient": "阿德利企鵝：吱吱聲",
+  "waddles:subtitles.adelie.baby.ambient": "幼年阿德利企鵝：吱吱聲",
+  "waddles:subtitles.adelie.death": "阿德利企鵝：一命鳴呼",
+  "waddles:subtitles.adelie.hurt": "阿德利企鵝：受到傷害",
+
+  "_comment": "工具提示",
+  "waddles:config.category.general.tooltip": "基礎設置",
+  "waddles:config.category.spawnchances.tooltip": "生成概率設置"
+}
