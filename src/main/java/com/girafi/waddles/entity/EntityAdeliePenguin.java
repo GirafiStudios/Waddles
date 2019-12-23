@@ -69,10 +69,10 @@ public class EntityAdeliePenguin extends AnimalEntity {
     @Override
     public void livingTick() {
         super.livingTick();
-        if (world.isRemote) {
-            if (this.posZ != this.prevPosZ) {
-                if (moveFlipper) {
-                    rotationFlipper++;
+        if (this.world.isRemote) {
+            if (this.func_226277_ct_() != this.prevPosZ) {
+                if (this.moveFlipper) {
+                    this.rotationFlipper++;
                 }
             }
         }

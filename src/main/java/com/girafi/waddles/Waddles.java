@@ -1,7 +1,6 @@
 package com.girafi.waddles;
 
 import com.girafi.waddles.client.renderer.PenguinRenderer;
-import com.girafi.waddles.entity.EntityAdeliePenguin;
 import com.girafi.waddles.init.PenguinRegistry;
 import com.girafi.waddles.utils.ConfigurationHandler;
 import net.minecraftforge.eventbus.api.IEventBus;
@@ -31,6 +30,6 @@ public class Waddles {
     }
 
     public void setupClient(final FMLClientSetupEvent event) {
-        RenderingRegistry.registerEntityRenderingHandler(EntityAdeliePenguin.class, PenguinRenderer::new);
+        RenderingRegistry.registerEntityRenderingHandler(PenguinRegistry.ADELIE_PENGUIN, PenguinRenderer::new);
     }
 }

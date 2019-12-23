@@ -20,7 +20,7 @@ public class PenguinRenderer extends MobRenderer<EntityAdeliePenguin, PenguinMod
 
     @Override
     @Nonnull
-    protected ResourceLocation getEntityTexture(@Nonnull EntityAdeliePenguin penguin) {
+    public ResourceLocation getEntityTexture(@Nonnull EntityAdeliePenguin penguin) {
         String name = penguin.getName().getString().toLowerCase().trim();
         if (name.equals("joshie") || name.equals("joshiejack")) {
             return this.getPenguinTexture("joshie");
