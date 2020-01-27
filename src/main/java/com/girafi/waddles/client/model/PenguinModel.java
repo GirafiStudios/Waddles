@@ -27,35 +27,35 @@ public class PenguinModel<T extends EntityAdeliePenguin> extends AgeableModel<T>
         this.textureHeight = 32;
         this.beak = new ModelRenderer(this, 18, 0);
         this.beak.setRotationPoint(0.0F, 0.0F, 0.0F);
-        this.beak.func_228301_a_(-0.5F, -3.0F, -4.0F, 1, 2, 3, 0.0F);
+        this.beak.addBox(-0.5F, -3.0F, -4.0F, 1, 2, 3, 0.0F);
         this.setRotateAngle(beak, 0.08726646259971647F, -0.0F, 0.0F);
         this.body = new ModelRenderer(this, 0, 9);
         this.body.setRotationPoint(0.0F, 12.0F, 1.0F);
-        this.body.func_228301_a_(-2.5F, 0.0F, -2.0F, 5, 11, 5, 0.0F);
+        this.body.addBox(-2.5F, 0.0F, -2.0F, 5, 11, 5, 0.0F);
         this.feetRight = new ModelRenderer(this, 0, 25);
         this.feetRight.setRotationPoint(-1.0F, 11.0F, 0.0F);
-        this.feetRight.func_228301_a_(-2.0F, 0.0F, -3.0F, 2, 1, 3, 0.0F);
+        this.feetRight.addBox(-2.0F, 0.0F, -3.0F, 2, 1, 3, 0.0F);
         this.setRotateAngle(feetRight, 0.0F, 0.2617993877991494F, 0.0F);
         this.head = new ModelRenderer(this, 0, 0);
         this.head.setRotationPoint(0.0F, 12.0F, 0.0F);
-        this.head.func_228301_a_(-2.0F, -4.0F, -2.0F, 4, 4, 5, 0.0F);
+        this.head.addBox(-2.0F, -4.0F, -2.0F, 4, 4, 5, 0.0F);
         this.tail = new ModelRenderer(this, 20, 20);
         this.tail.setRotationPoint(0.0F, 11.0F, 3.0F);
-        this.tail.func_228301_a_(-1.5F, -1.0F, 0.0F, 3, 3, 1, 0.0F);
+        this.tail.addBox(-1.5F, -1.0F, 0.0F, 3, 3, 1, 0.0F);
         this.setRotateAngle(tail, 1.2566370614359172F, 0.0F, 0.0F);
         this.flipperRight = new ModelRenderer(this, 20, 10);
         this.flipperRight.setRotationPoint(-2.5F, 1.0F, 0.0F);
-        this.flipperRight.func_228301_a_(-1.0F, 0.0F, -1.0F, 1, 7, 3, 0.0F);
+        this.flipperRight.addBox(-1.0F, 0.0F, -1.0F, 1, 7, 3, 0.0F);
         this.setRotateAngle(flipperRight, 0.0F, 0.0F, 0.08726646259971647F);
         this.feetLeft = new ModelRenderer(this, 0, 25);
         this.feetLeft.mirror = true;
         this.feetLeft.setRotationPoint(1.0F, 11.0F, 0.0F);
-        this.feetLeft.func_228301_a_(0.0F, 0.0F, -3.0F, 2, 1, 3, 0.0F);
+        this.feetLeft.addBox(0.0F, 0.0F, -3.0F, 2, 1, 3, 0.0F);
         this.setRotateAngle(feetLeft, 0.0F, -0.2617993877991494F, 0.0F);
         this.flipperLeft = new ModelRenderer(this, 20, 10);
         this.flipperLeft.mirror = true;
         this.flipperLeft.setRotationPoint(2.5F, 1.0F, 0.0F);
-        this.flipperLeft.func_228301_a_(0.0F, 0.0F, -1.0F, 1, 7, 3, 0.0F);
+        this.flipperLeft.addBox(0.0F, 0.0F, -1.0F, 1, 7, 3, 0.0F);
         this.setRotateAngle(flipperLeft, 0.0F, 0.0F, -0.08726646259971647F);
         this.head.addChild(this.beak);
         this.body.addChild(this.feetRight);
@@ -67,13 +67,13 @@ public class PenguinModel<T extends EntityAdeliePenguin> extends AgeableModel<T>
 
     @Override
     @Nonnull
-    protected Iterable<ModelRenderer> func_225602_a_() {
+    protected Iterable<ModelRenderer> getHeadParts() {
         return ImmutableList.of(this.head);
     }
 
     @Override
     @Nonnull
-    protected Iterable<ModelRenderer> func_225600_b_() {
+    protected Iterable<ModelRenderer> getBodyParts() {
         return ImmutableList.of(this.body);
     }
 
@@ -84,7 +84,7 @@ public class PenguinModel<T extends EntityAdeliePenguin> extends AgeableModel<T>
     }
 
     @Override
-    public void func_225597_a_(@Nonnull EntityAdeliePenguin penguin, float limbSwing, float limbSwingAmount, float ageInTicks, float netHeadYaw, float headPitch) {
+    public void render(@Nonnull EntityAdeliePenguin penguin, float limbSwing, float limbSwingAmount, float ageInTicks, float netHeadYaw, float headPitch) {
         this.head.rotateAngleX = headPitch * 0.017453292F;
         this.head.rotateAngleY = netHeadYaw * 0.017453292F;
         this.head.rotateAngleZ = (MathHelper.cos(limbSwing * 1.3324F) * 1.4F * limbSwingAmount) / 6;

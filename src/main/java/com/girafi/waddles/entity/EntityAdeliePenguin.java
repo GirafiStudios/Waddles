@@ -70,7 +70,7 @@ public class EntityAdeliePenguin extends AnimalEntity {
     public void livingTick() {
         super.livingTick();
         if (this.world.isRemote) {
-            if (this.func_226277_ct_() != this.prevPosZ) {
+            if (this.getPosX() != this.prevPosZ) {
                 if (this.moveFlipper) {
                     this.rotationFlipper++;
                 }
