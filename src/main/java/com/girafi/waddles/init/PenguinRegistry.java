@@ -54,7 +54,7 @@ public class PenguinRegistry {
         for (EntityType entity : entities) {
             Preconditions.checkNotNull(entity.getRegistryName(), "registryName");
             event.getRegistry().register(entity);
-            EntitySpawnPlacementRegistry.register(entity, EntitySpawnPlacementRegistry.PlacementType.ON_GROUND, Heightmap.Type.MOTION_BLOCKING_NO_LEAVES, EntityAdeliePenguin::func_223316_b);
+            EntitySpawnPlacementRegistry.register(entity, EntitySpawnPlacementRegistry.PlacementType.ON_GROUND, Heightmap.Type.MOTION_BLOCKING_NO_LEAVES, EntityAdeliePenguin::canAnimalSpawn);
         }
     }
 

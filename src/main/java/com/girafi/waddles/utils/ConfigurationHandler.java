@@ -44,7 +44,7 @@ public class ConfigurationHandler {
             builder.comment("Configure penguins spawn weight & min/max group size. Set weight to 0 to disable.");
             min = builder.defineInRange("min", 1, 0, 64);
             max = builder.defineInRange("max", 4, 0, 64);
-            weight = builder.defineInRange("weight", 2, 0, 100);
+            weight = builder.defineInRange("weight", 4, 0, 100);
             builder.pop();
             builder.push("spawnable biomes");
             builder.comment("BiomeDictionary types to include & exclude.");

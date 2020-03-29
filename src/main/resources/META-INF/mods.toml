@@ -13,3 +13,10 @@ logoFile="logo.png"
     description='''
     Waddles adds somewhat realistic Adélie penguins that waddle.
     '''
+
+[[dependencies.waddles]]
+    modId="forge"
+    mandatory=true
+    versionRange="[31.1,)"
+    ordering="AFTER"
+    side="BOTH"
