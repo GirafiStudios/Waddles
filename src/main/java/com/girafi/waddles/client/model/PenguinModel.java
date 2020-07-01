@@ -1,6 +1,6 @@
 package com.girafi.waddles.client.model;
 
-import com.girafi.waddles.entity.EntityAdeliePenguin;
+import com.girafi.waddles.entity.AdeliePenguinEntity;
 import com.google.common.collect.ImmutableList;
 import net.minecraft.client.renderer.entity.model.AgeableModel;
 import net.minecraft.client.renderer.model.ModelRenderer;
@@ -11,7 +11,7 @@ import net.minecraftforge.api.distmarker.OnlyIn;
 import javax.annotation.Nonnull;
 
 @OnlyIn(Dist.CLIENT)
-public class PenguinModel<T extends EntityAdeliePenguin> extends AgeableModel<T> {
+public class PenguinModel<T extends AdeliePenguinEntity> extends AgeableModel<T> {
     private ModelRenderer head;
     private ModelRenderer body;
     private ModelRenderer beak;
@@ -84,7 +84,7 @@ public class PenguinModel<T extends EntityAdeliePenguin> extends AgeableModel<T>
     }
 
     @Override
-    public void setRotationAngles(@Nonnull EntityAdeliePenguin penguin, float limbSwing, float limbSwingAmount, float ageInTicks, float netHeadYaw, float headPitch) {
+    public void setRotationAngles(@Nonnull AdeliePenguinEntity penguin, float limbSwing, float limbSwingAmount, float ageInTicks, float netHeadYaw, float headPitch) {
         this.head.rotateAngleX = headPitch * 0.017453292F;
         this.head.rotateAngleY = netHeadYaw * 0.017453292F;
         this.head.rotateAngleZ = (MathHelper.cos(limbSwing * 1.3324F) * 1.4F * limbSwingAmount) / 6;

@@ -4,6 +4,8 @@ import com.girafi.waddles.init.PenguinRegistry;
 import com.girafi.waddles.init.WaddlesSounds;
 import com.girafi.waddles.utils.ConfigurationHandler;
 import net.minecraft.entity.*;
+import net.minecraft.entity.ai.attributes.AttributeModifierMap;
+import net.minecraft.entity.ai.attributes.Attributes;
 import net.minecraft.entity.ai.goal.*;
 import net.minecraft.entity.passive.AnimalEntity;
 import net.minecraft.entity.passive.PolarBearEntity;
@@ -11,20 +13,20 @@ import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
 import net.minecraft.item.crafting.Ingredient;
+import net.minecraft.loot.LootTables;
 import net.minecraft.util.DamageSource;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.SoundEvent;
 import net.minecraft.world.World;
-import net.minecraft.world.storage.loot.LootTables;
 
 import javax.annotation.Nonnull;
 
-public class EntityAdeliePenguin extends AnimalEntity {
+public class AdeliePenguinEntity extends AnimalEntity {
     private static final Ingredient TEMPTATION_ITEMS = Ingredient.fromItems(Items.COD, Items.SALMON);
     public short rotationFlipper;
     private boolean moveFlipper = false;
 
-    public EntityAdeliePenguin(EntityType<? extends EntityAdeliePenguin> adelie, World world) {
+    public AdeliePenguinEntity(EntityType<? extends AdeliePenguinEntity> adelie, World world) {
         super(adelie, world);
         this.stepHeight = 1.0F;
     }
@@ -40,15 +42,12 @@ public class EntityAdeliePenguin extends AnimalEntity {
         this.goalSelector.addGoal(6, new FollowParentGoal(this, 1.1D));
         this.goalSelector.addGoal(7, new RandomWalkingGoal(this, 1.0D));
         this.goalSelector.addGoal(8, new LookAtGoal(this, PlayerEntity.class, 6.0F));
-        this.goalSelector.addGoal(9, new LookAtGoal(this, EntityAdeliePenguin.class, 6.0F));
+        this.goalSelector.addGoal(9, new LookAtGoal(this, AdeliePenguinEntity.class, 6.0F));
         this.goalSelector.addGoal(10, new LookRandomlyGoal(this));
     }
 
-    @Override
-    protected void registerAttributes() {
-        super.registerAttributes();
-        this.getAttribute(SharedMonsterAttributes.MAX_HEALTH).setBaseValue(8.0D);
-        this.getAttribute(SharedMonsterAttributes.MOVEMENT_SPEED).setBaseValue(0.16D);
+    public static AttributeModifierMap.MutableAttribute getAttributes() {
+        return MobEntity.func_233666_p_().func_233815_a_(Attributes.field_233818_a_, 8.0D).func_233815_a_(Attributes.field_233821_d_, 0.16D);
     }
 
     @Override
@@ -57,7 +56,7 @@ public class EntityAdeliePenguin extends AnimalEntity {
     }
 
     @Override
-    protected SoundEvent getHurtSound(DamageSource source) {
+    protected SoundEvent getHurtSound(@Nonnull DamageSource source) {
         return WaddlesSounds.ADELIE_HURT;
     }
 
@@ -79,7 +78,7 @@ public class EntityAdeliePenguin extends AnimalEntity {
     }
 
     @Override
-    protected int getExperiencePoints(PlayerEntity player) {
+    protected int getExperiencePoints(@Nonnull PlayerEntity player) {
         if (ConfigurationHandler.GENERAL.dropExp.get()) {
             return super.getExperiencePoints(player);
         }
@@ -103,23 +102,23 @@ public class EntityAdeliePenguin extends AnimalEntity {
     }
 
     @Override
-    public EntityAdeliePenguin createChild(@Nonnull AgeableEntity ageable) {
+    public AdeliePenguinEntity createChild(@Nonnull AgeableEntity ageable) {
         return PenguinRegistry.ADELIE_PENGUIN.create(this.world);
     }
 
     @Override
-    protected float getStandingEyeHeight(Pose pose, EntitySize size) {
+    protected float getStandingEyeHeight(@Nonnull Pose pose, @Nonnull EntitySize size) {
         return this.isChild() ? 0.5F : 0.9F;
     }
 
     private class EntityAIExtinguishFire extends PanicGoal {
         EntityAIExtinguishFire() {
-            super(EntityAdeliePenguin.this, 2.0D);
+            super(AdeliePenguinEntity.this, 2.0D);
         }
 
         @Override
         public boolean shouldExecute() {
-            return (EntityAdeliePenguin.this.isChild() || EntityAdeliePenguin.this.isBurning()) && super.shouldExecute();
+            return (AdeliePenguinEntity.this.isChild() || AdeliePenguinEntity.this.isBurning()) && super.shouldExecute();
         }
     }
 }
