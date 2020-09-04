@@ -1,0 +1,15 @@
+{
+    "": "TKMT_Aniki",
+    "_comment": "Entity",
+    "entity.waddles:adelie_penguin": "アデリーペンギン",
+
+    "_comment": "Subtitles",
+    "waddles:subtitles.adelie.ambient": "アデリーペンギンが鳴く",
+    "waddles:subtitles.adelie.baby.ambient": "アデリーペンギンの雛が鳴く",
+    "waddles:subtitles.adelie.death": "アデリーペンギンが死ぬ",
+    "waddles:subtitles.adelie.hurt": "アデリーペンギンがダメージを受ける",
+
+    "_comment": "Tooltip",
+    "waddles:config.category.general.tooltip": "Waddlesの全体的な環境設定",
+    "waddles:config.category.spawnchances.tooltip": "ペンギンの設定可能なスポーン率"
+}
