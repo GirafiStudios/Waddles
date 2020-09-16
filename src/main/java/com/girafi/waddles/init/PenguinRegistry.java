@@ -2,8 +2,6 @@ package com.girafi.waddles.init;
 
 import com.girafi.waddles.Waddles;
 import com.girafi.waddles.entity.AdeliePenguinEntity;
-import com.girafi.waddles.utils.BiomeDictionaryHelper;
-import com.girafi.waddles.utils.ConfigurationHandler;
 import com.google.common.base.CaseFormat;
 import com.google.common.base.Preconditions;
 import com.google.common.collect.Lists;
@@ -18,18 +16,17 @@ import net.minecraft.item.SpawnEggItem;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.world.biome.Biome;
 import net.minecraft.world.gen.Heightmap;
-import net.minecraftforge.common.BiomeDictionary;
 import net.minecraftforge.event.RegistryEvent;
+import net.minecraftforge.event.world.BiomeLoadingEvent;
+import net.minecraftforge.eventbus.api.EventPriority;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod.EventBusSubscriber;
 
-import java.util.Arrays;
 import java.util.List;
-import java.util.Set;
 
 @EventBusSubscriber(modid = Waddles.MOD_ID, bus = EventBusSubscriber.Bus.MOD)
 public class PenguinRegistry {
-    private static final List<EntityType> ENTITIES = Lists.newArrayList();
+    private static final List<EntityType<?>> ENTITIES = Lists.newArrayList();
     private static final List<Item> SPAWN_EGGS = Lists.newArrayList();
 
     public static final EntityType<AdeliePenguinEntity> ADELIE_PENGUIN = createEntity("adelie_penguin", AdeliePenguinEntity::new, 0.4F, 0.95F, 0x000000, 0xFFFFFF);
@@ -57,7 +54,7 @@ public class PenguinRegistry {
             event.getRegistry().register(entity);
             EntitySpawnPlacementRegistry.register(entity, EntitySpawnPlacementRegistry.PlacementType.ON_GROUND, Heightmap.Type.MOTION_BLOCKING_NO_LEAVES, AdeliePenguinEntity::canAnimalSpawn);
         }
-        GlobalEntityTypeAttributes.put(ADELIE_PENGUIN, AdeliePenguinEntity.getAttributes().func_233813_a_());
+        GlobalEntityTypeAttributes.put(ADELIE_PENGUIN, AdeliePenguinEntity.getAttributes().create());
     }
 
     @SubscribeEvent
@@ -68,7 +65,7 @@ public class PenguinRegistry {
         }
     }
 
-    public static void addSpawn() {
+    /*public static void addSpawn() { //TODO
         List<Biome> spawnableBiomes = Lists.newArrayList();
 
         List<BiomeDictionary.Type> includeList = Arrays.asList(BiomeDictionaryHelper.toBiomeTypeArray(ConfigurationHandler.SPAWN.include.get()));
@@ -95,5 +92,5 @@ public class PenguinRegistry {
         for (Biome biome : spawnableBiomes) {
             biome.getSpawns(EntityClassification.CREATURE).add(new Biome.SpawnListEntry(ADELIE_PENGUIN, ConfigurationHandler.SPAWN.weight.get(), ConfigurationHandler.SPAWN.min.get(), ConfigurationHandler.SPAWN.max.get()));
         }
-    }
+    }*/
 }

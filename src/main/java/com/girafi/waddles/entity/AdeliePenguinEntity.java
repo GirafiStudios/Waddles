@@ -18,6 +18,7 @@ import net.minecraft.util.DamageSource;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.SoundEvent;
 import net.minecraft.world.World;
+import net.minecraft.world.server.ServerWorld;
 
 import javax.annotation.Nonnull;
 
@@ -47,7 +48,7 @@ public class AdeliePenguinEntity extends AnimalEntity {
     }
 
     public static AttributeModifierMap.MutableAttribute getAttributes() {
-        return MobEntity.func_233666_p_().func_233815_a_(Attributes.field_233818_a_, 8.0D).func_233815_a_(Attributes.field_233821_d_, 0.16D);
+        return MobEntity.func_233666_p_().createMutableAttribute(Attributes.MAX_HEALTH, 8.0D).createMutableAttribute(Attributes.MOVEMENT_SPEED, 0.16D);
     }
 
     @Override
@@ -102,7 +103,7 @@ public class AdeliePenguinEntity extends AnimalEntity {
     }
 
     @Override
-    public AdeliePenguinEntity createChild(@Nonnull AgeableEntity ageable) {
+    public AgeableEntity func_241840_a(@Nonnull ServerWorld world, @Nonnull AgeableEntity ageableEntity) {
         return PenguinRegistry.ADELIE_PENGUIN.create(this.world);
     }
 

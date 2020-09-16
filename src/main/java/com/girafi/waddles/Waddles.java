@@ -4,7 +4,6 @@ import com.girafi.waddles.client.renderer.PenguinRenderer;
 import com.girafi.waddles.init.PenguinRegistry;
 import com.girafi.waddles.utils.ConfigurationHandler;
 import net.minecraftforge.eventbus.api.IEventBus;
-import net.minecraftforge.fml.DeferredWorkQueue;
 import net.minecraftforge.fml.ModLoadingContext;
 import net.minecraftforge.fml.client.registry.RenderingRegistry;
 import net.minecraftforge.fml.common.Mod;
@@ -26,7 +25,7 @@ public class Waddles {
     }
 
     public void setupCommon(final FMLCommonSetupEvent event) {
-        DeferredWorkQueue.runLater(PenguinRegistry::addSpawn);
+
     }
 
     public void setupClient(final FMLClientSetupEvent event) {

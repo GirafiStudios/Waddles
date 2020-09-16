@@ -1,13 +1,13 @@
 package com.girafi.waddles.utils;
 
-import net.minecraftforge.common.BiomeDictionary;
+import net.minecraft.util.ResourceLocation;
+import net.minecraft.world.biome.Biomes;
 import net.minecraftforge.common.ForgeConfigSpec;
+import net.minecraftforge.registries.ForgeRegistries;
 
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
-
-import static net.minecraftforge.common.BiomeDictionary.Type.*;
 
 public class ConfigurationHandler {
     public static final ForgeConfigSpec.Builder BUILDER = new ForgeConfigSpec.Builder();
@@ -36,8 +36,9 @@ public class ConfigurationHandler {
         public final ForgeConfigSpec.IntValue min;
         public final ForgeConfigSpec.IntValue max;
         public final ForgeConfigSpec.IntValue weight;
-        public final ForgeConfigSpec.ConfigValue<List<? extends String>> include;
-        public final ForgeConfigSpec.ConfigValue<List<? extends String>> exclude;
+        public final ForgeConfigSpec.ConfigValue<List<? extends String>> spawnableBiomes;
+        //public final ForgeConfigSpec.ConfigValue<List<? extends String>> include; //TODO
+        //public final ForgeConfigSpec.ConfigValue<List<? extends String>> exclude; //TODO
 
         Spawn(ForgeConfigSpec.Builder builder) {
             builder.push("spawn chances");
@@ -47,9 +48,10 @@ public class ConfigurationHandler {
             weight = builder.defineInRange("weight", 4, 0, 100);
             builder.pop();
             builder.push("spawnable biomes");
-            builder.comment("BiomeDictionary types to include & exclude.");
-            include = builder.defineList("include", Collections.singletonList(SNOWY.toString()), o -> BiomeDictionary.Type.getAll().contains(BiomeDictionaryHelper.getType(String.valueOf(o))));
-            exclude = builder.defineList("exclude", Arrays.asList(FOREST.toString(), MOUNTAIN.toString(), NETHER.toString()), o -> BiomeDictionary.Type.getAll().contains(BiomeDictionaryHelper.getType(String.valueOf(o))));
+            spawnableBiomes = builder.defineList("biomes", Arrays.asList(Biomes.SNOWY_TUNDRA.func_240901_a_().toString(), Biomes.ICE_SPIKES.func_240901_a_().toString()), o -> ForgeRegistries.BIOMES.containsKey(new ResourceLocation(String.valueOf(o))));
+            //builder.comment("BiomeDictionary types to include & exclude.");
+            //include = builder.defineList("include", Collections.singletonList(SNOWY.toString()), o -> BiomeDictionary.Type.getAll().contains(BiomeDictionaryHelper.getType(String.valueOf(o))));
+            //exclude = builder.defineList("exclude", Arrays.asList(FOREST.toString(), MOUNTAIN.toString(), NETHER.toString()), o -> BiomeDictionary.Type.getAll().contains(BiomeDictionaryHelper.getType(String.valueOf(o))));
             builder.pop();
         }
     }

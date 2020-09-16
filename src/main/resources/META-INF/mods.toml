@@ -1,6 +1,7 @@
 modLoader="javafml"
-loaderVersion="[27,)"
+loaderVersion="[34,)"
 logoFile="logo.png"
+license="GNU General Public License v3.0"
 
 [[mods]]
     modId="waddles"
@@ -17,6 +18,6 @@ logoFile="logo.png"
 [[dependencies.waddles]]
     modId="forge"
     mandatory=true
-    versionRange="[31.1,)"
+    versionRange="[34.0.5,)"
     ordering="AFTER"
     side="BOTH"
