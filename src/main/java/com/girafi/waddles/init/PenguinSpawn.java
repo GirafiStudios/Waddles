@@ -18,7 +18,6 @@ public class PenguinSpawn {
     public static void addSpawn(BiomeLoadingEvent event) {
         Biome biome = ForgeRegistries.BIOMES.getValue(event.getName());
         if (biome != null && (ConfigurationHandler.SPAWN.biomeCategoryBiomes.get().contains(biome.getCategory().getName()) || ConfigurationHandler.SPAWN.additionalBiomes.get().contains(event.getName().toString()))) {
-            System.out.println("CAN SPAWN: " + event.getName());
             event.getSpawns().getSpawner(EntityClassification.CREATURE).add(new MobSpawnInfo.Spawners(PenguinRegistry.ADELIE_PENGUIN, ConfigurationHandler.SPAWN.weight.get(), ConfigurationHandler.SPAWN.min.get(), ConfigurationHandler.SPAWN.max.get()));
         }
     }
