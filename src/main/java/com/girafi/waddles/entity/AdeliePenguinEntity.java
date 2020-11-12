@@ -3,6 +3,7 @@ package com.girafi.waddles.entity;
 import com.girafi.waddles.init.PenguinRegistry;
 import com.girafi.waddles.init.WaddlesSounds;
 import com.girafi.waddles.utils.ConfigurationHandler;
+import net.minecraft.block.Block;
 import net.minecraft.block.Blocks;
 import net.minecraft.entity.*;
 import net.minecraft.entity.ai.attributes.AttributeModifierMap;
@@ -20,6 +21,7 @@ import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.SoundEvent;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.IWorld;
+import net.minecraft.world.IWorldReader;
 import net.minecraft.world.World;
 import net.minecraft.world.server.ServerWorld;
 
@@ -53,6 +55,16 @@ public class AdeliePenguinEntity extends AnimalEntity {
 
     public static AttributeModifierMap.MutableAttribute getAttributes() {
         return MobEntity.func_233666_p_().createMutableAttribute(Attributes.MAX_HEALTH, 8.0D).createMutableAttribute(Attributes.MOVEMENT_SPEED, 0.16D);
+    }
+
+    @Override
+    public float getBlockPathWeight(@Nonnull BlockPos pos, @Nonnull IWorldReader world) {
+        Block blockDown = world.getBlockState(pos.down()).getBlock();
+        if (blockDown.getRegistryName() != null && ConfigurationHandler.GENERAL.spawnBlocks.get().contains(blockDown.getRegistryName().toString())) {
+            return 10.0F;
+        } else {
+            return super.getBlockPathWeight(pos, world);
+        }
     }
 
     @Override

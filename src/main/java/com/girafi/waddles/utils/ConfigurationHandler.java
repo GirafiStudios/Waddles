@@ -1,14 +1,16 @@
 package com.girafi.waddles.utils;
 
-import com.google.common.collect.Lists;
+import net.minecraft.block.Blocks;
 import net.minecraft.util.ResourceLocation;
-import net.minecraft.world.biome.Biome;
+import net.minecraftforge.common.BiomeDictionary;
 import net.minecraftforge.common.ForgeConfigSpec;
 import net.minecraftforge.registries.ForgeRegistries;
 
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
-import java.util.Locale;
+
+import static net.minecraftforge.common.BiomeDictionary.Type.*;
 
 public class ConfigurationHandler {
     public static final ForgeConfigSpec.Builder BUILDER = new ForgeConfigSpec.Builder();
@@ -18,6 +20,7 @@ public class ConfigurationHandler {
     public static class General {
         public final ForgeConfigSpec.BooleanValue dropFish;
         public final ForgeConfigSpec.BooleanValue dropExp;
+        public final ForgeConfigSpec.ConfigValue<List<? extends String>> spawnBlocks;
 
         General(ForgeConfigSpec.Builder builder) {
             builder.push("general");
@@ -29,6 +32,7 @@ public class ConfigurationHandler {
                     .comment("Penguins should drop experience?")
                     .translation("waddles.configgui.dropExp")
                     .define("dropExp", true);
+            spawnBlocks = builder.defineList("spawn blocks", Collections.singletonList(Blocks.GRASS_BLOCK.getRegistryName().toString()),o -> ForgeRegistries.BLOCKS.getKeys().contains(new ResourceLocation(String.valueOf(o))));
             builder.pop();
         }
     }
@@ -37,19 +41,19 @@ public class ConfigurationHandler {
         public final ForgeConfigSpec.IntValue min;
         public final ForgeConfigSpec.IntValue max;
         public final ForgeConfigSpec.IntValue weight;
-        public final ForgeConfigSpec.ConfigValue<List<? extends String>> biomeCategoryBiomes;
-        public final ForgeConfigSpec.ConfigValue<List<? extends String>> additionalBiomes;
+        public final ForgeConfigSpec.ConfigValue<List<? extends String>> include;
+        public final ForgeConfigSpec.ConfigValue<List<? extends String>> exclude;
 
         Spawn(ForgeConfigSpec.Builder builder) {
             builder.push("spawn chances");
             builder.comment("Configure penguins spawn weight & min/max group size. Set weight to 0 to disable.");
             min = builder.defineInRange("min", 1, 0, 64);
             max = builder.defineInRange("max", 4, 0, 64);
-            weight = builder.defineInRange("weight", 6, 0, 100);
+            weight = builder.defineInRange("weight", 7, 0, 100);
             builder.pop();
             builder.push("spawnable biomes");
-            biomeCategoryBiomes = builder.defineList("biome categories", Collections.singletonList(Biome.Category.ICY.getName()), o -> Lists.newArrayList(Biome.Category.values()).contains(Biome.Category.func_235103_a_(String.valueOf(o).toLowerCase(Locale.ROOT))));
-            additionalBiomes = builder.defineList("additional biomes (Syntax: minecraft:plains)", Collections.emptyList(), o -> ForgeRegistries.BIOMES.containsKey(new ResourceLocation(String.valueOf(o))));
+            include = builder.defineList("include", Collections.singletonList(SNOWY.toString()), o -> BiomeDictionary.Type.getAll().contains(BiomeDictionaryHelper.getType(String.valueOf(o))));
+            exclude = builder.defineList("exclude", Arrays.asList(FOREST.toString(), MOUNTAIN.toString(), OCEAN.toString(), NETHER.toString()), o -> BiomeDictionary.Type.getAll().contains(BiomeDictionaryHelper.getType(String.valueOf(o))));
             builder.pop();
         }
     }
