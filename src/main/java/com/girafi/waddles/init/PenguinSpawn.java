@@ -5,7 +5,6 @@ import com.girafi.waddles.utils.BiomeDictionaryHelper;
 import com.girafi.waddles.utils.ConfigurationHandler;
 import net.minecraft.entity.EntityClassification;
 import net.minecraft.util.RegistryKey;
-import net.minecraft.util.registry.WorldGenRegistries;
 import net.minecraft.world.biome.Biome;
 import net.minecraft.world.biome.MobSpawnInfo;
 import net.minecraftforge.common.BiomeDictionary;
@@ -26,7 +25,7 @@ public class PenguinSpawn {
     public static void addSpawn(BiomeLoadingEvent event) {
         if (event.getName() != null) {
             Biome biome = ForgeRegistries.BIOMES.getValue(event.getName());
-            if (biome != null && WorldGenRegistries.BIOME.containsKey(event.getName())) {
+            if (biome != null) {
                 RegistryKey<Biome> biomeKey = RegistryKey.getOrCreateKey(ForgeRegistries.Keys.BIOMES, event.getName());
                 List<BiomeDictionary.Type> includeList = Arrays.asList(BiomeDictionaryHelper.toBiomeTypeArray(ConfigurationHandler.SPAWN.include.get()));
                 List<BiomeDictionary.Type> excludeList = Arrays.asList(BiomeDictionaryHelper.toBiomeTypeArray(ConfigurationHandler.SPAWN.exclude.get()));
