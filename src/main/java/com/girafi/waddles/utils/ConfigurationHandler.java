@@ -32,7 +32,7 @@ public class ConfigurationHandler {
                     .comment("Penguins should drop experience?")
                     .translation("waddles.configgui.dropExp")
                     .define("dropExp", true);
-            spawnBlocks = builder.defineList("spawn blocks", Collections.singletonList(Blocks.GRASS_BLOCK.getRegistryName().toString()),o -> ForgeRegistries.BLOCKS.getKeys().contains(new ResourceLocation(String.valueOf(o))));
+            spawnBlocks = builder.defineList("spawn blocks", Collections.singletonList(Blocks.GRASS_BLOCK.getRegistryName().toString()), o -> o instanceof String && ForgeRegistries.BLOCKS.getKeys().contains(new ResourceLocation(o.toString())));
             builder.pop();
         }
     }
@@ -52,8 +52,8 @@ public class ConfigurationHandler {
             weight = builder.defineInRange("weight", 7, 0, 100);
             builder.pop();
             builder.push("spawnable biomes");
-            include = builder.defineList("include", Collections.singletonList(SNOWY.toString()), o -> BiomeDictionary.Type.getAll().contains(BiomeDictionaryHelper.getType(String.valueOf(o))));
-            exclude = builder.defineList("exclude", Arrays.asList(FOREST.toString(), MOUNTAIN.toString(), OCEAN.toString(), NETHER.toString()), o -> BiomeDictionary.Type.getAll().contains(BiomeDictionaryHelper.getType(String.valueOf(o))));
+            include = builder.defineList("include", Collections.singletonList(SNOWY.toString()), o -> o instanceof String && (o.equals("") || BiomeDictionary.Type.getAll().contains(BiomeDictionaryHelper.getType(o.toString()))));
+            exclude = builder.defineList("exclude", Arrays.asList(FOREST.toString(), MOUNTAIN.toString(), OCEAN.toString(), NETHER.toString()), o -> o instanceof String && (o.equals("") || BiomeDictionary.Type.getAll().contains(BiomeDictionaryHelper.getType(o.toString()))));
             builder.pop();
         }
     }

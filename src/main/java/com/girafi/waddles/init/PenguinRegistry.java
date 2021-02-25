@@ -15,6 +15,7 @@ import net.minecraft.item.SpawnEggItem;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.world.gen.Heightmap;
 import net.minecraftforge.event.RegistryEvent;
+import net.minecraftforge.event.entity.EntityAttributeCreationEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod.EventBusSubscriber;
 
@@ -46,7 +47,11 @@ public class PenguinRegistry {
             event.getRegistry().register(entity);
             EntitySpawnPlacementRegistry.register(entity, EntitySpawnPlacementRegistry.PlacementType.ON_GROUND, Heightmap.Type.MOTION_BLOCKING_NO_LEAVES, AdeliePenguinEntity::canPenguinSpawn);
         }
-        GlobalEntityTypeAttributes.put(ADELIE_PENGUIN, AdeliePenguinEntity.getAttributes().create());
+    }
+
+    @SubscribeEvent
+    public static void addEntityAttributes(EntityAttributeCreationEvent event) {
+        event.put(ADELIE_PENGUIN, AdeliePenguinEntity.getAttributes().create());
     }
 
     @SubscribeEvent
