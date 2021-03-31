@@ -1,0 +1,16 @@
+  
+{
+  "_comment": "엔티티",
+  "entity.waddles.adelie_penguin": "Adelie 펭귄",
+  "item.waddles.adelie_penguin_spawn_egg": "Adelie 펭귄 생성 알",
+
+  "_comment": "부제목",
+  "waddles:subtitles.adelie.ambient": "Adelie 펭귄이 꽥꽥 움",
+  "waddles:subtitles.adelie.baby.ambient": "Adelie 펭귄 아기가 꽥꽥 움",
+  "waddles:subtitles.adelie.death": "Adelie 펭귄이 죽음",
+  "waddles:subtitles.adelie.hurt": "Adelie 펭귄이 아마함",
+
+  "_comment": "툴팁",
+  "waddles:config.category.general.tooltip": "Waddles를 위한 전반적인 설정",
+  "waddles:config.category.spawnchances.tooltip": "설정 가능한 펭귄 스폰 확률"
+}
