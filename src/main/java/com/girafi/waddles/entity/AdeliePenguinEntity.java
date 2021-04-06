@@ -10,6 +10,7 @@ import net.minecraft.entity.ai.attributes.AttributeModifierMap;
 import net.minecraft.entity.ai.attributes.Attributes;
 import net.minecraft.entity.ai.goal.*;
 import net.minecraft.entity.passive.AnimalEntity;
+import net.minecraft.entity.passive.ChickenEntity;
 import net.minecraft.entity.passive.PolarBearEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
@@ -29,13 +30,13 @@ import javax.annotation.Nonnull;
 import java.util.Random;
 
 public class AdeliePenguinEntity extends AnimalEntity {
-    private static final Ingredient TEMPTATION_ITEMS = Ingredient.fromItems(Items.COD, Items.SALMON);
+    private static final Ingredient TEMPTATION_ITEMS = Ingredient.of(Items.COD, Items.SALMON);
     public short rotationFlipper;
     private boolean moveFlipper = false;
 
     public AdeliePenguinEntity(EntityType<? extends AdeliePenguinEntity> adelie, World world) {
         super(adelie, world);
-        this.stepHeight = 1.0F;
+        this.maxUpStep = 1.0F;
     }
 
     @Override
@@ -53,40 +54,40 @@ public class AdeliePenguinEntity extends AnimalEntity {
         this.goalSelector.addGoal(10, new LookRandomlyGoal(this));
     }
 
-    public static AttributeModifierMap.MutableAttribute getAttributes() {
-        return MobEntity.func_233666_p_().createMutableAttribute(Attributes.MAX_HEALTH, 8.0D).createMutableAttribute(Attributes.MOVEMENT_SPEED, 0.16D);
+    public static AttributeModifierMap.MutableAttribute createAttributes() {
+        return MobEntity.createMobAttributes().add(Attributes.MAX_HEALTH, 8.0D).add(Attributes.MOVEMENT_SPEED, 0.16D);
     }
 
     @Override
-    public float getBlockPathWeight(@Nonnull BlockPos pos, @Nonnull IWorldReader world) {
-        Block blockDown = world.getBlockState(pos.down()).getBlock();
+    public float getWalkTargetValue(@Nonnull BlockPos pos, @Nonnull IWorldReader world) {
+        Block blockDown = world.getBlockState(pos.below()).getBlock();
         if (blockDown.getRegistryName() != null && ConfigurationHandler.GENERAL.spawnBlocks.get().contains(blockDown.getRegistryName().toString())) {
             return 10.0F;
         } else {
-            return super.getBlockPathWeight(pos, world);
+            return super.getWalkTargetValue(pos, world);
         }
     }
 
     @Override
     protected SoundEvent getAmbientSound() {
-        return this.isChild() ? WaddlesSounds.ADELIE_BABY_AMBIENT : WaddlesSounds.ADELIE_AMBIENT;
+        return this.isBaby() ? WaddlesSounds.ADELIE_BABY_AMBIENT.get() : WaddlesSounds.ADELIE_AMBIENT.get();
     }
 
     @Override
     protected SoundEvent getHurtSound(@Nonnull DamageSource source) {
-        return WaddlesSounds.ADELIE_HURT;
+        return WaddlesSounds.ADELIE_HURT.get();
     }
 
     @Override
     protected SoundEvent getDeathSound() {
-        return WaddlesSounds.ADELIE_DEATH;
+        return WaddlesSounds.ADELIE_DEATH.get();
     }
 
     @Override
-    public void livingTick() {
-        super.livingTick();
-        if (this.world.isRemote) {
-            if (this.getPosX() != this.prevPosZ) {
+    public void aiStep() {
+        super.aiStep();
+        if (this.level.isClientSide) {
+            if (this.getX() != this.zo) {
                 if (this.moveFlipper) {
                     this.rotationFlipper++;
                 }
@@ -95,9 +96,9 @@ public class AdeliePenguinEntity extends AnimalEntity {
     }
 
     @Override
-    protected int getExperiencePoints(@Nonnull PlayerEntity player) {
+    protected int getExperienceReward(@Nonnull PlayerEntity player) {
         if (ConfigurationHandler.GENERAL.dropExp.get()) {
-            return super.getExperiencePoints(player);
+            return super.getExperienceReward(player);
         }
         return 0;
     }
@@ -108,28 +109,28 @@ public class AdeliePenguinEntity extends AnimalEntity {
     }
 
     @Override
-    public boolean isBreedingItem(@Nonnull ItemStack stack) {
+    public boolean isFood(@Nonnull ItemStack stack) {
         return !stack.isEmpty() && TEMPTATION_ITEMS.test(stack);
     }
 
     @Override
     @Nonnull
-    public ResourceLocation getLootTable() {
+    public ResourceLocation getDefaultLootTable() {
         return ConfigurationHandler.GENERAL.dropFish.get() ? super.getLootTable() : LootTables.EMPTY;
     }
 
     @Override
-    public AgeableEntity func_241840_a(@Nonnull ServerWorld world, @Nonnull AgeableEntity ageableEntity) {
-        return PenguinRegistry.ADELIE_PENGUIN.create(this.world);
+    public AgeableEntity getBreedOffspring(@Nonnull ServerWorld world, @Nonnull AgeableEntity ageableEntity) {
+        return PenguinRegistry.ADELIE_PENGUIN.get().create(this.level);
     }
 
     public static boolean canPenguinSpawn(EntityType<? extends AdeliePenguinEntity> animal, IWorld world, SpawnReason reason, BlockPos pos, Random random) {
-        return world.getBlockState(pos.down()).isIn(Blocks.GRASS_BLOCK) && world.getLightSubtracted(pos, 0) > 8 && world.canSeeSky(pos);
+        return world.getBlockState(pos.below()).is(Blocks.GRASS_BLOCK) && world.getRawBrightness(pos, 0) > 8 && world.canSeeSky(pos);
     }
 
     @Override
     protected float getStandingEyeHeight(@Nonnull Pose pose, @Nonnull EntitySize size) {
-        return this.isChild() ? 0.5F : 0.9F;
+        return this.isBaby() ? 0.5F : 0.9F;
     }
 
     private class EntityAIExtinguishFire extends PanicGoal {
@@ -138,8 +139,8 @@ public class AdeliePenguinEntity extends AnimalEntity {
         }
 
         @Override
-        public boolean shouldExecute() {
-            return (AdeliePenguinEntity.this.isChild() || AdeliePenguinEntity.this.isBurning()) && super.shouldExecute();
+        public boolean canUse() {
+            return (AdeliePenguinEntity.this.isBaby() || AdeliePenguinEntity.this.isOnFire()) && super.canUse();
         }
     }
 }

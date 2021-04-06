@@ -5,7 +5,7 @@ buildscript {
         mavenCentral()
     }
     dependencies {
-        classpath group: 'net.minecraftforge.gradle', name: 'ForgeGradle', version: '3.+', changing: true
+        classpath group: 'net.minecraftforge.gradle', name: 'ForgeGradle', version: '4.1.+', changing: true
     }
 }
 apply plugin: 'net.minecraftforge.gradle'
@@ -22,7 +22,7 @@ group = "com.girafi.waddles"
 archivesBaseName = "Waddles"
 
 minecraft {
-    mappings channel: 'snapshot', version: project.mappings
+    mappings channel: 'official', version: project.minecraft_version
 
     runs {
         client {

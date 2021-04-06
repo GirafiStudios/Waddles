@@ -2,6 +2,7 @@ package com.girafi.waddles;
 
 import com.girafi.waddles.client.renderer.PenguinRenderer;
 import com.girafi.waddles.init.PenguinRegistry;
+import com.girafi.waddles.init.WaddlesSounds;
 import com.girafi.waddles.utils.ConfigurationHandler;
 import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.fml.ModLoadingContext;
@@ -22,6 +23,7 @@ public class Waddles {
         eventBus.addListener(this::setupClient);
 
         ModLoadingContext.get().registerConfig(ModConfig.Type.COMMON, ConfigurationHandler.spec);
+        registerDeferredRegistries(eventBus);
     }
 
     public void setupCommon(final FMLCommonSetupEvent event) {
@@ -29,6 +31,11 @@ public class Waddles {
     }
 
     public void setupClient(final FMLClientSetupEvent event) {
-        RenderingRegistry.registerEntityRenderingHandler(PenguinRegistry.ADELIE_PENGUIN, PenguinRenderer::new);
+        RenderingRegistry.registerEntityRenderingHandler(PenguinRegistry.ADELIE_PENGUIN.get(), PenguinRenderer::new);
+    }
+
+    public static void registerDeferredRegistries(IEventBus modBus) {
+        PenguinRegistry.ENTITY_DEFERRED.register(modBus);
+        WaddlesSounds.SOUND_EVENT_DEFERRED.register(modBus);
     }
 }
