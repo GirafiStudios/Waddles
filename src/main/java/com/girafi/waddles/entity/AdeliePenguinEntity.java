@@ -113,10 +113,11 @@ public class AdeliePenguinEntity extends AnimalEntity {
         return !stack.isEmpty() && TEMPTATION_ITEMS.test(stack);
     }
 
+
     @Override
     @Nonnull
     public ResourceLocation getDefaultLootTable() {
-        return ConfigurationHandler.GENERAL.dropFish.get() ? super.getLootTable() : LootTables.EMPTY;
+        return ConfigurationHandler.GENERAL.dropFish.get() ? super.getDefaultLootTable() : LootTables.EMPTY;
     }
 
     @Override
