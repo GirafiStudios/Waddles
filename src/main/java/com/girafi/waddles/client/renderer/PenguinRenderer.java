@@ -1,6 +1,7 @@
 package com.girafi.waddles.client.renderer;
 
 import com.girafi.waddles.Waddles;
+import com.girafi.waddles.client.ClientHandler;
 import com.girafi.waddles.client.model.PenguinModel;
 import com.girafi.waddles.entity.AdeliePenguinEntity;
 import net.minecraft.client.renderer.entity.EntityRendererProvider;
@@ -15,7 +16,7 @@ import javax.annotation.Nonnull;
 public class PenguinRenderer extends MobRenderer<AdeliePenguinEntity, PenguinModel<AdeliePenguinEntity>> {
 
     public PenguinRenderer(EntityRendererProvider.Context context) {
-        super(context, new PenguinModel<>(context.bakeLayer(Waddles.PENGUIN_LAYER)), 0.5F);
+        super(context, new PenguinModel<>(context.bakeLayer(ClientHandler.PENGUIN_LAYER)), 0.5F);
     }
 
     @Override
