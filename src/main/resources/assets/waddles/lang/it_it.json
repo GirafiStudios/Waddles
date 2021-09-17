@@ -1,0 +1,15 @@
+{
+  "_comment": "Entity",
+  "entity.waddles.adelie_penguin": "Pinguino di Adelia",
+  "item.waddles.adelie_penguin_spawn_egg": "Uovo generatore di pinguino di Adelia",
+
+  "_comment": "Subtitles",
+  "waddles:subtitles.adelie.ambient": "Pinguino di Adelia starnazza",
+  "waddles:subtitles.adelie.baby.ambient": "Pinguino di Adelia neonato squittisce",
+  "waddles:subtitles.adelie.death": "Pinguino di Adelia muore",
+  "waddles:subtitles.adelie.hurt": "Pinguino di Adelia ferito",
+
+  "_comment": "Tooltip",
+  "waddles:config.category.general.tooltip": "Opzioni di configurazioni generali per Waddles",
+  "waddles:config.category.spawnchances.tooltip": "Possibilità di generazione configurabili per i pinguini"
+}
