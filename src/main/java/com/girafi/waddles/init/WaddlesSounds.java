@@ -3,9 +3,9 @@ package com.girafi.waddles.init;
 import com.girafi.waddles.Waddles;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.sounds.SoundEvent;
-import net.minecraftforge.fmllegacy.RegistryObject;
 import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.ForgeRegistries;
+import net.minecraftforge.registries.RegistryObject;
 
 public class WaddlesSounds {
     public static final DeferredRegister<SoundEvent> SOUND_EVENT_DEFERRED = DeferredRegister.create(ForgeRegistries.SOUND_EVENTS, Waddles.MOD_ID);
