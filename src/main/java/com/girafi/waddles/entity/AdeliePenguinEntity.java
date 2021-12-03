@@ -22,7 +22,6 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.level.LevelAccessor;
 import net.minecraft.world.level.LevelReader;
 import net.minecraft.world.level.block.Block;
-import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.storage.loot.BuiltInLootTables;
 
 import javax.annotation.Nonnull;
@@ -124,7 +123,7 @@ public class AdeliePenguinEntity extends Animal {
     }
 
     public static boolean canPenguinSpawn(EntityType<? extends AdeliePenguinEntity> animal, LevelAccessor levelAccessor, MobSpawnType spawnType, BlockPos pos, Random random) {
-        return levelAccessor.getBlockState(pos.below()).is(Blocks.GRASS_BLOCK) && levelAccessor.getRawBrightness(pos, 0) > 8 && levelAccessor.canSeeSky(pos);
+        return checkAnimalSpawnRules(animal, levelAccessor, spawnType, pos, random);
     }
 
     @Override
