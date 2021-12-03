@@ -20,6 +20,7 @@ public class ConfigurationHandler {
     public static class General {
         public final ForgeConfigSpec.BooleanValue dropFish;
         public final ForgeConfigSpec.BooleanValue dropExp;
+        public final ForgeConfigSpec.BooleanValue darkostoDefault;
         public final ForgeConfigSpec.ConfigValue<List<? extends String>> spawnBlocks;
 
         General(ForgeConfigSpec.Builder builder) {
@@ -32,7 +33,12 @@ public class ConfigurationHandler {
                     .comment("Penguins should drop experience?")
                     .translation("waddles.configgui.dropExp")
                     .define("dropExp", true);
+            darkostoDefault = builder
+                    .comment("Use the Darkosto skin variant by default?")
+                    .translation("waddles.configgui.darkosto")
+                    .define("darkostoDefault", false);
             spawnBlocks = builder.defineList("spawn blocks", Collections.singletonList(Blocks.GRASS_BLOCK.getRegistryName().toString()), o -> o instanceof String && ForgeRegistries.BLOCKS.getKeys().contains(new ResourceLocation(o.toString())));
+
             builder.pop();
         }
     }

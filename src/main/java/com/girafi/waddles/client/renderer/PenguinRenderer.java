@@ -4,6 +4,7 @@ import com.girafi.waddles.Waddles;
 import com.girafi.waddles.client.ClientHandler;
 import com.girafi.waddles.client.model.PenguinModel;
 import com.girafi.waddles.entity.AdeliePenguinEntity;
+import com.girafi.waddles.utils.ConfigurationHandler;
 import net.minecraft.client.renderer.entity.EntityRendererProvider;
 import net.minecraft.client.renderer.entity.MobRenderer;
 import net.minecraft.resources.ResourceLocation;
@@ -23,11 +24,15 @@ public class PenguinRenderer extends MobRenderer<AdeliePenguinEntity, PenguinMod
     @Nonnull
     public ResourceLocation getTextureLocation(@Nonnull AdeliePenguinEntity penguin) {
         String name = penguin.getName().getString().toLowerCase().trim();
-        if (name.equals("joshie") || name.equals("joshiejack")) {
-            return this.getPenguinTexture("joshie");
-        } else if (name.equals("darkosto")) {
-            return this.getPenguinTexture("darkosto");
-        }
+        return switch (name) {
+            case "joshie", "joshiejack" -> this.getPenguinTexture("joshie");
+            case "darkosto" -> this.getPenguinTexture("darkosto");
+            case "waddles", "adelie", "girafi", "wiiv" -> getDefault(penguin);
+            default -> ConfigurationHandler.GENERAL.darkostoDefault.get() ? this.getPenguinTexture("darkosto") : getDefault(penguin);
+        };
+    }
+
+    private ResourceLocation getDefault(@Nonnull AdeliePenguinEntity penguin) {
         return penguin.isBaby() ? this.getPenguinTexture("adelie_child") : this.getPenguinTexture("adelie");
     }
 
