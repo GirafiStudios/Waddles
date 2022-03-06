@@ -35,6 +35,7 @@ public class Waddles {
 
     public static void registerDeferredRegistries(IEventBus modBus) {
         PenguinRegistry.ENTITY_DEFERRED.register(modBus);
+        PenguinRegistry.ITEM_DEFERRED.register(modBus);
         WaddlesSounds.SOUND_EVENT_DEFERRED.register(modBus);
     }
 }

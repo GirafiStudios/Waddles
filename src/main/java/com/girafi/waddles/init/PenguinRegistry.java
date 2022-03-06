@@ -13,6 +13,9 @@ import net.minecraft.world.item.CreativeModeTab;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.SpawnEggItem;
 import net.minecraft.world.level.levelgen.Heightmap;
+import net.minecraftforge.common.ForgeSpawnEggItem;
+import net.minecraftforge.common.util.Lazy;
+import net.minecraftforge.common.util.NonNullLazy;
 import net.minecraftforge.event.RegistryEvent;
 import net.minecraftforge.event.entity.EntityAttributeCreationEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
@@ -22,22 +25,21 @@ import net.minecraftforge.registries.ForgeRegistries;
 import net.minecraftforge.registries.RegistryObject;
 
 import java.util.List;
+import java.util.function.Supplier;
 
 @EventBusSubscriber(modid = Waddles.MOD_ID, bus = EventBusSubscriber.Bus.MOD)
 public class PenguinRegistry {
     public static final DeferredRegister<EntityType<?>> ENTITY_DEFERRED = DeferredRegister.create(ForgeRegistries.ENTITIES, Waddles.MOD_ID);
-    private static final List<Item> SPAWN_EGGS = Lists.newArrayList();
+    public static final DeferredRegister<Item> ITEM_DEFERRED = DeferredRegister.create(ForgeRegistries.ITEMS, Waddles.MOD_ID);
 
-    public static final RegistryObject<EntityType<AdeliePenguinEntity>> ADELIE_PENGUIN = createEntity("adelie_penguin", AdeliePenguinEntity::new, 0.4F, 0.95F, 0x000000, 0xFFFFFF);
+    public static final RegistryObject<EntityType<AdeliePenguinEntity>> ADELIE_PENGUIN = registerPenguin("adelie_penguin", () -> AdeliePenguinEntity::new, 0.4F, 0.95F, 0x000000, 0xFFFFFF);
 
-    private static <T extends Animal> RegistryObject<EntityType<T>> createEntity(String name, EntityType.EntityFactory<T> factory, float width, float height, int eggPrimary, int eggSecondary) {
+    private static <T extends Animal> RegistryObject<EntityType<T>> registerPenguin(String name, Supplier<EntityType.EntityFactory<T>> factory, float width, float height, int eggPrimary, int eggSecondary) {
         ResourceLocation location = new ResourceLocation(Waddles.MOD_ID, name);
-        EntityType<T> entity = EntityType.Builder.of(factory, MobCategory.CREATURE).sized(width, height).setTrackingRange(64).setUpdateInterval(1).build(location.toString());
-        Item spawnEgg = new SpawnEggItem(entity, eggPrimary, eggSecondary, (new Item.Properties()).tab(CreativeModeTab.TAB_MISC));
-        spawnEgg.setRegistryName(new ResourceLocation(Waddles.MOD_ID, name + "_spawn_egg"));
-        SPAWN_EGGS.add(spawnEgg);
+        RegistryObject<EntityType<T>> entityType = ENTITY_DEFERRED.register(name, () -> EntityType.Builder.of(factory.get(), MobCategory.CREATURE).sized(width, height).setTrackingRange(64).setUpdateInterval(1).build(location.toString()));
 
-        return ENTITY_DEFERRED.register(name, () -> entity);
+        ITEM_DEFERRED.register(name + "_spawn_egg", () -> new ForgeSpawnEggItem(entityType, eggPrimary, eggSecondary, (new Item.Properties()).tab(CreativeModeTab.TAB_MISC)));
+        return entityType;
     }
 
     @SubscribeEvent
@@ -48,13 +50,5 @@ public class PenguinRegistry {
     @SubscribeEvent
     public static void addEntityAttributes(EntityAttributeCreationEvent event) {
         event.put(ADELIE_PENGUIN.get(), AdeliePenguinEntity.createAttributes().build());
-    }
-
-    @SubscribeEvent
-    public static void registerSpawnEggs(RegistryEvent.Register<Item> event) {
-        for (Item spawnEgg : SPAWN_EGGS) {
-            Preconditions.checkNotNull(spawnEgg.getRegistryName(), "registryName");
-            event.getRegistry().register(spawnEgg);
-        }
     }
 }
