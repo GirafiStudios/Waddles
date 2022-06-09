@@ -22,7 +22,7 @@ public class PenguinSpawn {
 
         @Override
         public void modify(Holder<Biome> biome, Phase phase, ModifiableBiomeInfo.BiomeInfo.Builder builder) {
-            if (phase == Phase.ADD && this.includeList.contains(biome)) { //TODO Test
+            if (phase == Phase.ADD && this.includeList.contains(biome) && !this.excludeList.contains(biome)) {
                 builder.getMobSpawnSettings().addSpawn(this.spawn.type.getCategory(), this.spawn);
             }
         }

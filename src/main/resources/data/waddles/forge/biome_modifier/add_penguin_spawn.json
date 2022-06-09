@@ -2,7 +2,7 @@
   "type": "waddles:penguin_spawn",
   "spawn": {
     "type": "waddles:adelie_penguin",
-    "weight": 100,
+    "weight": 8,
     "minCount": 1,
     "maxCount": 4
   },
