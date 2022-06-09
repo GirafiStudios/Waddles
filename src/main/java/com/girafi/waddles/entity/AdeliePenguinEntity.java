@@ -1,5 +1,6 @@
 package com.girafi.waddles.entity;
 
+import com.girafi.waddles.Waddles;
 import com.girafi.waddles.init.PenguinRegistry;
 import com.girafi.waddles.init.WaddlesSounds;
 import com.girafi.waddles.utils.ConfigurationHandler;
@@ -7,6 +8,8 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundEvent;
+import net.minecraft.tags.BlockTags;
+import net.minecraft.util.RandomSource;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.*;
 import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
@@ -19,13 +22,12 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.level.Level;
-import net.minecraft.world.level.LevelAccessor;
 import net.minecraft.world.level.LevelReader;
-import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.ServerLevelAccessor;
+import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.storage.loot.BuiltInLootTables;
 
 import javax.annotation.Nonnull;
-import java.util.Random;
 
 public class AdeliePenguinEntity extends Animal {
     private static final Ingredient TEMPTATION_ITEMS = Ingredient.of(Items.COD, Items.SALMON);
@@ -57,8 +59,8 @@ public class AdeliePenguinEntity extends Animal {
 
     @Override
     public float getWalkTargetValue(@Nonnull BlockPos pos, @Nonnull LevelReader levelReader) {
-        Block blockDown = levelReader.getBlockState(pos.below()).getBlock();
-        if (blockDown.getRegistryName() != null && ConfigurationHandler.GENERAL.spawnBlocks.get().contains(blockDown.getRegistryName().toString())) {
+        BlockState stateDown = levelReader.getBlockState(pos.below());
+        if (stateDown.is(Waddles.Tags.PENGUIN_SPAWNABLE_BLOCKS)) {
             return 10.0F;
         } else {
             return super.getWalkTargetValue(pos, levelReader);
@@ -93,9 +95,9 @@ public class AdeliePenguinEntity extends Animal {
     }
 
     @Override
-    protected int getExperienceReward(@Nonnull Player player) {
+    public int getExperienceReward() {
         if (ConfigurationHandler.GENERAL.dropExp.get()) {
-            return super.getExperienceReward(player);
+            return super.getExperienceReward();
         }
         return 0;
     }
@@ -122,8 +124,8 @@ public class AdeliePenguinEntity extends Animal {
         return PenguinRegistry.ADELIE_PENGUIN.get().create(this.level);
     }
 
-    public static boolean canPenguinSpawn(EntityType<? extends AdeliePenguinEntity> animal, LevelAccessor levelAccessor, MobSpawnType spawnType, BlockPos pos, Random random) {
-        return checkAnimalSpawnRules(animal, levelAccessor, spawnType, pos, random);
+    public static boolean canPenguinSpawn(EntityType<? extends AdeliePenguinEntity> animal, ServerLevelAccessor serverLevelAccessor, MobSpawnType spawnType, BlockPos pos, RandomSource random) {
+        return serverLevelAccessor.getBlockState(pos.below()).is(Waddles.Tags.PENGUIN_SPAWNABLE_BLOCKS) && isBrightEnoughToSpawn(serverLevelAccessor, pos);
     }
 
     @Override

@@ -1,43 +1,43 @@
 package com.girafi.waddles.init;
 
 import com.girafi.waddles.Waddles;
-import com.girafi.waddles.utils.BiomeDictionaryHelper;
-import com.girafi.waddles.utils.ConfigurationHandler;
-import net.minecraft.resources.ResourceKey;
-import net.minecraft.world.entity.MobCategory;
+import com.mojang.serialization.Codec;
+import com.mojang.serialization.codecs.RecordCodecBuilder;
+import net.minecraft.core.Holder;
+import net.minecraft.core.HolderSet;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.level.biome.Biome;
 import net.minecraft.world.level.biome.MobSpawnSettings;
-import net.minecraftforge.common.BiomeDictionary;
-import net.minecraftforge.event.world.BiomeLoadingEvent;
-import net.minecraftforge.eventbus.api.EventPriority;
-import net.minecraftforge.eventbus.api.SubscribeEvent;
-import net.minecraftforge.fml.common.Mod;
+import net.minecraftforge.common.world.BiomeModifier;
+import net.minecraftforge.common.world.ModifiableBiomeInfo;
+import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.ForgeRegistries;
+import net.minecraftforge.registries.RegistryObject;
 
-import java.util.Arrays;
-import java.util.List;
-import java.util.Set;
-
-@Mod.EventBusSubscriber(modid = Waddles.MOD_ID)
 public class PenguinSpawn {
+    public static final DeferredRegister<Codec<? extends BiomeModifier>> BIOME_MODIFIER_SERIALIZERS_DEFERRED = DeferredRegister.create(ForgeRegistries.Keys.BIOME_MODIFIER_SERIALIZERS, Waddles.MOD_ID);
 
-    @SubscribeEvent(priority = EventPriority.HIGH)
-    public static void addSpawn(BiomeLoadingEvent event) {
-        if (event.getName() != null) {
-            Biome biome = ForgeRegistries.BIOMES.getValue(event.getName());
-            if (biome != null) {
-                ResourceKey<Biome> resourceKey = ResourceKey.create(ForgeRegistries.Keys.BIOMES, event.getName());
-                List<BiomeDictionary.Type> includeList = Arrays.asList(BiomeDictionaryHelper.toBiomeTypeArray(ConfigurationHandler.SPAWN.include.get()));
-                List<BiomeDictionary.Type> excludeList = Arrays.asList(BiomeDictionaryHelper.toBiomeTypeArray(ConfigurationHandler.SPAWN.exclude.get()));
-                if (!includeList.isEmpty()) {
-                    Set<BiomeDictionary.Type> biomeTypes = BiomeDictionary.getTypes(resourceKey);
-                    if (biomeTypes.stream().noneMatch(excludeList::contains) && biomeTypes.stream().anyMatch(includeList::contains)) {
-                        event.getSpawns().getSpawner(MobCategory.CREATURE).add(new MobSpawnSettings.SpawnerData(PenguinRegistry.ADELIE_PENGUIN.get(), ConfigurationHandler.SPAWN.weight.get(), ConfigurationHandler.SPAWN.min.get(), ConfigurationHandler.SPAWN.max.get()));
-                    }
-                } else {
-                    throw new IllegalArgumentException("Do not leave the BiomeDictionary type inclusion list empty. If you wish to disable spawning of an entity, set the weight to 0 instead.");
-                }
+    public record PenguinBiomeModifier(HolderSet<Biome> includeList, HolderSet<Biome> excludeList, MobSpawnSettings.SpawnerData spawn) implements BiomeModifier {
+        private static final RegistryObject<Codec<? extends BiomeModifier>> SERIALIZER = RegistryObject.create(new ResourceLocation(Waddles.MOD_ID, "penguin_spawn_serializer"), ForgeRegistries.Keys.BIOME_MODIFIER_SERIALIZERS, Waddles.MOD_ID);
+
+        @Override
+        public void modify(Holder<Biome> biome, Phase phase, ModifiableBiomeInfo.BiomeInfo.Builder builder) {
+            if (phase == Phase.ADD && this.includeList.contains(biome)) { //TODO Test
+                builder.getMobSpawnSettings().addSpawn(this.spawn.type.getCategory(), this.spawn);
             }
+        }
+
+        @Override
+        public Codec<? extends BiomeModifier> codec() {
+            return SERIALIZER.get();
+        }
+
+        public static Codec<PenguinBiomeModifier> makeCodec() {
+            return RecordCodecBuilder.create(builder -> builder.group(
+                    Biome.LIST_CODEC.fieldOf("includeBiomes").forGetter(PenguinBiomeModifier::includeList),
+                    Biome.LIST_CODEC.fieldOf("excludeBiomes").forGetter(PenguinBiomeModifier::excludeList),
+                    MobSpawnSettings.SpawnerData.CODEC.fieldOf("spawn").forGetter(PenguinBiomeModifier::spawn)
+            ).apply(builder, PenguinBiomeModifier::new));
         }
     }
 }

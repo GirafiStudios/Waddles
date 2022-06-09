@@ -1,5 +1,5 @@
 modLoader="javafml"
-loaderVersion="[40,)"
+loaderVersion="[41,)"
 logoFile="logo.png"
 license="All Right Reserved"
 
@@ -18,6 +18,6 @@ license="All Right Reserved"
 [[dependencies.waddles]]
     modId="forge"
     mandatory=true
-    versionRange="[40,)"
+    versionRange="[41,)"
     ordering="AFTER"
     side="BOTH"
