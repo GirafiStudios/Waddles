@@ -16,6 +16,6 @@ public class WaddlesSounds {
 
     private static RegistryObject<SoundEvent> createSound(String name) {
         ResourceLocation resourceLocation = new ResourceLocation(Waddles.MOD_ID, name);
-        return SOUND_EVENT_DEFERRED.register(name, () -> new SoundEvent(resourceLocation));
+        return SOUND_EVENT_DEFERRED.register(name, () -> SoundEvent.createVariableRangeEvent(resourceLocation));
     }
 }

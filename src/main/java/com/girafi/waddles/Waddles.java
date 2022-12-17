@@ -6,7 +6,7 @@ import com.girafi.waddles.init.PenguinRegistry;
 import com.girafi.waddles.init.PenguinSpawn;
 import com.girafi.waddles.init.WaddlesSounds;
 import com.girafi.waddles.utils.ConfigurationHandler;
-import net.minecraft.core.Registry;
+import net.minecraft.core.registries.Registries;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.tags.BlockTags;
 import net.minecraft.tags.TagKey;
@@ -65,7 +65,7 @@ public class Waddles {
         }
 
         public static TagKey<Biome> biomeTag(String name) {
-            return TagKey.create(Registry.BIOME_REGISTRY, new ResourceLocation(Waddles.MOD_ID, name));
+            return TagKey.create(Registries.BIOME, new ResourceLocation(Waddles.MOD_ID, name));
         }
 
         public static void init() {
