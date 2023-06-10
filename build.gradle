@@ -1,5 +1,6 @@
 plugins {
-    id 'net.minecraftforge.gradle' version '5.1+'
+    id 'idea'
+    id 'net.minecraftforge.gradle' version '[6.0,6.2)'
 }
 
 java.toolchain.languageVersion = JavaLanguageVersion.of(17)
@@ -11,17 +12,23 @@ if (System.getenv().BUILD_NUMBER) {
 
 version = "${minecraft_version}-${mod_version}${buildnumber}"
 group = "com.girafi.waddles"
-archivesBaseName = "Waddles"
+
+base {
+    archivesName = mod_id
+}
 
 minecraft {
-    mappings channel: 'official', version: project.minecraft_version
+    mappings channel: 'official', version: minecraft_version
+	enableIdeaPrepareRuns = true
+	copyIdeResources = true
+	generateRunFolders = true
 
     runs {
         client {
             workingDirectory project.file('run')
-
+			
             mods {
-                waddles {
+                "${mod_id}" {
                     source sourceSets.main
                 }
             }
@@ -30,7 +37,7 @@ minecraft {
             workingDirectory project.file('run')
 
             mods {
-                waddles {
+                "${mod_id}" {
                     source sourceSets.main
                 }
             }
@@ -44,11 +51,20 @@ dependencies {
     minecraft "net.minecraftforge:forge:${minecraft_version}-${forge_version}"
 }
 
-jar {
-    manifest {
-        attributes([
-            "Implementation-Version": "${version}"
-        ])
+def resourceTargets = ['META-INF/mods.toml', 'pack.mcmeta']
+def replaceProperties = [
+        minecraft_version: minecraft_version, minecraft_version_range: minecraft_version_range,
+        forge_version: forge_version, forge_version_range: forge_version_range,
+        loader_version_range: loader_version_range,
+        mod_version: mod_version,
+]
+
+processResources {
+    inputs.properties replaceProperties
+    replaceProperties.put 'project', project
+
+    filesMatching(resourceTargets) {
+        expand replaceProperties
     }
 }
 

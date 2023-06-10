@@ -84,7 +84,7 @@ public class AdeliePenguinEntity extends Animal {
     @Override
     public void aiStep() {
         super.aiStep();
-        if (this.level.isClientSide) {
+        if (this.level().isClientSide) {
             if (this.getX() != this.zo) {
                 if (this.moveFlipper) {
                     this.rotationFlipper++;
@@ -120,7 +120,7 @@ public class AdeliePenguinEntity extends Animal {
 
     @Override
     public AgeableMob getBreedOffspring(@Nonnull ServerLevel serverLevel, @Nonnull AgeableMob ageableMob) {
-        return PenguinRegistry.ADELIE_PENGUIN.get().create(this.level);
+        return PenguinRegistry.ADELIE_PENGUIN.get().create(this.level());
     }
 
     public static boolean canPenguinSpawn(EntityType<? extends AdeliePenguinEntity> animal, ServerLevelAccessor serverLevelAccessor, MobSpawnType spawnType, BlockPos pos, RandomSource random) {
