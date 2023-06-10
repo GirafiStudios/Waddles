@@ -14,7 +14,7 @@ version = "${minecraft_version}-${mod_version}${buildnumber}"
 group = "com.girafi.waddles"
 
 base {
-    archivesName = mod_id
+    archivesName = "Waddles"
 }
 
 minecraft {
