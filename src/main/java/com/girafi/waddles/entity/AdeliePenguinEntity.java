@@ -35,7 +35,7 @@ public class AdeliePenguinEntity extends Animal {
 
     public AdeliePenguinEntity(EntityType<? extends AdeliePenguinEntity> adelie, Level level) {
         super(adelie, level);
-        this.maxUpStep = 1.0F;
+        this.setMaxUpStep(1.0F);
     }
 
     @Override
