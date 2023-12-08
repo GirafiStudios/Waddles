@@ -1,0 +1,15 @@
+{
+  "_comment": "Entity",
+  "entity.waddles.adelie_penguin": "Pingwin",
+  "item.waddles.adelie_penguin_spawn_egg": "Jajo przyzywające pingwina",
+
+  "_comment": "Subtitles",
+  "waddles:subtitles.adelie.ambient": "Pingwin skrzeczy",
+  "waddles:subtitles.adelie.baby.ambient": "Mały pingwin piszczy",
+  "waddles:subtitles.adelie.death": "Pingwin umiera",
+  "waddles:subtitles.adelie.hurt": "Pingwin cierpi",
+
+  "_comment": "Tooltip",
+  "waddles:config.category.general.tooltip": "Ogólna konfiguracja ustawien dla Waddles",
+  "waddles:config.category.spawnchances.tooltip": "Konfigurowalne szanse odradzania się pingwinów"
+}

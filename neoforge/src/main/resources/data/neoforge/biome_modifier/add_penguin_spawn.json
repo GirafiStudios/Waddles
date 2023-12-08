@@ -1,0 +1,11 @@
+{
+  "type": "waddles:penguin_spawn",
+  "spawn": {
+    "type": "waddles:adelie_penguin",
+    "weight": 8,
+    "minCount": 1,
+    "maxCount": 4
+  },
+  "includeBiomes": "#waddles:spawn_include",
+  "excludeBiomes": "#waddles:spawn_exclude"
+}
