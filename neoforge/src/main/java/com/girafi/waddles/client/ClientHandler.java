@@ -14,7 +14,7 @@ public class ClientHandler {
 
     @SubscribeEvent
     public static void registerEntityRenders(EntityRenderersEvent.RegisterRenderers event) {
-        event.registerEntityRenderer(PenguinRegistry.ADELIE_PENGUIN.get(), PenguinRenderer::new);
+       event.registerEntityRenderer(PenguinRegistry.ADELIE_PENGUIN.get(), PenguinRenderer::new);
     }
 
     @SubscribeEvent
