@@ -20,6 +20,5 @@ public class WaddlesTags {
         return TagKey.create(Registries.BIOME, new ResourceLocation(Constants.MOD_ID, name));
     }
 
-    public static void init() {
-    }
+    public static void load() {}
 }

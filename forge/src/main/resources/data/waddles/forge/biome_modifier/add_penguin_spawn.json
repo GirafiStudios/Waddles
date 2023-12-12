@@ -4,7 +4,7 @@
     "type": "waddles:adelie_penguin",
     "weight": 10,
     "minCount": 1,
-    "maxCount": 4
+    "maxCount": 5
   },
   "includeBiomes": "#waddles:spawn_include",
   "excludeBiomes": "#waddles:spawn_exclude"

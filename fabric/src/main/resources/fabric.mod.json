@@ -17,6 +17,9 @@
     "entrypoints": {
         "main": [
             "com.girafi.waddles.Waddles"
+        ],
+        "client": [
+            "com.girafi.waddles.client.ClientHandler"
         ]
     },
     "mixins": [
