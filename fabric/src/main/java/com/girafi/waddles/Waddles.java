@@ -2,8 +2,11 @@ package com.girafi.waddles;
 
 import com.girafi.waddles.entity.AdeliePenguinEntity;
 import com.girafi.waddles.utils.ConfigurationHandler;
+import com.girafi.waddles.utils.WaddlesTags;
 import fuzs.forgeconfigapiport.api.config.v3.ForgeConfigRegistry;
 import net.fabricmc.api.ModInitializer;
+import net.fabricmc.fabric.api.biome.v1.BiomeModifications;
+import net.fabricmc.fabric.api.biome.v1.BiomeSelectionContext;
 import net.fabricmc.fabric.api.itemgroup.v1.ItemGroupEvents;
 import net.fabricmc.fabric.api.object.builder.v1.entity.FabricDefaultAttributeRegistry;
 import net.minecraft.core.Direction;
@@ -12,13 +15,19 @@ import net.minecraft.core.dispenser.DispenseItemBehavior;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.EntityType;
+import net.minecraft.world.entity.MobCategory;
 import net.minecraft.world.entity.MobSpawnType;
-import net.minecraft.world.item.*;
+import net.minecraft.world.entity.SpawnPlacements;
+import net.minecraft.world.item.CreativeModeTabs;
+import net.minecraft.world.item.Item;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.SpawnEggItem;
 import net.minecraft.world.level.block.DispenserBlock;
 import net.minecraft.world.level.gameevent.GameEvent;
+import net.minecraft.world.level.levelgen.Heightmap;
 import net.neoforged.fml.config.ModConfig;
 
-import java.util.function.Supplier;
+import java.util.function.Predicate;
 
 import static com.girafi.waddles.init.PenguinRegistry.*;
 
@@ -37,7 +46,7 @@ public class Waddles implements ModInitializer {
         stack.shrink(1);
         source.level().gameEvent(GameEvent.ENTITY_PLACE, source.pos(), GameEvent.Context.of(source.state()));
         return stack;
-    }; //TODO Spawn Placement
+    };
 
     @Override
     public void onInitialize() {
@@ -45,16 +54,20 @@ public class Waddles implements ModInitializer {
         ForgeConfigRegistry.INSTANCE.register(Constants.MOD_ID, ModConfig.Type.COMMON, ConfigurationHandler.spec);
 
         register();
+        BiomeModifications.addSpawn(penguinSpawnSelector(), MobCategory.CREATURE, ADELIE_PENGUIN.get(), 100, 1, 5);
     }
 
     public void register() {
         PENGUINS.forEach((penguin, name) -> {
-            Item spawnEgg = Registry.register(BuiltInRegistries.ITEM, new ResourceLocation(Constants.MOD_ID,name + "_spawn_egg"), new SpawnEggItem(penguin.get(), PENGUIN_EGG_PRIMARY.get(penguin), PENGUIN_EGG_SECONDARY.get(penguin), new Item.Properties()));
+            Item spawnEgg = Registry.register(BuiltInRegistries.ITEM, new ResourceLocation(Constants.MOD_ID, name + "_spawn_egg"), new SpawnEggItem(penguin.get(), PENGUIN_EGG_PRIMARY.get(penguin), PENGUIN_EGG_SECONDARY.get(penguin), new Item.Properties()));
             FabricDefaultAttributeRegistry.register(penguin.get(), AdeliePenguinEntity.createAttributes());
             DispenserBlock.registerBehavior(spawnEgg, DEFAULT_DISPENSE_BEHAVIOR);
             ItemGroupEvents.modifyEntriesEvent(CreativeModeTabs.SPAWN_EGGS).register(content -> content.accept(spawnEgg));
+            SpawnPlacements.register(penguin.get(), SpawnPlacements.Type.ON_GROUND, Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, AdeliePenguinEntity::canPenguinSpawn);
         });
+    }
 
-        //PenguinSpawn.BIOME_MODIFIER_SERIALIZERS_DEFERRED.register("penguin_spawn", PenguinSpawn.PenguinBiomeModifier::makeCodec); //TODO Figure out how to do mob spawns in Fabric
+    public static Predicate<BiomeSelectionContext> penguinSpawnSelector() {
+        return (context) -> context.hasTag(WaddlesTags.SPAWN_INCLUDE_LIST) && !context.hasTag(WaddlesTags.SPAWN_EXCLUDE_LIST);
     }
 }
