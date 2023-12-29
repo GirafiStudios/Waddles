@@ -14,7 +14,6 @@ import net.neoforged.fml.common.Mod;
 import net.neoforged.fml.config.ModConfig;
 import net.neoforged.fml.event.lifecycle.FMLClientSetupEvent;
 import net.neoforged.fml.event.lifecycle.FMLCommonSetupEvent;
-import net.neoforged.fml.javafmlmod.FMLJavaModLoadingContext;
 import net.neoforged.neoforge.common.DeferredSpawnEggItem;
 import net.neoforged.neoforge.event.BuildCreativeModeTabContentsEvent;
 import net.neoforged.neoforge.event.entity.EntityAttributeCreationEvent;
@@ -29,9 +28,8 @@ import static com.girafi.waddles.init.PenguinRegistry.*;
 public class Waddles {
     public static final DeferredRegister.Items ITEM_DEFERRED = DeferredRegister.createItems(Constants.MOD_ID);
 
-    public Waddles() {
+    public Waddles(IEventBus eventBus) {
         CommonClass.init();
-        final IEventBus eventBus = FMLJavaModLoadingContext.get().getModEventBus();
         eventBus.addListener(this::setupCommon);
         eventBus.addListener(this::setupClient);
 

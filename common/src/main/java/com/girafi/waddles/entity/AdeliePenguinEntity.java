@@ -102,11 +102,6 @@ public class AdeliePenguinEntity extends Animal {
     }
 
     @Override
-    public boolean canBreatheUnderwater() {
-        return true;
-    }
-
-    @Override
     public boolean isFood(@Nonnull ItemStack stack) {
         return !stack.isEmpty() && TEMPTATION_ITEMS.test(stack);
     }
