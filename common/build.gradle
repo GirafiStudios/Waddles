@@ -16,5 +16,5 @@ minecraft {
 dependencies {
     compileOnly group: 'org.spongepowered', name: 'mixin', version: '0.8.5'
     implementation group: 'com.google.code.findbugs', name: 'jsr305', version: '3.0.1'
-    implementation "fuzs.forgeconfigapiport:forgeconfigapiport-fabric:${forge_config_api_port}"
+    implementation "fuzs.forgeconfigapiport:forgeconfigapiport-common:${forge_config_api_port}"
 }
