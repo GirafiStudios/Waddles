@@ -2,6 +2,8 @@ package com.girafi.waddles;
 
 import com.girafi.waddles.entity.AdeliePenguinEntity;
 import com.girafi.waddles.init.PenguinRegistry;
+import com.girafi.waddles.utils.ConfigurationHandler;
+import fuzs.forgeconfigapiport.forge.api.neoforge.v4.NeoForgeConfigRegistry;
 import net.minecraft.world.entity.SpawnPlacements;
 import net.minecraft.world.item.CreativeModeTabs;
 import net.minecraft.world.item.Item;
@@ -13,6 +15,7 @@ import net.minecraftforge.event.entity.SpawnPlacementRegisterEvent;
 import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
+import net.minecraftforge.fml.config.ModConfig;
 import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
 import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
@@ -33,7 +36,7 @@ public class Waddles {
         eventBus.addListener(this::setupCommon);
         eventBus.addListener(this::setupClient);
 
-        //ModLoadingContext.get().registerConfig(ModConfig.Type.COMMON, ConfigurationHandler.spec); //Uncomment when building, otherwise have it commented out.
+        NeoForgeConfigRegistry.INSTANCE.register(ModConfig.Type.COMMON, ConfigurationHandler.spec); //Uncomment when building, otherwise have it commented out.
 
         registerDeferredRegistries(eventBus);
         register();

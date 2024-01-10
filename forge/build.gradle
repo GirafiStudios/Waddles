@@ -61,6 +61,10 @@ minecraft {
     }
 }
 
+dependencies {
+    implementation fg.deobf("fuzs.forgeconfigapiport:forgeconfigapiport-forge:${forge_config_api_port}")
+}
+
 sourceSets.main.resources.srcDir 'src/generated/resources'
 
 sourceSets.each {
