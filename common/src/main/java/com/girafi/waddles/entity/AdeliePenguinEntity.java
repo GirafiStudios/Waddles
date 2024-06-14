@@ -26,7 +26,8 @@ import net.minecraft.world.level.ServerLevelAccessor;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.storage.loot.BuiltInLootTables;
 import net.minecraft.world.level.storage.loot.LootTable;
-import org.jetbrains.annotations.NotNull;
+
+import javax.annotation.Nonnull;
 
 public class AdeliePenguinEntity extends Animal {
     private static final EntityDimensions BABY_DIMENSIONS = PenguinRegistry.ADELIE_PENGUIN.get().getDimensions().scale(0.5F).withEyeHeight(0.5F);
@@ -53,8 +54,8 @@ public class AdeliePenguinEntity extends Animal {
     }
 
     @Override
-    @NotNull
-    public EntityDimensions getDefaultDimensions(@NotNull Pose pose) {
+    @Nonnull
+    public EntityDimensions getDefaultDimensions(@Nonnull Pose pose) {
         return this.isBaby() ? BABY_DIMENSIONS : super.getDefaultDimensions(pose);
     }
 
@@ -63,7 +64,7 @@ public class AdeliePenguinEntity extends Animal {
     }
 
     @Override
-    public float getWalkTargetValue(@NotNull BlockPos pos, @NotNull LevelReader levelReader) {
+    public float getWalkTargetValue(@Nonnull BlockPos pos, @Nonnull LevelReader levelReader) {
         BlockState stateDown = levelReader.getBlockState(pos.below());
         if (stateDown.is(WaddlesTags.PENGUIN_SPAWNABLE_BLOCKS)) {
             return 10.0F;
@@ -78,7 +79,7 @@ public class AdeliePenguinEntity extends Animal {
     }
 
     @Override
-    protected SoundEvent getHurtSound(@NotNull DamageSource source) {
+    protected SoundEvent getHurtSound(@Nonnull DamageSource source) {
         return WaddlesSounds.ADELIE_HURT.get();
     }
 
@@ -109,18 +110,18 @@ public class AdeliePenguinEntity extends Animal {
     }
 
     @Override
-    public boolean isFood(@NotNull ItemStack stack) {
+    public boolean isFood(@Nonnull ItemStack stack) {
         return !stack.isEmpty() && TEMPTATION_ITEMS.test(stack);
     }
 
     @Override
-    @NotNull
+    @Nonnull
     public ResourceKey<LootTable> getDefaultLootTable() {
         return ConfigurationHandler.GENERAL.dropFish.get() ? super.getDefaultLootTable() : BuiltInLootTables.EMPTY;
     }
 
     @Override
-    public AgeableMob getBreedOffspring(@NotNull ServerLevel serverLevel, @NotNull AgeableMob ageableMob) {
+    public AgeableMob getBreedOffspring(@Nonnull ServerLevel serverLevel, @Nonnull AgeableMob ageableMob) {
         return PenguinRegistry.ADELIE_PENGUIN.get().create(this.level());
     }
 

@@ -26,7 +26,7 @@ public class PenguinSpawn {
         }
 
         @Override
-        @NotNull
+        @Nonnull
         public MapCodec<? extends BiomeModifier> codec() {
             return makeCodec();
         }

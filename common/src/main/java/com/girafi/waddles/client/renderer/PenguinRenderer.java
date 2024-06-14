@@ -8,7 +8,8 @@ import com.girafi.waddles.utils.ConfigurationHandler;
 import net.minecraft.client.renderer.entity.EntityRendererProvider;
 import net.minecraft.client.renderer.entity.MobRenderer;
 import net.minecraft.resources.ResourceLocation;
-import org.jetbrains.annotations.NotNull;
+
+import javax.annotation.Nonnull;
 
 public class PenguinRenderer extends MobRenderer<AdeliePenguinEntity, PenguinModel<AdeliePenguinEntity>> {
 
@@ -17,8 +18,8 @@ public class PenguinRenderer extends MobRenderer<AdeliePenguinEntity, PenguinMod
     }
 
     @Override
-    @NotNull
-    public ResourceLocation getTextureLocation(@NotNull AdeliePenguinEntity penguin) {
+    @Nonnull
+    public ResourceLocation getTextureLocation(@Nonnull AdeliePenguinEntity penguin) {
         String name = penguin.getName().getString().toLowerCase().trim();
         return switch (name) {
             case "joshie", "joshiejack" -> this.getPenguinTexture("joshie");
@@ -28,7 +29,7 @@ public class PenguinRenderer extends MobRenderer<AdeliePenguinEntity, PenguinMod
         };
     }
 
-    private ResourceLocation getDefault(@NotNull AdeliePenguinEntity penguin) {
+    private ResourceLocation getDefault(@Nonnull AdeliePenguinEntity penguin) {
         return penguin.isBaby() ? this.getPenguinTexture("adelie_child") : this.getPenguinTexture("adelie");
     }
 
