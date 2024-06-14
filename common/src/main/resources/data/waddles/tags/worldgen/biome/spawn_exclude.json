@@ -1,7 +1,7 @@
 {
   "values": [
-    "#minecraft:is_forest",
-    "#minecraft:is_mountain",
-    "#minecraft:is_nether"
+    "#c:is_forest",
+    "#c:is_mountain",
+    "#c:is_nether"
   ]
 }

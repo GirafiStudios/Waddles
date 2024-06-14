@@ -3,7 +3,7 @@ package com.girafi.waddles;
 import com.girafi.waddles.entity.AdeliePenguinEntity;
 import com.girafi.waddles.utils.ConfigurationHandler;
 import com.girafi.waddles.utils.WaddlesTags;
-import fuzs.forgeconfigapiport.api.config.v3.ForgeConfigRegistry;
+import fuzs.forgeconfigapiport.fabric.api.neoforge.v4.NeoForgeConfigRegistry;
 import net.fabricmc.api.ModInitializer;
 import net.fabricmc.fabric.api.biome.v1.BiomeModifications;
 import net.fabricmc.fabric.api.biome.v1.BiomeSelectionContext;
@@ -48,7 +48,7 @@ public class Waddles implements ModInitializer {
     @Override
     public void onInitialize() {
         CommonClass.init();
-        ForgeConfigRegistry.INSTANCE.register(Constants.MOD_ID, ModConfig.Type.COMMON, ConfigurationHandler.spec);
+        NeoForgeConfigRegistry.INSTANCE.register(Constants.MOD_ID, ModConfig.Type.COMMON, ConfigurationHandler.spec);
 
         register();
         BiomeModifications.addSpawn(penguinSpawnSelector(), MobCategory.CREATURE, ADELIE_PENGUIN.get(), 100, 1, 5);

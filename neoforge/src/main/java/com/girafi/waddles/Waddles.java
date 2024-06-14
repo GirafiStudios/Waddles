@@ -10,6 +10,7 @@ import net.minecraft.world.item.Item;
 import net.minecraft.world.level.levelgen.Heightmap;
 import net.neoforged.bus.api.IEventBus;
 import net.neoforged.bus.api.SubscribeEvent;
+import net.neoforged.fml.ModContainer;
 import net.neoforged.fml.ModLoadingContext;
 import net.neoforged.fml.common.EventBusSubscriber;
 import net.neoforged.fml.common.Mod;
@@ -30,12 +31,12 @@ import static com.girafi.waddles.init.PenguinRegistry.*;
 public class Waddles {
     public static final DeferredRegister.Items ITEM_DEFERRED = DeferredRegister.createItems(Constants.MOD_ID);
 
-    public Waddles(IEventBus eventBus) {
+    public Waddles(ModContainer modContainer, IEventBus eventBus) {
         CommonClass.init();
         eventBus.addListener(this::setupCommon);
         eventBus.addListener(this::setupClient);
 
-        ModLoadingContext.get().registerConfig(ModConfig.Type.COMMON, ConfigurationHandler.spec);
+        modContainer.registerConfig(ModConfig.Type.COMMON, ConfigurationHandler.spec);
 
         registerDeferredRegistries(eventBus);
         register();

@@ -8,8 +8,7 @@ import com.girafi.waddles.utils.ConfigurationHandler;
 import net.minecraft.client.renderer.entity.EntityRendererProvider;
 import net.minecraft.client.renderer.entity.MobRenderer;
 import net.minecraft.resources.ResourceLocation;
-
-import javax.annotation.Nonnull;
+import org.jetbrains.annotations.NotNull;
 
 public class PenguinRenderer extends MobRenderer<AdeliePenguinEntity, PenguinModel<AdeliePenguinEntity>> {
 
@@ -18,8 +17,8 @@ public class PenguinRenderer extends MobRenderer<AdeliePenguinEntity, PenguinMod
     }
 
     @Override
-    @Nonnull
-    public ResourceLocation getTextureLocation(@Nonnull AdeliePenguinEntity penguin) {
+    @NotNull
+    public ResourceLocation getTextureLocation(@NotNull AdeliePenguinEntity penguin) {
         String name = penguin.getName().getString().toLowerCase().trim();
         return switch (name) {
             case "joshie", "joshiejack" -> this.getPenguinTexture("joshie");
@@ -29,11 +28,11 @@ public class PenguinRenderer extends MobRenderer<AdeliePenguinEntity, PenguinMod
         };
     }
 
-    private ResourceLocation getDefault(@Nonnull AdeliePenguinEntity penguin) {
+    private ResourceLocation getDefault(@NotNull AdeliePenguinEntity penguin) {
         return penguin.isBaby() ? this.getPenguinTexture("adelie_child") : this.getPenguinTexture("adelie");
     }
 
     private ResourceLocation getPenguinTexture(String fileName) {
-        return new ResourceLocation(Constants.MOD_ID, "textures/entity/penguin/" + fileName + ".png");
+        return ResourceLocation.fromNamespaceAndPath(Constants.MOD_ID, "textures/entity/penguin/" + fileName + ".png");
     }
 }

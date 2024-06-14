@@ -6,7 +6,6 @@ import com.girafi.waddles.utils.ConfigurationHandler;
 import com.girafi.waddles.utils.WaddlesTags;
 import net.minecraft.core.BlockPos;
 import net.minecraft.resources.ResourceKey;
-import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.util.RandomSource;
@@ -27,8 +26,7 @@ import net.minecraft.world.level.ServerLevelAccessor;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.storage.loot.BuiltInLootTables;
 import net.minecraft.world.level.storage.loot.LootTable;
-
-import javax.annotation.Nonnull;
+import org.jetbrains.annotations.NotNull;
 
 public class AdeliePenguinEntity extends Animal {
     private static final EntityDimensions BABY_DIMENSIONS = PenguinRegistry.ADELIE_PENGUIN.get().getDimensions().scale(0.5F).withEyeHeight(0.5F);
@@ -55,8 +53,8 @@ public class AdeliePenguinEntity extends Animal {
     }
 
     @Override
-    @Nonnull
-    public EntityDimensions getDefaultDimensions(@Nonnull Pose pose) {
+    @NotNull
+    public EntityDimensions getDefaultDimensions(@NotNull Pose pose) {
         return this.isBaby() ? BABY_DIMENSIONS : super.getDefaultDimensions(pose);
     }
 
@@ -65,7 +63,7 @@ public class AdeliePenguinEntity extends Animal {
     }
 
     @Override
-    public float getWalkTargetValue(@Nonnull BlockPos pos, @Nonnull LevelReader levelReader) {
+    public float getWalkTargetValue(@NotNull BlockPos pos, @NotNull LevelReader levelReader) {
         BlockState stateDown = levelReader.getBlockState(pos.below());
         if (stateDown.is(WaddlesTags.PENGUIN_SPAWNABLE_BLOCKS)) {
             return 10.0F;
@@ -80,7 +78,7 @@ public class AdeliePenguinEntity extends Animal {
     }
 
     @Override
-    protected SoundEvent getHurtSound(@Nonnull DamageSource source) {
+    protected SoundEvent getHurtSound(@NotNull DamageSource source) {
         return WaddlesSounds.ADELIE_HURT.get();
     }
 
@@ -111,18 +109,18 @@ public class AdeliePenguinEntity extends Animal {
     }
 
     @Override
-    public boolean isFood(@Nonnull ItemStack stack) {
+    public boolean isFood(@NotNull ItemStack stack) {
         return !stack.isEmpty() && TEMPTATION_ITEMS.test(stack);
     }
 
     @Override
-    @Nonnull
+    @NotNull
     public ResourceKey<LootTable> getDefaultLootTable() {
         return ConfigurationHandler.GENERAL.dropFish.get() ? super.getDefaultLootTable() : BuiltInLootTables.EMPTY;
     }
 
     @Override
-    public AgeableMob getBreedOffspring(@Nonnull ServerLevel serverLevel, @Nonnull AgeableMob ageableMob) {
+    public AgeableMob getBreedOffspring(@NotNull ServerLevel serverLevel, @NotNull AgeableMob ageableMob) {
         return PenguinRegistry.ADELIE_PENGUIN.get().create(this.level());
     }
 

@@ -10,8 +10,7 @@ import net.minecraft.client.model.geom.builders.LayerDefinition;
 import net.minecraft.client.model.geom.builders.MeshDefinition;
 import net.minecraft.client.model.geom.builders.PartDefinition;
 import net.minecraft.util.Mth;
-
-import javax.annotation.Nonnull;
+import org.jetbrains.annotations.NotNull;
 
 public class PenguinModel<T extends AdeliePenguinEntity> extends AgeableListModel<T> {
     private ModelPart head;
@@ -50,19 +49,19 @@ public class PenguinModel<T extends AdeliePenguinEntity> extends AgeableListMode
     }
 
     @Override
-    @Nonnull
+    @NotNull
     protected Iterable<ModelPart> headParts() {
         return ImmutableList.of(this.head, this.beak);
     }
 
     @Override
-    @Nonnull
+    @NotNull
     protected Iterable<ModelPart> bodyParts() {
         return ImmutableList.of(this.body, this.flipperLeft, this.flipperRight, this.feetLeft, this.feetRight, this.tail);
     }
 
     @Override
-    public void setupAnim(@Nonnull AdeliePenguinEntity penguin, float limbSwing, float limbSwingAmount, float ageInTicks, float netHeadYaw, float headPitch) {
+    public void setupAnim(@NotNull AdeliePenguinEntity penguin, float limbSwing, float limbSwingAmount, float ageInTicks, float netHeadYaw, float headPitch) {
         this.head.xRot = headPitch * 0.017453292F;
         this.head.yRot = netHeadYaw * 0.017453292F;
         this.head.zRot = (Mth.cos(limbSwing * 1.3324F) * 1.4F * limbSwingAmount) / 6;
