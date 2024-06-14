@@ -13,11 +13,11 @@ public class WaddlesTags {
     public static final TagKey<Biome> SPAWN_EXCLUDE_LIST = biomeTag("spawn_exclude");
 
     public static TagKey<Block> blockTag(String modID, String name) {
-        return TagKey.create(Registries.BLOCK, new ResourceLocation(modID, name));
+        return TagKey.create(Registries.BLOCK, ResourceLocation.fromNamespaceAndPath(modID, name));
     }
 
     public static TagKey<Biome> biomeTag(String name) {
-        return TagKey.create(Registries.BIOME, new ResourceLocation(Constants.MOD_ID, name));
+        return TagKey.create(Registries.BIOME, ResourceLocation.fromNamespaceAndPath(Constants.MOD_ID, name));
     }
 
     public static void load() {}

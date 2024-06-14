@@ -5,6 +5,7 @@ import com.girafi.waddles.init.WaddlesSounds;
 import com.girafi.waddles.utils.ConfigurationHandler;
 import com.girafi.waddles.utils.WaddlesTags;
 import net.minecraft.core.BlockPos;
+import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundEvent;
@@ -25,17 +26,18 @@ import net.minecraft.world.level.LevelReader;
 import net.minecraft.world.level.ServerLevelAccessor;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.storage.loot.BuiltInLootTables;
+import net.minecraft.world.level.storage.loot.LootTable;
 
 import javax.annotation.Nonnull;
 
 public class AdeliePenguinEntity extends Animal {
+    private static final EntityDimensions BABY_DIMENSIONS = PenguinRegistry.ADELIE_PENGUIN.get().getDimensions().scale(0.5F).withEyeHeight(0.5F);
     private static final Ingredient TEMPTATION_ITEMS = Ingredient.of(Items.COD, Items.SALMON);
     public short rotationFlipper;
     private boolean moveFlipper = false;
 
     public AdeliePenguinEntity(EntityType<? extends Animal> adelie, Level level) {
         super(adelie, level);
-        this.setMaxUpStep(1.0F);
     }
 
     @Override
@@ -50,6 +52,12 @@ public class AdeliePenguinEntity extends Animal {
         this.goalSelector.addGoal(7, new RandomStrollGoal(this, 1.0D));
         this.goalSelector.addGoal(8, new LookAtPlayerGoal(this, Player.class, 6.0F));
         this.goalSelector.addGoal(10, new RandomLookAroundGoal(this));
+    }
+
+    @Override
+    @Nonnull
+    public EntityDimensions getDefaultDimensions(@Nonnull Pose pose) {
+        return this.isBaby() ? BABY_DIMENSIONS : super.getDefaultDimensions(pose);
     }
 
     public static AttributeSupplier.Builder createAttributes() {
@@ -94,11 +102,12 @@ public class AdeliePenguinEntity extends Animal {
     }
 
     @Override
-    public int getExperienceReward() {
+    public int getBaseExperienceReward() {
         if (ConfigurationHandler.GENERAL.dropExp.get()) {
-            return super.getExperienceReward();
+            return super.getBaseExperienceReward();
+        } else {
+            return 0;
         }
-        return 0;
     }
 
     @Override
@@ -108,7 +117,7 @@ public class AdeliePenguinEntity extends Animal {
 
     @Override
     @Nonnull
-    public ResourceLocation getDefaultLootTable() {
+    public ResourceKey<LootTable> getDefaultLootTable() {
         return ConfigurationHandler.GENERAL.dropFish.get() ? super.getDefaultLootTable() : BuiltInLootTables.EMPTY;
     }
 
@@ -119,11 +128,6 @@ public class AdeliePenguinEntity extends Animal {
 
     public static boolean canPenguinSpawn(EntityType<? extends Animal> animal, ServerLevelAccessor serverLevelAccessor, MobSpawnType spawnType, BlockPos pos, RandomSource random) {
         return serverLevelAccessor.getBlockState(pos.below()).is(WaddlesTags.PENGUIN_SPAWNABLE_BLOCKS) && isBrightEnoughToSpawn(serverLevelAccessor, pos);
-    }
-
-    @Override
-    protected float getStandingEyeHeight(@Nonnull Pose pose, @Nonnull EntityDimensions entityDimensions) {
-        return this.isBaby() ? 0.5F : 0.9F;
     }
 
     private class EntityAIExtinguishFire extends PanicGoal {

@@ -15,7 +15,7 @@ public class WaddlesSounds {
     public static final RegistryObject<SoundEvent> ADELIE_HURT = createSound("adelie.hurt");
 
     private static RegistryObject<SoundEvent> createSound(String name) {
-        ResourceLocation resourceLocation = new ResourceLocation(Constants.MOD_ID, name);
+        ResourceLocation resourceLocation = ResourceLocation.fromNamespaceAndPath(Constants.MOD_ID, name);
         return SOUNDS.register(name, () -> SoundEvent.createVariableRangeEvent(resourceLocation));
     }
 

@@ -25,8 +25,8 @@ public class PenguinRegistry {
     public static final RegistryObject<EntityType<? extends AdeliePenguinEntity>> ADELIE_PENGUIN = registerPenguin("adelie_penguin", () -> AdeliePenguinEntity::new, 0.4F, 0.95F, 0x000000, 0xFFFFFF);
 
     private static <T extends AdeliePenguinEntity> RegistryObject<EntityType<? extends AdeliePenguinEntity>> registerPenguin(String name, Supplier<EntityType.EntityFactory<T>> factory, float width, float height, int eggPrimary, int eggSecondary) {
-        ResourceLocation location = new ResourceLocation(Constants.MOD_ID, name);
-        RegistryObject<EntityType<? extends AdeliePenguinEntity>> entityType = ENTITIES.register(name, () -> EntityType.Builder.of(factory.get(), MobCategory.CREATURE).sized(width, height).clientTrackingRange(64).updateInterval(1).build(location.toString()));
+        ResourceLocation location = ResourceLocation.fromNamespaceAndPath(Constants.MOD_ID, name);
+        RegistryObject<EntityType<? extends AdeliePenguinEntity>> entityType = ENTITIES.register(name, () -> EntityType.Builder.of(factory.get(), MobCategory.CREATURE).sized(width, height).clientTrackingRange(64).updateInterval(1).eyeHeight(0.9F).canSpawnFarFromPlayer().build(location.toString()));
 
         PENGUINS.put(entityType, name);
         PENGUIN_EGG_PRIMARY.put(entityType, eggPrimary);

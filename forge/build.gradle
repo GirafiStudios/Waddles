@@ -1,5 +1,5 @@
 plugins {
-    id 'idea'
+    id 'multiloader-loader'
     id 'net.minecraftforge.gradle' version '[6.0,6.2)'
 }
 

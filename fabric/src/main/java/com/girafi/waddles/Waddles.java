@@ -14,10 +14,7 @@ import net.minecraft.core.Registry;
 import net.minecraft.core.dispenser.DispenseItemBehavior;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraft.world.entity.EntityType;
-import net.minecraft.world.entity.MobCategory;
-import net.minecraft.world.entity.MobSpawnType;
-import net.minecraft.world.entity.SpawnPlacements;
+import net.minecraft.world.entity.*;
 import net.minecraft.world.item.CreativeModeTabs;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
@@ -34,7 +31,7 @@ import static com.girafi.waddles.init.PenguinRegistry.*;
 public class Waddles implements ModInitializer {
     private static final DispenseItemBehavior DEFAULT_DISPENSE_BEHAVIOR = (source, stack) -> {
         Direction face = source.state().getValue(DispenserBlock.FACING);
-        EntityType<?> type = ((SpawnEggItem) stack.getItem()).getType(stack.getTag());
+        EntityType<?> type = ((SpawnEggItem) stack.getItem()).getType(stack);
 
         try {
             type.spawn(source.level(), stack, null, source.pos().relative(face), MobSpawnType.DISPENSER, face != Direction.UP, false);
@@ -59,11 +56,11 @@ public class Waddles implements ModInitializer {
 
     public void register() {
         PENGUINS.forEach((penguin, name) -> {
-            Item spawnEgg = Registry.register(BuiltInRegistries.ITEM, new ResourceLocation(Constants.MOD_ID, name + "_spawn_egg"), new SpawnEggItem(penguin.get(), PENGUIN_EGG_PRIMARY.get(penguin), PENGUIN_EGG_SECONDARY.get(penguin), new Item.Properties()));
+            Item spawnEgg = Registry.register(BuiltInRegistries.ITEM, ResourceLocation.fromNamespaceAndPath(Constants.MOD_ID, name + "_spawn_egg"), new SpawnEggItem(penguin.get(), PENGUIN_EGG_PRIMARY.get(penguin), PENGUIN_EGG_SECONDARY.get(penguin), new Item.Properties()));
             FabricDefaultAttributeRegistry.register(penguin.get(), AdeliePenguinEntity.createAttributes());
             DispenserBlock.registerBehavior(spawnEgg, DEFAULT_DISPENSE_BEHAVIOR);
             ItemGroupEvents.modifyEntriesEvent(CreativeModeTabs.SPAWN_EGGS).register(content -> content.accept(spawnEgg));
-            SpawnPlacements.register(penguin.get(), SpawnPlacements.Type.ON_GROUND, Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, AdeliePenguinEntity::canPenguinSpawn);
+            SpawnPlacements.register(penguin.get(), SpawnPlacementTypes.ON_GROUND, Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, AdeliePenguinEntity::canPenguinSpawn);
         });
     }
 
