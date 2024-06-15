@@ -1,6 +1,6 @@
 plugins {
     id 'multiloader-loader'
-    id 'net.minecraftforge.gradle' version '[6.0,6.2)'
+    id 'net.minecraftforge.gradle' version '[6.0.24,6.2)'
 }
 
 base {
@@ -75,17 +75,9 @@ dependencies {
     compileOnly project(":common")
     implementation fg.deobf("fuzs.forgeconfigapiport:forgeconfigapiport-forge:${forge_config_api_port}")
     jarJar group: 'fuzs.forgeconfigapiport', name: 'forgeconfigapiport-forge', version: '[20.4.1, 30.0.0)'
-}
-
-tasks.withType(JavaCompile).configureEach {
-    source(project(":common").sourceSets.main.allSource)
-}
-tasks.named("sourcesJar", Jar) {
-    from(project(":common").sourceSets.main.allSource)
-}
-
-processResources {
-    from project(":common").sourceSets.main.resources
+	
+    // Hack fix for now, force jopt-simple to be exactly 5.0.4 because Mojang ships that version, but some transitive dependencies request 6.0+ 
+    implementation('net.sf.jopt-simple:jopt-simple:5.0.4') { version { strictly '5.0.4' } }
 }
 
 jar.finalizedBy('reobfJar')
