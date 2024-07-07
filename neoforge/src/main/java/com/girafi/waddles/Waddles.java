@@ -4,14 +4,12 @@ import com.girafi.waddles.entity.AdeliePenguinEntity;
 import com.girafi.waddles.init.PenguinRegistry;
 import com.girafi.waddles.utils.ConfigurationHandler;
 import net.minecraft.world.entity.SpawnPlacementTypes;
-import net.minecraft.world.entity.SpawnPlacements;
 import net.minecraft.world.item.CreativeModeTabs;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.level.levelgen.Heightmap;
 import net.neoforged.bus.api.IEventBus;
 import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.ModContainer;
-import net.neoforged.fml.ModLoadingContext;
 import net.neoforged.fml.common.EventBusSubscriber;
 import net.neoforged.fml.common.Mod;
 import net.neoforged.fml.config.ModConfig;
@@ -20,7 +18,7 @@ import net.neoforged.fml.event.lifecycle.FMLCommonSetupEvent;
 import net.neoforged.neoforge.common.DeferredSpawnEggItem;
 import net.neoforged.neoforge.event.BuildCreativeModeTabContentsEvent;
 import net.neoforged.neoforge.event.entity.EntityAttributeCreationEvent;
-import net.neoforged.neoforge.event.entity.SpawnPlacementRegisterEvent;
+import net.neoforged.neoforge.event.entity.RegisterSpawnPlacementsEvent;
 import net.neoforged.neoforge.registries.DeferredRegister;
 
 import java.util.function.Supplier;
@@ -64,8 +62,8 @@ public class Waddles {
     @EventBusSubscriber(modid = Constants.MOD_ID, bus = EventBusSubscriber.Bus.MOD)
     public static class Events {
         @SubscribeEvent
-        public static void registerSpawnPlacements(SpawnPlacementRegisterEvent event) {
-            event.register(PenguinRegistry.ADELIE_PENGUIN.get(), SpawnPlacementTypes.ON_GROUND, Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, AdeliePenguinEntity::canPenguinSpawn, SpawnPlacementRegisterEvent.Operation.AND);
+        public static void registerSpawnPlacements(RegisterSpawnPlacementsEvent event) {
+            event.register(PenguinRegistry.ADELIE_PENGUIN.get(), SpawnPlacementTypes.ON_GROUND, Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, AdeliePenguinEntity::canPenguinSpawn, RegisterSpawnPlacementsEvent.Operation.AND);
         }
 
         @SubscribeEvent
