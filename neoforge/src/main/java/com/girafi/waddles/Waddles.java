@@ -19,13 +19,12 @@ import net.neoforged.fml.event.lifecycle.FMLCommonSetupEvent;
 import net.neoforged.neoforge.event.BuildCreativeModeTabContentsEvent;
 import net.neoforged.neoforge.event.entity.EntityAttributeCreationEvent;
 import net.neoforged.neoforge.event.entity.RegisterSpawnPlacementsEvent;
-import net.neoforged.neoforge.registries.DeferredItem;
 import net.neoforged.neoforge.registries.DeferredRegister;
-import net.neoforged.neoforge.registries.RegisterEvent;
 
 import java.util.function.Supplier;
 
-import static com.girafi.waddles.init.PenguinRegistry.*;
+import static com.girafi.waddles.init.PenguinRegistry.PENGUINS;
+import static com.girafi.waddles.init.PenguinRegistry.SPAWN_EGGS;
 
 @Mod(Constants.MOD_ID)
 public class Waddles {

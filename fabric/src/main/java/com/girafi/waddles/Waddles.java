@@ -11,6 +11,8 @@ import net.fabricmc.fabric.api.itemgroup.v1.ItemGroupEvents;
 import net.fabricmc.fabric.api.object.builder.v1.entity.FabricDefaultAttributeRegistry;
 import net.minecraft.core.Registry;
 import net.minecraft.core.registries.BuiltInRegistries;
+import net.minecraft.core.registries.Registries;
+import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.MobCategory;
 import net.minecraft.world.entity.SpawnPlacementTypes;
@@ -40,7 +42,8 @@ public class Waddles implements ModInitializer {
 
     public void register() {
         PENGUINS.forEach((penguin, name) -> {
-            Item spawnEgg = Registry.register(BuiltInRegistries.ITEM, ResourceLocation.fromNamespaceAndPath(Constants.MOD_ID, name + "_spawn_egg"), new SpawnEggItem(penguin.get(), new Item.Properties()));
+            ResourceLocation spawnEggID = ResourceLocation.fromNamespaceAndPath(Constants.MOD_ID, name + "_spawn_egg");
+            Item spawnEgg = Registry.register(BuiltInRegistries.ITEM, spawnEggID, new SpawnEggItem(penguin.get(), new Item.Properties().setId(ResourceKey.create(Registries.ITEM, spawnEggID))));
             FabricDefaultAttributeRegistry.register(penguin.get(), AdeliePenguinEntity.createAttributes());
             DispenserBlock.registerBehavior(spawnEgg, CommonClass.DEFAULT_DISPENSE_BEHAVIOR);
             ItemGroupEvents.modifyEntriesEvent(CreativeModeTabs.SPAWN_EGGS).register(content -> content.accept(spawnEgg));

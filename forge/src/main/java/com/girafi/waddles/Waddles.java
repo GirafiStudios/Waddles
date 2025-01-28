@@ -4,10 +4,11 @@ import com.girafi.waddles.entity.AdeliePenguinEntity;
 import com.girafi.waddles.init.PenguinRegistry;
 import com.girafi.waddles.utils.ConfigurationHandler;
 import fuzs.forgeconfigapiport.forge.api.neoforge.v4.NeoForgeConfigRegistry;
+import net.minecraft.world.entity.SpawnPlacementTypes;
 import net.minecraft.world.item.CreativeModeTabs;
 import net.minecraft.world.item.Item;
+import net.minecraft.world.item.SpawnEggItem;
 import net.minecraft.world.level.levelgen.Heightmap;
-import net.minecraftforge.common.ForgeSpawnEggItem;
 import net.minecraftforge.event.BuildCreativeModeTabContentsEvent;
 import net.minecraftforge.event.entity.EntityAttributeCreationEvent;
 import net.minecraftforge.event.entity.SpawnPlacementRegisterEvent;
@@ -24,6 +25,7 @@ import net.minecraftforge.registries.ForgeRegistries;
 import java.util.function.Supplier;
 
 import static com.girafi.waddles.init.PenguinRegistry.PENGUINS;
+import static com.girafi.waddles.init.PenguinRegistry.SPAWN_EGGS;
 
 @Mod(value = Constants.MOD_ID)
 public class Waddles {
@@ -49,7 +51,7 @@ public class Waddles {
 
     public void register() {
         PENGUINS.forEach((penguin, name) -> {
-            Supplier<Item> spawnEgg = ITEM_DEFERRED.register(name + "_spawn_egg", () -> new ForgeSpawnEggItem(penguin, PENGUIN_EGG_PRIMARY.get(penguin), PENGUIN_EGG_SECONDARY.get(penguin), new Item.Properties()));
+            Supplier<Item> spawnEgg = ITEM_DEFERRED.register(name + "_spawn_egg", () -> new SpawnEggItem(penguin.get(), new Item.Properties()));
             SPAWN_EGGS.add(spawnEgg);
         });
         PenguinSpawn.BIOME_MODIFIER_SERIALIZERS_DEFERRED.register("penguin_spawn", PenguinSpawn.PenguinBiomeModifier::makeCodec);

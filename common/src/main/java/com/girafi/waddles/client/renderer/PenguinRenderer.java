@@ -7,6 +7,7 @@ import com.girafi.waddles.entity.AdeliePenguinEntity;
 import com.girafi.waddles.utils.ConfigurationHandler;
 import net.minecraft.client.renderer.entity.AgeableMobRenderer;
 import net.minecraft.client.renderer.entity.EntityRendererProvider;
+import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 
 import javax.annotation.Nonnull;
@@ -20,17 +21,26 @@ public class PenguinRenderer extends AgeableMobRenderer<AdeliePenguinEntity, Pen
     @Override
     @Nonnull
     public ResourceLocation getTextureLocation(@Nonnull PenguinRenderState state) {
-        String name = state.customName.getString().toLowerCase().trim(); //TODO Test
-        return switch (name) {
-            case "joshie", "joshiejack" -> this.getPenguinTexture("joshie");
-            case "darkosto" -> this.getPenguinTexture("darkosto");
-            case "waddles", "adelie", "girafi", "wiiv" -> getDefault(state);
-            default -> ConfigurationHandler.GENERAL.darkostoDefault.get() ? this.getPenguinTexture("darkosto") : getDefault(state);
-        };
+        Component customName = state.customName;
+        if (customName != null) {
+            String name = customName.getString().toLowerCase().trim();
+            return switch (name) {
+                case "joshie", "joshiejack" -> this.getPenguinTexture("joshie");
+                case "darkosto" -> this.getPenguinTexture("darkosto");
+                case "waddles", "adelie", "girafi", "wiiv" -> getBaseDefault(state);
+                default -> getDefault(state);
+            };
+        } else {
+            return getDefault(state);
+        }
+    }
+
+    private ResourceLocation getBaseDefault(@Nonnull PenguinRenderState state) {
+        return state.isBaby ? this.getPenguinTexture("adelie_child") : this.getPenguinTexture("adelie");
     }
 
     private ResourceLocation getDefault(@Nonnull PenguinRenderState state) {
-        return state.isBaby ? this.getPenguinTexture("adelie_child") : this.getPenguinTexture("adelie");
+        return ConfigurationHandler.GENERAL.darkostoDefault.get() ? this.getPenguinTexture("darkosto") : getBaseDefault(state);
     }
 
     private ResourceLocation getPenguinTexture(String fileName) {

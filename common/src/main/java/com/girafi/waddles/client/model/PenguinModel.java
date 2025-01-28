@@ -24,7 +24,6 @@ public class PenguinModel extends EntityModel<PenguinRenderState> {
 
     public PenguinModel(ModelPart part) {
         super(part);
-        //super(false, 6.0F, 0.0F);
         this.head = part.getChild("head");
         this.beak = part.getChild("beak");
         this.body = part.getChild("body");
@@ -52,14 +51,23 @@ public class PenguinModel extends EntityModel<PenguinRenderState> {
     @Override
     public void setupAnim(@Nonnull PenguinRenderState state) {
         super.setupAnim(state);
-        this.head.xRot = state.xRot * 0.017453292F;
-        this.head.yRot = state.yRot * 0.017453292F;
-        //this.head.zRot = (Mth.cos(limbSwing * 1.3324F) * 1.4F * limbSwingAmount) / 6;
-        this.beak.xRot = this.head.xRot;
-        this.beak.yRot = this.head.yRot;
-        //this.body.zRot = (Mth.cos(limbSwing * 1.3324F) * 1.4F * limbSwingAmount) / 6;
+
+        if (state.isBaby) {
+            this.head.y += 1.5F;
+            this.head.z -= 1.5F;
+
+            this.beak.y += 1.5F;
+            this.beak.z -= 1.5F;
+        }
+
         float walkSpeed = state.walkAnimationSpeed;
         float walkPos = state.walkAnimationPos;
+        this.head.xRot = state.xRot * 0.017453292F;
+        this.head.yRot = state.yRot * 0.017453292F;
+        this.head.zRot = (Mth.cos(walkPos * 1.3324F) * 1.4F * walkSpeed) / 6;
+        this.beak.xRot = this.head.xRot;
+        this.beak.yRot = this.head.yRot;
+        this.body.zRot = (Mth.cos(walkPos * 1.3324F) * 1.4F * walkSpeed) / 6;
         this.feetRight.xRot = Mth.cos(walkPos * 1.3324F) * 1.2F * walkSpeed;
         this.feetLeft.xRot = Mth.cos(walkPos * 1.3324F + (float) Math.PI) * 1.2F * walkSpeed;
         this.flipperRight.zRot = 0.08726646259971647F + (Mth.cos(state.rotationFlipper) * walkSpeed);

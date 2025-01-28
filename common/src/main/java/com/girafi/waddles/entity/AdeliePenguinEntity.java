@@ -57,7 +57,7 @@ public class AdeliePenguinEntity extends Animal {
     }
 
     public static AttributeSupplier.Builder createAttributes() {
-        return Mob.createMobAttributes().add(Attributes.MAX_HEALTH, 8.0D).add(Attributes.MOVEMENT_SPEED, 0.16D);
+        return Animal.createAnimalAttributes().add(Attributes.MAX_HEALTH, 8.0D).add(Attributes.MOVEMENT_SPEED, 0.16D);
     }
 
     @Override
@@ -111,12 +111,10 @@ public class AdeliePenguinEntity extends Animal {
         return !stack.isEmpty() && TEMPTATION_ITEMS.test(stack);
     }
 
-
-    /*@Override
-    @Nonnull
-    public ResourceKey<LootTable> getDefaultLootTable() {
-        return ConfigurationHandler.GENERAL.dropFish.get() ? super.getDefaultLootTable() : BuiltInLootTables.EMPTY;
-    }*/
+    @Override
+    protected boolean shouldDropLoot() {
+        return ConfigurationHandler.GENERAL.dropFish.get();
+    }
 
     @Override
     public AgeableMob getBreedOffspring(@Nonnull ServerLevel serverLevel, @Nonnull AgeableMob ageableMob) {
