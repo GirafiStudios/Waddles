@@ -4,7 +4,6 @@ import com.girafi.waddles.entity.AdeliePenguinEntity;
 import com.girafi.waddles.init.PenguinRegistry;
 import com.girafi.waddles.utils.ConfigurationHandler;
 import fuzs.forgeconfigapiport.forge.api.neoforge.v4.NeoForgeConfigRegistry;
-import net.minecraft.world.entity.SpawnPlacements;
 import net.minecraft.world.item.CreativeModeTabs;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.level.levelgen.Heightmap;
@@ -24,7 +23,7 @@ import net.minecraftforge.registries.ForgeRegistries;
 
 import java.util.function.Supplier;
 
-import static com.girafi.waddles.init.PenguinRegistry.*;
+import static com.girafi.waddles.init.PenguinRegistry.PENGUINS;
 
 @Mod(value = Constants.MOD_ID)
 public class Waddles {

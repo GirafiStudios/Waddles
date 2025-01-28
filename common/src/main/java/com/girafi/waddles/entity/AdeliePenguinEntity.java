@@ -5,7 +5,6 @@ import com.girafi.waddles.init.WaddlesSounds;
 import com.girafi.waddles.utils.ConfigurationHandler;
 import com.girafi.waddles.utils.WaddlesTags;
 import net.minecraft.core.BlockPos;
-import net.minecraft.resources.ResourceKey;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.util.RandomSource;
@@ -24,8 +23,6 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.level.LevelReader;
 import net.minecraft.world.level.ServerLevelAccessor;
 import net.minecraft.world.level.block.state.BlockState;
-import net.minecraft.world.level.storage.loot.BuiltInLootTables;
-import net.minecraft.world.level.storage.loot.LootTable;
 
 import javax.annotation.Nonnull;
 
@@ -101,9 +98,9 @@ public class AdeliePenguinEntity extends Animal {
     }
 
     @Override
-    public int getBaseExperienceReward() {
+    public int getBaseExperienceReward(@Nonnull ServerLevel level) {
         if (ConfigurationHandler.GENERAL.dropExp.get()) {
-            return super.getBaseExperienceReward();
+            return super.getBaseExperienceReward(level);
         } else {
             return 0;
         }
@@ -114,18 +111,19 @@ public class AdeliePenguinEntity extends Animal {
         return !stack.isEmpty() && TEMPTATION_ITEMS.test(stack);
     }
 
-    @Override
+
+    /*@Override
     @Nonnull
     public ResourceKey<LootTable> getDefaultLootTable() {
         return ConfigurationHandler.GENERAL.dropFish.get() ? super.getDefaultLootTable() : BuiltInLootTables.EMPTY;
-    }
+    }*/
 
     @Override
     public AgeableMob getBreedOffspring(@Nonnull ServerLevel serverLevel, @Nonnull AgeableMob ageableMob) {
-        return PenguinRegistry.ADELIE_PENGUIN.get().create(this.level());
+        return PenguinRegistry.ADELIE_PENGUIN.get().create(this.level(), EntitySpawnReason.BREEDING);
     }
 
-    public static boolean canPenguinSpawn(EntityType<? extends Animal> animal, ServerLevelAccessor serverLevelAccessor, MobSpawnType spawnType, BlockPos pos, RandomSource random) {
+    public static boolean canPenguinSpawn(EntityType<? extends Animal> animal, ServerLevelAccessor serverLevelAccessor, EntitySpawnReason spawnType, BlockPos pos, RandomSource random) {
         return serverLevelAccessor.getBlockState(pos.below()).is(WaddlesTags.PENGUIN_SPAWNABLE_BLOCKS) && isBrightEnoughToSpawn(serverLevelAccessor, pos);
     }
 

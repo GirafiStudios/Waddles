@@ -1,30 +1,30 @@
 package com.girafi.waddles.client.model;
 
-import com.girafi.waddles.entity.AdeliePenguinEntity;
-import com.google.common.collect.ImmutableList;
-import net.minecraft.client.model.AgeableListModel;
+import com.girafi.waddles.client.renderer.PenguinRenderState;
+import net.minecraft.client.model.BabyModelTransform;
+import net.minecraft.client.model.EntityModel;
 import net.minecraft.client.model.geom.ModelPart;
 import net.minecraft.client.model.geom.PartPose;
-import net.minecraft.client.model.geom.builders.CubeListBuilder;
-import net.minecraft.client.model.geom.builders.LayerDefinition;
-import net.minecraft.client.model.geom.builders.MeshDefinition;
-import net.minecraft.client.model.geom.builders.PartDefinition;
+import net.minecraft.client.model.geom.builders.*;
 import net.minecraft.util.Mth;
 
 import javax.annotation.Nonnull;
+import java.util.Set;
 
-public class PenguinModel<T extends AdeliePenguinEntity> extends AgeableListModel<T> {
-    private ModelPart head;
-    private ModelPart beak;
-    private ModelPart body;
-    private ModelPart flipperLeft;
-    private ModelPart flipperRight;
-    private ModelPart feetLeft;
-    private ModelPart feetRight;
-    private ModelPart tail;
+public class PenguinModel extends EntityModel<PenguinRenderState> {
+    public static final MeshTransformer BABY_TRANSFORMER = new BabyModelTransform(Set.of("head", "beak"));
+    private final ModelPart head;
+    private final ModelPart beak;
+    private final ModelPart body;
+    private final ModelPart flipperLeft;
+    private final ModelPart flipperRight;
+    private final ModelPart feetLeft;
+    private final ModelPart feetRight;
+    private final ModelPart tail;
 
     public PenguinModel(ModelPart part) {
-        super(false, 6.0F, 0.0F);
+        super(part);
+        //super(false, 6.0F, 0.0F);
         this.head = part.getChild("head");
         this.beak = part.getChild("beak");
         this.body = part.getChild("body");
@@ -50,29 +50,20 @@ public class PenguinModel<T extends AdeliePenguinEntity> extends AgeableListMode
     }
 
     @Override
-    @Nonnull
-    protected Iterable<ModelPart> headParts() {
-        return ImmutableList.of(this.head, this.beak);
-    }
-
-    @Override
-    @Nonnull
-    protected Iterable<ModelPart> bodyParts() {
-        return ImmutableList.of(this.body, this.flipperLeft, this.flipperRight, this.feetLeft, this.feetRight, this.tail);
-    }
-
-    @Override
-    public void setupAnim(@Nonnull AdeliePenguinEntity penguin, float limbSwing, float limbSwingAmount, float ageInTicks, float netHeadYaw, float headPitch) {
-        this.head.xRot = headPitch * 0.017453292F;
-        this.head.yRot = netHeadYaw * 0.017453292F;
-        this.head.zRot = (Mth.cos(limbSwing * 1.3324F) * 1.4F * limbSwingAmount) / 6;
+    public void setupAnim(@Nonnull PenguinRenderState state) {
+        super.setupAnim(state);
+        this.head.xRot = state.xRot * 0.017453292F;
+        this.head.yRot = state.yRot * 0.017453292F;
+        //this.head.zRot = (Mth.cos(limbSwing * 1.3324F) * 1.4F * limbSwingAmount) / 6;
         this.beak.xRot = this.head.xRot;
         this.beak.yRot = this.head.yRot;
-        this.body.zRot = (Mth.cos(limbSwing * 1.3324F) * 1.4F * limbSwingAmount) / 6;
-        this.feetRight.xRot = Mth.cos(limbSwing * 1.3324F) * 1.2F * limbSwingAmount;
-        this.feetLeft.xRot = Mth.cos(limbSwing * 1.3324F + (float) Math.PI) * 1.2F * limbSwingAmount;
-        this.flipperRight.zRot = 0.08726646259971647F + (Mth.cos(penguin.rotationFlipper) * limbSwingAmount);
-        this.flipperLeft.zRot = -0.08726646259971647F + (Mth.cos((float) penguin.rotationFlipper + (float) Math.PI) * limbSwingAmount);
-        this.tail.yRot = Mth.cos(limbSwing * 0.6662F) * 1.4F * 1.4F * limbSwingAmount;
+        //this.body.zRot = (Mth.cos(limbSwing * 1.3324F) * 1.4F * limbSwingAmount) / 6;
+        float walkSpeed = state.walkAnimationSpeed;
+        float walkPos = state.walkAnimationPos;
+        this.feetRight.xRot = Mth.cos(walkPos * 1.3324F) * 1.2F * walkSpeed;
+        this.feetLeft.xRot = Mth.cos(walkPos * 1.3324F + (float) Math.PI) * 1.2F * walkSpeed;
+        this.flipperRight.zRot = 0.08726646259971647F + (Mth.cos(state.rotationFlipper) * walkSpeed);
+        this.flipperLeft.zRot = -0.08726646259971647F + (Mth.cos((float) state.rotationFlipper + (float) Math.PI) * walkSpeed);
+        this.tail.yRot = Mth.cos(walkPos * 0.6662F) * 1.4F * 1.4F * walkSpeed;
     }
 }

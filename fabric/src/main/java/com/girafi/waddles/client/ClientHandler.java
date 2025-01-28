@@ -13,5 +13,6 @@ public class ClientHandler implements ClientModInitializer {
     public void onInitializeClient() {
         EntityRendererRegistry.register(PenguinRegistry.ADELIE_PENGUIN.get(), PenguinRenderer::new);
         EntityModelLayerRegistry.registerModelLayer(ClientHelper.PENGUIN_LAYER, PenguinModel::createBodyLayer);
+        EntityModelLayerRegistry.registerModelLayer(ClientHelper.PENGUIN_LAYER_BABY, () -> PenguinModel.createBodyLayer().apply(PenguinModel.BABY_TRANSFORMER));
     }
 }

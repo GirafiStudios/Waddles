@@ -20,5 +20,6 @@ public class ClientHandler {
     @SubscribeEvent
     public static void registerLayerDefinition(EntityRenderersEvent.RegisterLayerDefinitions event) {
         event.registerLayerDefinition(ClientHelper.PENGUIN_LAYER, PenguinModel::createBodyLayer);
+        event.registerLayerDefinition(ClientHelper.PENGUIN_LAYER_BABY, () -> PenguinModel.createBodyLayer().apply(PenguinModel.BABY_TRANSFORMER));
     }
 }
