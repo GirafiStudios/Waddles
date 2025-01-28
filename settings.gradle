@@ -48,4 +48,3 @@ rootProject.name = 'Waddles'
 include('common')
 include('fabric')
 include('neoforge')
-include('forge')
