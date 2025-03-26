@@ -1,0 +1,6 @@
+{
+  "parent": "minecraft:item/generated",
+  "textures": {
+    "layer0": "waddles:item/adelie_penguin_spawn_egg"
+  }
+}

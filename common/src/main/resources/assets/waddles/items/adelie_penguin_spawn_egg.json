@@ -1,16 +1,6 @@
 {
   "model": {
     "type": "minecraft:model",
-    "model": "minecraft:item/template_spawn_egg",
-    "tints": [
-      {
-        "type": "minecraft:constant",
-        "value": 0
-      },
-      {
-        "type": "minecraft:constant",
-        "value": 16777215
-      }
-    ]
+    "model": "waddles:item/adelie_penguin_spawn_egg"
   }
 }
