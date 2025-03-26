@@ -2,6 +2,7 @@ plugins {
     id 'multiloader-common'
     id 'net.neoforged.moddev'
 }
+
 base {
     archivesName = "${mod_name}-common-${minecraft_version}"
 }
