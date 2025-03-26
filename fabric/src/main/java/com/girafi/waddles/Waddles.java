@@ -3,7 +3,7 @@ package com.girafi.waddles;
 import com.girafi.waddles.entity.AdeliePenguinEntity;
 import com.girafi.waddles.utils.ConfigurationHandler;
 import com.girafi.waddles.utils.WaddlesTags;
-import fuzs.forgeconfigapiport.fabric.api.neoforge.v4.NeoForgeConfigRegistry;
+import fuzs.forgeconfigapiport.fabric.api.v5.ConfigRegistry;
 import net.fabricmc.api.ModInitializer;
 import net.fabricmc.fabric.api.biome.v1.BiomeModifications;
 import net.fabricmc.fabric.api.biome.v1.BiomeSelectionContext;
@@ -33,7 +33,7 @@ public class Waddles implements ModInitializer {
 
     @Override
     public void onInitialize() {
-        NeoForgeConfigRegistry.INSTANCE.register(Constants.MOD_ID, ModConfig.Type.COMMON, ConfigurationHandler.spec);
+        ConfigRegistry.INSTANCE.register(Constants.MOD_ID, ModConfig.Type.COMMON, ConfigurationHandler.spec);
         CommonClass.init();
 
         register();
