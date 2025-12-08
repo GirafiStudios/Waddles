@@ -90,6 +90,7 @@ modrinth {
     projectId = "LlRoNRWC"
     changelog = changelogText
     versionNumber = "${version}"
+    versionName = "${mod_name}-neoforge-${minecraft_version}"
     versionType = "release"
     loaders = ["neoforge"]
     gameVersions = rootProject.parseVersionRange(minecraft_version_range).list

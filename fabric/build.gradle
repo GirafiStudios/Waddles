@@ -74,7 +74,7 @@ loom.remapConfigurations.configureEach {
 task publishCurseForge(type: net.darkhax.curseforgegradle.TaskPublishCurseForge) {
     apiToken = System.getenv("curse_auth")
 
-    var mainFile = upload(251767, jar)
+    var mainFile = upload(251767, tasks.remapJar)
     mainFile.changelogType = 'markdown'
     mainFile.changelog = rootProject.findProperty('mod_changelog')
     mainFile.addJavaVersion('Java 21')
@@ -91,6 +91,7 @@ modrinth {
     projectId = "LlRoNRWC"
     changelog = changelogText
     versionNumber = "${version}"
+    versionName = "${mod_name}-fabric-${minecraft_version}"
     versionType = "release"
     loaders = ["fabric"]
     gameVersions = rootProject.parseVersionRange(minecraft_version_range).list
