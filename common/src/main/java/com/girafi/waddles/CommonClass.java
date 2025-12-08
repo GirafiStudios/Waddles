@@ -16,7 +16,7 @@ public class CommonClass {
 
     public static final DispenseItemBehavior DEFAULT_DISPENSE_BEHAVIOR = (source, stack) -> {
         Direction face = source.state().getValue(DispenserBlock.FACING);
-        EntityType<?> type = ((SpawnEggItem) stack.getItem()).getType(source.level().registryAccess(), stack);
+        EntityType<?> type = ((SpawnEggItem) stack.getItem()).getType(stack);
 
         try {
             type.spawn(source.level(), stack, null, source.pos().relative(face), EntitySpawnReason.DISPENSER, face != Direction.UP, false);

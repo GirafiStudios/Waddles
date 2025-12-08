@@ -57,5 +57,6 @@ public class PenguinRenderer extends AgeableMobRenderer<AdeliePenguinEntity, Pen
     public void extractRenderState(@Nonnull AdeliePenguinEntity penguin, @Nonnull PenguinRenderState state, float partialTick) {
         super.extractRenderState(penguin, state, partialTick);
         state.rotationFlipper = penguin.rotationFlipper;
+        state.customName = penguin.getCustomName();
     }
 }

@@ -88,7 +88,7 @@ public class AdeliePenguinEntity extends Animal {
     @Override
     public void aiStep() {
         super.aiStep();
-        if (this.level().isClientSide) {
+        if (this.level().isClientSide()) {
             if (this.getX() != this.zo) {
                 if (this.moveFlipper) {
                     this.rotationFlipper++;
@@ -112,7 +112,7 @@ public class AdeliePenguinEntity extends Animal {
     }
 
     @Override
-    protected boolean shouldDropLoot() {
+    protected boolean shouldDropLoot(@Nonnull ServerLevel serverLevel) {
         return ConfigurationHandler.GENERAL.dropFish.get();
     }
 

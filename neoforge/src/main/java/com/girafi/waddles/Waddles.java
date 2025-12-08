@@ -49,7 +49,7 @@ public class Waddles {
 
     public void register() {
         PENGUINS.forEach((penguin, name) -> {
-            Supplier<Item> spawnEgg = ITEM_DEFERRED.registerItem(name + "_spawn_egg", properties -> new SpawnEggItem(penguin.get(), properties));
+            Supplier<Item> spawnEgg = ITEM_DEFERRED.registerItem(name + "_spawn_egg", properties -> new SpawnEggItem(properties.spawnEgg(penguin.get())));
             SPAWN_EGGS.add(spawnEgg);
         });
         PenguinSpawn.BIOME_MODIFIER_SERIALIZERS_DEFERRED.register("penguin_spawn", PenguinSpawn.PenguinBiomeModifier::makeCodec);
@@ -60,7 +60,7 @@ public class Waddles {
         ITEM_DEFERRED.register(modBus);
     }
 
-    @EventBusSubscriber(modid = Constants.MOD_ID, bus = EventBusSubscriber.Bus.MOD)
+    @EventBusSubscriber(modid = Constants.MOD_ID)
     public static class Events {
         @SubscribeEvent
         public static void registerSpawnPlacements(RegisterSpawnPlacementsEvent event) {

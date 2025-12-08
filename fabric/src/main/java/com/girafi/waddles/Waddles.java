@@ -43,7 +43,7 @@ public class Waddles implements ModInitializer {
     public void register() {
         PENGUINS.forEach((penguin, name) -> {
             ResourceLocation spawnEggID = ResourceLocation.fromNamespaceAndPath(Constants.MOD_ID, name + "_spawn_egg");
-            Item spawnEgg = Registry.register(BuiltInRegistries.ITEM, spawnEggID, new SpawnEggItem(penguin.get(), new Item.Properties().setId(ResourceKey.create(Registries.ITEM, spawnEggID))));
+            Item spawnEgg = Registry.register(BuiltInRegistries.ITEM, spawnEggID, new SpawnEggItem(new Item.Properties().setId(ResourceKey.create(Registries.ITEM, spawnEggID)).spawnEgg(penguin.get())));
             FabricDefaultAttributeRegistry.register(penguin.get(), AdeliePenguinEntity.createAttributes());
             DispenserBlock.registerBehavior(spawnEgg, CommonClass.DEFAULT_DISPENSE_BEHAVIOR);
             ItemGroupEvents.modifyEntriesEvent(CreativeModeTabs.SPAWN_EGGS).register(content -> content.accept(spawnEgg));
