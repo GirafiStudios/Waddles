@@ -91,7 +91,7 @@ modrinth {
     projectId = "LlRoNRWC"
     changelog = changelogText
     versionNumber = "${version}"
-    versionName = "${mod_name}-fabric-${minecraft_version}"
+    versionName = "${mod_name}-fabric-${minecraft_version}-${version}"
     versionType = "release"
     loaders = ["fabric"]
     gameVersions = rootProject.parseVersionRange(minecraft_version_range).list
