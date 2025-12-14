@@ -1,4 +1,5 @@
 plugins {
+    id 'idea'
     id 'multiloader-loader'
     id 'net.neoforged.moddev'
     id 'net.darkhax.curseforgegradle' version '1.1.+'
