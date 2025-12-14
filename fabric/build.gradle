@@ -80,6 +80,8 @@ task publishCurseForge(type: net.darkhax.curseforgegradle.TaskPublishCurseForge)
     mainFile.addJavaVersion('Java 21')
     mainFile.releaseType = 'release'
     mainFile.addModLoader('Fabric')
+    mainFile.addRequirement('fabric-api')
+    mainFile.addRequirement('forge-config-api-port')
     def vr = rootProject.parseVersionRange(minecraft_version_range)
     mainFile.addGameVersion(*vr.quoted)
 }
@@ -98,5 +100,6 @@ modrinth {
     uploadFile = remapJar
     dependencies {
         required.project('fabric-api')
+        required.project('forge-config-api-port')
     }
 }

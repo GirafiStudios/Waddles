@@ -2,7 +2,7 @@ package com.girafi.waddles.utils;
 
 import com.girafi.waddles.Constants;
 import net.minecraft.core.registries.Registries;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.tags.TagKey;
 import net.minecraft.world.level.biome.Biome;
 import net.minecraft.world.level.block.Block;
@@ -13,11 +13,11 @@ public class WaddlesTags {
     public static final TagKey<Biome> SPAWN_EXCLUDE_LIST = biomeTag("spawn_exclude");
 
     public static TagKey<Block> blockTag(String modID, String name) {
-        return TagKey.create(Registries.BLOCK, ResourceLocation.fromNamespaceAndPath(modID, name));
+        return TagKey.create(Registries.BLOCK, Identifier.fromNamespaceAndPath(modID, name));
     }
 
     public static TagKey<Biome> biomeTag(String name) {
-        return TagKey.create(Registries.BIOME, ResourceLocation.fromNamespaceAndPath(Constants.MOD_ID, name));
+        return TagKey.create(Registries.BIOME, Identifier.fromNamespaceAndPath(Constants.MOD_ID, name));
     }
 
     public static void load() {}

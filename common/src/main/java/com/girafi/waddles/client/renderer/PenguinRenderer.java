@@ -8,7 +8,7 @@ import com.girafi.waddles.utils.ConfigurationHandler;
 import net.minecraft.client.renderer.entity.AgeableMobRenderer;
 import net.minecraft.client.renderer.entity.EntityRendererProvider;
 import net.minecraft.network.chat.Component;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 
 import javax.annotation.Nonnull;
 
@@ -20,7 +20,7 @@ public class PenguinRenderer extends AgeableMobRenderer<AdeliePenguinEntity, Pen
 
     @Override
     @Nonnull
-    public ResourceLocation getTextureLocation(@Nonnull PenguinRenderState state) {
+    public Identifier getTextureLocation(@Nonnull PenguinRenderState state) {
         Component customName = state.customName;
         if (customName != null) {
             String name = customName.getString().toLowerCase().trim();
@@ -35,16 +35,16 @@ public class PenguinRenderer extends AgeableMobRenderer<AdeliePenguinEntity, Pen
         }
     }
 
-    private ResourceLocation getBaseDefault(@Nonnull PenguinRenderState state) {
+    private Identifier getBaseDefault(@Nonnull PenguinRenderState state) {
         return state.isBaby ? this.getPenguinTexture("adelie_child") : this.getPenguinTexture("adelie");
     }
 
-    private ResourceLocation getDefault(@Nonnull PenguinRenderState state) {
+    private Identifier getDefault(@Nonnull PenguinRenderState state) {
         return ConfigurationHandler.GENERAL.darkostoDefault.get() ? this.getPenguinTexture("darkosto") : getBaseDefault(state);
     }
 
-    private ResourceLocation getPenguinTexture(String fileName) {
-        return ResourceLocation.fromNamespaceAndPath(Constants.MOD_ID, "textures/entity/penguin/" + fileName + ".png");
+    private Identifier getPenguinTexture(String fileName) {
+        return Identifier.fromNamespaceAndPath(Constants.MOD_ID, "textures/entity/penguin/" + fileName + ".png");
     }
 
     @Override
