@@ -10,9 +10,7 @@ pluginManagement {
                 }
             }
             filter {
-                includeGroup('net.fabricmc')
-                includeGroup('net.fabricmc.unpick')
-                includeGroup('fabric-loom')
+                includeGroupAndSubgroups('net.fabricmc')
             }
         }
         exclusiveContent {
@@ -24,17 +22,6 @@ pluginManagement {
             }
             filter {
                 includeGroupAndSubgroups("org.spongepowered")
-            }
-        }
-        exclusiveContent {
-            forRepository {
-                maven {
-                    name = 'Forge'
-                    url = uri('https://maven.minecraftforge.net')
-                }
-            }
-            filter {
-                includeGroupAndSubgroups('net.minecraftforge')
             }
         }
     }

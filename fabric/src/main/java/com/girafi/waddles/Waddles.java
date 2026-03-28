@@ -7,7 +7,7 @@ import fuzs.forgeconfigapiport.fabric.api.v5.ConfigRegistry;
 import net.fabricmc.api.ModInitializer;
 import net.fabricmc.fabric.api.biome.v1.BiomeModifications;
 import net.fabricmc.fabric.api.biome.v1.BiomeSelectionContext;
-import net.fabricmc.fabric.api.itemgroup.v1.ItemGroupEvents;
+import net.fabricmc.fabric.api.creativetab.v1.CreativeModeTabEvents;
 import net.fabricmc.fabric.api.object.builder.v1.entity.FabricDefaultAttributeRegistry;
 import net.minecraft.core.Registry;
 import net.minecraft.core.registries.BuiltInRegistries;
@@ -46,7 +46,7 @@ public class Waddles implements ModInitializer {
             Item spawnEgg = Registry.register(BuiltInRegistries.ITEM, spawnEggID, new SpawnEggItem(new Item.Properties().setId(ResourceKey.create(Registries.ITEM, spawnEggID)).spawnEgg(penguin.get())));
             FabricDefaultAttributeRegistry.register(penguin.get(), AdeliePenguinEntity.createAttributes());
             DispenserBlock.registerBehavior(spawnEgg, CommonClass.DEFAULT_DISPENSE_BEHAVIOR);
-            ItemGroupEvents.modifyEntriesEvent(CreativeModeTabs.SPAWN_EGGS).register(content -> content.accept(spawnEgg));
+            CreativeModeTabEvents.modifyOutputEvent(CreativeModeTabs.SPAWN_EGGS).register(content -> content.accept(spawnEgg));
             SpawnPlacements.register(penguin.get(), SpawnPlacementTypes.ON_GROUND, Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, AdeliePenguinEntity::canPenguinSpawn);
         });
     }
