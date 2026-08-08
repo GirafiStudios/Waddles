@@ -1,0 +1,15 @@
+{
+  "_comment": "Entity",
+  "entity.waddles.adelie_penguin": "Пінгвін Аделі",
+  "item.waddles.adelie_penguin_spawn_egg": "Яйце спауну пінгвіна Аделі",
+
+  "_comment": "Subtitles",
+  "waddles:subtitles.adelie.ambient": "Пінгвін Аделі кричить",
+  "waddles:subtitles.adelie.baby.ambient": "Маля пінгвіна Аделі пищить",
+  "waddles:subtitles.adelie.death": "Пінгвін Аделі помирає",
+  "waddles:subtitles.adelie.hurt": "Пінгвіну Аделі боляче",
+
+  "_comment": "Tooltip",
+  "waddles:config.category.general.tooltip": "Загальні налаштування для Waddles",
+  "waddles:config.category.spawnchances.tooltip": "Налаштовувані шанси спауну для пінгвінів"
+}
