@@ -10,20 +10,17 @@ base {
 }
 
 dependencies {
-    minecraft "com.mojang:minecraft:${minecraft_version}"
-    implementation "com.google.code.findbugs:jsr305:3.0.1"
-    implementation "net.fabricmc:fabric-loader:${fabric_loader_version}"
-    implementation "net.fabricmc.fabric-api:fabric-api:${fabric_version}"
-	implementation "fuzs.forgeconfigapiport:forgeconfigapiport-fabric:${forge_config_api_port}"
+    minecraft("com.mojang:minecraft:${minecraft_version}")
+    implementation("com.google.code.findbugs:jsr305:3.0.1")
+    implementation("net.fabricmc:fabric-loader:${fabric_loader_version}")
+    implementation("net.fabricmc.fabric-api:fabric-api:${fabric_version}")
+	implementation("fuzs.forgeconfigapiport:forgeconfigapiport-fabric:${forge_config_api_port}")
 }
 
 loom {
     def aw = project(':common').file("src/main/resources/${mod_id}.accesswidener")
     if (aw.exists()) {
         accessWidenerPath.set(aw)
-    }
-    mixin {
-        defaultRefmapName.set("${mod_id}.refmap.json")
     }
     runs {
         client {
@@ -44,7 +41,7 @@ loom {
 // Implement mcgradleconventions loader attribute
 def loaderAttribute = Attribute.of('io.github.mcgradleconventions.loader', String)
 ['apiElements', 'runtimeElements', 'sourcesElements', 'javadocElements', 'includeInternal', 'modCompileClasspath'].each { variant ->
-    configurations.named("$variant") {
+    configurations.named(variant) {
         attributes {
             attribute(loaderAttribute, 'fabric')
         }
@@ -52,7 +49,7 @@ def loaderAttribute = Attribute.of('io.github.mcgradleconventions.loader', Strin
 }
 sourceSets.configureEach {
     [it.compileClasspathConfigurationName, it.runtimeClasspathConfigurationName].each { variant->
-        configurations.named("$variant") {
+        configurations.named(variant) {
             attributes {
                 attribute(loaderAttribute, 'fabric')
             }
