@@ -35,7 +35,7 @@ public class Waddles {
         eventBus.addListener(this::setupCommon);
         eventBus.addListener(this::setupClient);
 
-        modContainer.registerConfig(ModConfig.Type.COMMON, ConfigurationHandler.spec);
+        modContainer.registerConfig(ModConfig.Type.LOCAL, ConfigurationHandler.spec);
 
         registerDeferredRegistries(eventBus);
         register();

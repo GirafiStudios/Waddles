@@ -6,6 +6,7 @@ import com.mojang.serialization.MapCodec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import net.minecraft.core.Holder;
 import net.minecraft.core.HolderSet;
+import net.minecraft.core.RegistryAccess;
 import net.minecraft.util.random.Weighted;
 import net.minecraft.util.random.WeightedList;
 import net.minecraft.world.entity.EntityType;
@@ -16,6 +17,7 @@ import net.neoforged.neoforge.common.world.MobSpawnSettingsBuilder;
 import net.neoforged.neoforge.common.world.ModifiableBiomeInfo;
 import net.neoforged.neoforge.registries.DeferredRegister;
 import net.neoforged.neoforge.registries.NeoForgeRegistries;
+import org.jspecify.annotations.NonNull;
 
 import javax.annotation.Nonnull;
 import java.util.function.Function;
@@ -26,12 +28,12 @@ public class PenguinSpawn {
     public record PenguinBiomeModifier(HolderSet<Biome> includeList, HolderSet<Biome> excludeList, WeightedList<MobSpawnSettings.SpawnerData> spawners) implements BiomeModifier {
 
         @Override
-        public void modify(Holder<Biome> biome, Phase phase, ModifiableBiomeInfo.BiomeInfo.Builder builder) {
+        public void modify(@NonNull RegistryAccess registries, @NonNull Holder<Biome> biome, @NonNull Phase phase, ModifiableBiomeInfo.BiomeInfo.@NonNull Builder builder) {
             if (phase == Phase.ADD && this.includeList.contains(biome) && !this.excludeList.contains(biome)) {
                 MobSpawnSettingsBuilder spawns = builder.getMobSpawnSettings();
                 for (Weighted<MobSpawnSettings.SpawnerData> spawner : this.spawners.unwrap()) {
                     EntityType<?> type = spawner.value().type();
-                    spawns.addSpawn(type.getCategory(), spawner.weight(), spawner.value());
+                    spawns.addSpawn(type, spawner.weight(), spawner.value().count());
                 }
             }
         }
